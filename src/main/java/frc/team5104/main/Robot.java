@@ -19,9 +19,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 public class Robot implements BreakerRobotController.BreakerRobot {
 	public void robotInit() {
 		BreakerSubsystemManager.throwSubsystems(
-			Squeezy.class,
-			Elevator.class,
-			Drive.class
+			//Add your subsystems here!
+			//Subsystem.class
 		);
 		
 		CameraServer.getInstance().startAutomaticCapture();
@@ -30,7 +29,6 @@ public class Robot implements BreakerRobotController.BreakerRobot {
 	public void autonomousInit() {
 		BreakerPathScheduler.getInstance().set(
 			AutoSelector.getAuto()
- 			//AutoSelector.Paths.CL.getPath()
 		);
 	}
 }

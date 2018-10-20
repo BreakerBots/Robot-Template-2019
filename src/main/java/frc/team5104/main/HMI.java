@@ -6,11 +6,11 @@ import frc.team5104.util.controller.Control;
 
 /*Breakerbots Robotics Team 2018*/
 /**
- * All Controls used in Athena's Code
+ * All Controls used in Robot Code
  */
 public class HMI {
 
-	//Drive
+	//Advanced Drive
 	public static class Drive {
 		public static double getTurn() {
 			return Deadband.get(Control.LX.getAxis(), -0.2);
@@ -28,25 +28,10 @@ public class HMI {
 		public static final double _driveCurveChange = 0.08;
 	}
 	
-	//Elevator
-	public static class Elevator {
-		public static final Control _drive = Control.RY; //Right Stick
+	//Reference
+	/*
+	public static class SubsystemName {
+		public static final Control _actionName   = Control.Button;
 	}
-	
-	//Climbing
-	public static class Climbing {
-		public static final Control _ptoShift = Control.Y;
-		public static final Control _openHookHolder = Control.Y;
-	}
-	
-	//Squeezy
-	public static class Squeezy {
-		public static final Control _foldUp   = Control.A;
-		public static final Control _foldDown = Control.Y;
-
-		public static final Control _eject    = Control.LB;
-		public static final Control _intake   = Control.B;
-		public static final Control _hold     = Control.X;
-		public static final Control _idle     = Control.LIST;
-	}
+	*/
 }

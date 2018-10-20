@@ -17,7 +17,7 @@ public class RobotPosition {
 	}
 	
     public double getTheta() {
-        return t/* % (Math.PI * 2.0)*/;
+        return t/* % (Math.PI * 2.0)*/; //Uncomment for Radians? 
     }
 	
 	public String toString() {

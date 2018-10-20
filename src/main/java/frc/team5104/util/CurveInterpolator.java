@@ -72,24 +72,3 @@ public class CurveInterpolator {
 		ct = (sp > cp) ? dt : -dt;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 /*Breakerbots Robotics Team 2018*/
 /**
- * Uses ("FMS Data" + "Net Table" => "The Correct Path") 
+ * (2018) Uses ("FMS Data" + "Net Table" => "The Correct Path") 
  */
 public class AutoSelector {
 	
@@ -17,13 +17,7 @@ public class AutoSelector {
 	
 	//A trick to the pre initialize all the paths
 	public static enum Paths {
-		Baseline(new Baseline()),
-		LL(new LL()), 
-		LR(new LR()),
-		CL(new CL()),
-		CR(new CR()),
-		RL(new RL()),
-		RR(new RR());
+		Reference(new Reference());
 		
 		BreakerPath path;
 		Paths (BreakerPath path){
@@ -36,8 +30,8 @@ public class AutoSelector {
 	
 	public static BreakerPath getAuto() {
 		console.sets.create("GetAuto");
-		//Default Path is Baseline
-		BreakerPath auto = Paths.Baseline.getPath();
+		//Default Path
+		BreakerPath auto = Paths.Reference.getPath();
 
 		Thread gameDataThread = new Thread() {
 			public void run() {
@@ -80,25 +74,7 @@ public class AutoSelector {
 					getEntry("AutoPos").
 					getString("null");
 
-			if ((gameData.charAt(0) == 'L' || gameData.charAt(0) == 'R') && !position.equals("null")) {
-				switch (position) {
-					case "L":
-						auto = (gameData.charAt(0) == 'L') ? Paths.LL.getPath() : 
-							/* Paths.LR.getPath() */ Paths.Baseline.getPath();
-						break;
-					case "C":
-						auto = (gameData.charAt(0) == 'L') ? Paths.CL.getPath() : Paths.CR.getPath();
-	
-						break;
-					case "R":
-						auto = (gameData.charAt(0) == 'L') ? Paths.Baseline.getPath() 
-								/* Paths.RL.getPath() */ : Paths.RR.getPath();
-						break;
-					default:
-						//Let it just flow through to default at baselines
-						break;
-				};
-			}
+			//Add a switch-case here to select different Auto Routes from the Game Data
 		}
 		//Got No Game Data => Defaults to Run Baseline
 		else {

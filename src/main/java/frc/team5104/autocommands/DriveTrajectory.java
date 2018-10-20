@@ -10,7 +10,7 @@ import jaci.pathfinder.Waypoint;
 
 /*Breakerbots Robotics Team 2018*/
 /**
- * Follow a trajectory using the Breaker Trajectory Follower (Ramses Follower)
+ * Follow a trajectory using the Breaker Trajectory Follower (Ramsete Follower)
  */
 public class DriveTrajectory extends BreakerAction {
 

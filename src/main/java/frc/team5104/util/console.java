@@ -237,15 +237,3 @@ public class console {
 		return r;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
