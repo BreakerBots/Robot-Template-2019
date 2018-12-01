@@ -1,4 +1,4 @@
-package frc.team5104.autocommands;
+package frc.team5104.auto;
 
 /*Breakerbots Robotics Team 2018*/
 /**
@@ -10,7 +10,7 @@ public abstract class BreakerPath {
 	/**
 	 * The Actions for the path
 	 */
-	public BreakerAction[] cs = new BreakerAction[10];
+	public BreakerPathAction[] cs = new BreakerPathAction[10];
 	
 	/**
 	 * The number of Actions in the path
@@ -20,7 +20,7 @@ public abstract class BreakerPath {
 	/**
 	 * Add an action to the Path
 	 */
-	public void add(BreakerAction action) {
+	public void add(BreakerPathAction action) {
 		cs[cl] = action;
 		cl++;
 	}

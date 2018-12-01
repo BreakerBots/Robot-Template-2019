@@ -1,4 +1,4 @@
-package frc.team5104.traj;
+package frc.team5104.auto;
 
 import java.io.Serializable;
 

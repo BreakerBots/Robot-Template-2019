@@ -1,10 +1,9 @@
-package frc.team5104.traj;
+package frc.team5104.subsystem.drive;
 
-import frc.team5104.main.Constants;
-import frc.team5104.main.subsystems.Drive;
+import frc.team5104.main._RobotConstants;
 import frc.team5104.util.BreakerMath;
+import frc.team5104.util.Units;
 import frc.team5104.util.console;
-import frc.team5104.main.Units;
 
 import edu.wpi.first.wpilibj.Notifier;
 
@@ -20,17 +19,15 @@ public class Odometry {
 	public volatile static RobotPosition position = new RobotPosition(0, 0, 0);
 	
 	private static void init() {
-		lastPos = currentPos = (Drive.encoders.getLeft() + Drive.encoders.getRight())/2;
+		lastPos = currentPos = (DriveSystems.encoders.getLeft() + DriveSystems.encoders.getRight()) / 2.0;
 		_thread = new Notifier(() -> {
-			currentPos = (Drive.encoders.getLeft() + Drive.encoders.getRight())/2;
-			dPos = Units.ticksToFeet(currentPos - lastPos);
+			currentPos = (DriveSystems.encoders.getLeft() + DriveSystems.encoders.getRight()) / 2.0;
+			dPos = Units.ticksToFeet(currentPos - lastPos, _DriveConstants._ticksPerRevolution, _DriveConstants._wheelDiameter);
 			lastPos = currentPos;
-			theta = Units.degreesToRadians(BreakerMath.bound180(Drive.gyro.getAngle()));
-            position.set(
-        		position.x + Math.cos(theta) * dPos, 
-        		position.y + Math.sin(theta) * dPos, 
-        		theta
-            );
+			theta = Units.degreesToRadians(BreakerMath.boundAngle180(DriveSystems.gyro.getAngle()));
+            position.addX(Math.cos(theta) * dPos);
+            position.addY(Math.sin(theta) * dPos);
+            position.setTheta(theta);
         });
 	}
 	
@@ -38,7 +35,7 @@ public class Odometry {
 		if (_thread == null)
 			init();
 		
-		_thread.startPeriodic(1.0 / Constants.Loops._odometryHz);
+		_thread.startPeriodic(1.0 / _RobotConstants.Loops._odometryHz);
 	}
 	
 	public static void stop() {
@@ -53,8 +50,10 @@ public class Odometry {
 	public static void reset() {
 		console.log("Resetting Odometry");
 		
-		Drive.gyro.reset();
-		Drive.encoders.reset(10);
+		stop();
+		
+		DriveSystems.gyro.reset();
+		DriveSystems.encoders.reset(10);
 		
 		try { Thread.sleep(10); } catch (Exception e) {}
 		
@@ -65,6 +64,8 @@ public class Odometry {
 		position = new RobotPosition(0, 0, 0);
 		lastPos = 0;
 		init();
+		
+		run();
 		
 		console.log("Finished Resetting Odometry at " + getPosition().toString());
 	}

@@ -1,18 +1,19 @@
-package frc.team5104.autocommands;
+package frc.team5104.auto.actions;
 
-import frc.team5104.main.subsystems.Drive;
-import frc.team5104.traj.BreakerTrajectoryFollower;
-import frc.team5104.traj.BreakerTrajectoryGenerator;
-import frc.team5104.traj.Odometry;
+import frc.team5104.auto.BreakerPathAction;
+import frc.team5104.auto.BreakerTrajectoryFollower;
+import frc.team5104.auto.BreakerTrajectoryGenerator;
+import frc.team5104.subsystem.drive.DriveActions;
+import frc.team5104.subsystem.drive.Odometry;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import jaci.pathfinder.Waypoint;
 
 /*Breakerbots Robotics Team 2018*/
 /**
- * Follow a trajectory using the Breaker Trajectory Follower (Ramsete Follower)
+ * Follow a trajectory using the Breaker Trajectory Follower (Ramses Follower)
  */
-public class DriveTrajectory extends BreakerAction {
+public class DriveTrajectory extends BreakerPathAction {
 
 	private BreakerTrajectoryFollower f;
 	private Waypoint[] p;
@@ -35,13 +36,13 @@ public class DriveTrajectory extends BreakerAction {
     }
 
     public boolean update() {
-        Drive.set(f.getNextDriveSignal(Odometry.getPosition()));
+    	DriveActions.set(f.getNextDriveSignal(Odometry.getPosition()), true);
     	
 		return f.isFinished();
     }
 
     public void end() {
-    	Drive.stop();
-    	console.log(c.AUTO, "Trajectory Finished in " + console.sets.getTime("RunTrajectoryTime") + "s");
+    	DriveActions.stop();
+    	console.log(c.AUTO, "Trajectory Finished in " + console.sets.getTime("RunTrajectoryTime") + "s at position " + Odometry.getPosition().toString());
     }
 }

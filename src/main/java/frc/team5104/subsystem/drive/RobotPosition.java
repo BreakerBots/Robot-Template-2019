@@ -1,4 +1,4 @@
-package frc.team5104.traj;
+package frc.team5104.subsystem.drive;
 
 /*Breakerbots Robotics Team 2018*/
 public class RobotPosition {
@@ -17,12 +17,23 @@ public class RobotPosition {
 	}
 	
     public double getTheta() {
-        return t/* % (Math.PI * 2.0)*/; //Uncomment for Radians? 
+        return t/* % (Math.PI * 2.0)*/;
     }
 	
+    public void setTheta(double value) {
+    	this.t = value;
+    }
+    
+    public void addX(double by) {
+    	this.x += by;
+    }
+    
+    public void addY(double by) {
+    	this.y += by;
+    }
+    
 	public String toString() {
-		return  "x: " + x + ", " +
-				"y: " + y + ", " +
-				"t: " + t;
+		return  "x: " + String.format("%.2f", x) + ", " +
+				"y: " + String.format("%.2f", y);
 	}
 }

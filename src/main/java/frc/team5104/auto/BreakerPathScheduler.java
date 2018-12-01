@@ -1,22 +1,19 @@
-package frc.team5104.autocommands;
+package frc.team5104.auto;
 
 /*Breakerbots Robotics Team 2018*/
 /**
  * Handles the Execution of BreakerCommands inside the assigned BreakerCommandGroup (Entire Path)
  */
 public class BreakerPathScheduler {
-	static BreakerPathScheduler m_instance = null;
-	public static BreakerPathScheduler getInstance() { if (m_instance == null) { m_instance = new BreakerPathScheduler(); } return m_instance; }
-	
-	public BreakerPath r = null;
-	public int cl = 0;
-	public int i = 0;
-	public boolean s = false;
+	public static BreakerPath r = null;
+	public static int cl = 0;
+	public static int i = 0;
+	public static boolean s = false;
 	
 	/**
 	 * Set the target command group
 	 */
-	public void set(BreakerPath path) {
+	public static void set(BreakerPath path) {
 		//Save the new Command Group
 		r = null;
 		r = path;
@@ -32,7 +29,7 @@ public class BreakerPathScheduler {
 	/**
 	 * The update function call in Autonomous Periodic
 	 */
-	public void update() {
+	public static void update() {
 		//if the command index is less than the commandGroup length
 		if (i < r.cl) {
 			//If command has not been initialized

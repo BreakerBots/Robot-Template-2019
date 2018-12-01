@@ -1,10 +1,14 @@
 package frc.team5104.main;
 
-import frc.team5104.autocommands.BreakerPathScheduler;
-import frc.team5104.autopaths.AutoSelector;
-import frc.team5104.main.subsystems.*;
-
 import edu.wpi.first.wpilibj.CameraServer;
+import frc.team5104.auto.AutoSelector;
+import frc.team5104.auto.BreakerPathScheduler;
+import frc.team5104.subsystem.BreakerSubsystemManager;
+import frc.team5104.subsystem.drive.DriveManager;
+import frc.team5104.subsystem.drive.DriveSystems;
+import frc.team5104.subsystem.drive.Odometry;
+import frc.team5104.teleop.BreakerTeleopController;
+import frc.team5104.util.console;
 
 /* Breakerbots Robotics Team 2018
  *  ____                 _             _           _       
@@ -16,19 +20,48 @@ import edu.wpi.first.wpilibj.CameraServer;
 /**
  * Fallthrough from <strong>Breaker Robot Controller</strong>
  */
-public class Robot implements BreakerRobotController.BreakerRobot {
-	public void robotInit() {
+public class Robot extends BreakerRobotController.BreakerRobot {
+	public Robot() {
 		BreakerSubsystemManager.throwSubsystems(
-			//Add your subsystems here!
-			//Subsystem.class
+			new DriveManager()
 		);
 		
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
-	public void autonomousInit() {
-		BreakerPathScheduler.getInstance().set(
+	//Main
+	public void mainEnabled() {
+		BreakerSubsystemManager.enabled(mode);
+		console.logFile.start();
+		Odometry.reset();
+	}
+	
+	public void mainDisabled() {
+		BreakerSubsystemManager.disabled();
+		console.logFile.end();
+	}
+	
+	public void mainLoop() {
+		if (enabled) {
+			BreakerSubsystemManager.update();
+		}
+		//console.log(Odometry.getPosition().toString(), "A: " + DriveSystems.gyro.getAngle());
+	}
+
+	//Auto
+	public void autoEnabled() {
+		BreakerPathScheduler.set(
 			AutoSelector.getAuto()
+// 			AutoSelector.Paths.Baseline.getPath()
 		);
+	}
+	
+	public void autoLoop() {
+		BreakerPathScheduler.update();
+	}
+	
+	//Teleop
+	public void teleopLoop() {
+		BreakerTeleopController.update();
 	}
 }

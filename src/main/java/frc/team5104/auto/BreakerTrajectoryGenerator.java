@@ -1,4 +1,4 @@
-package frc.team5104.traj;
+package frc.team5104.auto;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,13 +6,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import frc.team5104.main.Constants;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
 
 /*Breakerbots Robotics Team 2018*/
 /**
@@ -23,21 +21,12 @@ import jaci.pathfinder.modifiers.TankModifier;
 public class BreakerTrajectoryGenerator {
 	//Pathfinder Config
 	private static Trajectory.Config config = new Trajectory.Config(
-			Constants.Autonomous._fitMethod, 
-			Constants.Autonomous._samples, 
-			1.0 / Constants.Autonomous._dt, 
-			Constants.Autonomous._maxVelocity, 
-			Constants.Autonomous._maxAcceleration, 
-			Constants.Autonomous._maxJerk
-	);
-	
-	private static Trajectory.Config configWP = new Trajectory.Config(
-			Constants.Autonomous._fitMethod, 
-			Constants.Autonomous._samples, 
-			1.0 / Constants.Autonomous._dt, 
-			Constants.AutonomousWP._maxVelocity, 
-			Constants.AutonomousWP._maxAcceleration, 
-			Constants.AutonomousWP._maxJerk
+			_AutoConstants._fitMethod, 
+			_AutoConstants._samples, 
+			1.0 / _AutoConstants._dt, 
+			_AutoConstants._maxVelocity, 
+			_AutoConstants._maxAcceleration, 
+			_AutoConstants._maxJerk
 	);
 	
 	/**
@@ -67,49 +56,6 @@ public class BreakerTrajectoryGenerator {
 	    		writeFile(s, t);
 	    		console.log(c.AUTO, "Trajectory Generation Took " + console.sets.getTime("MPGEN") + "s");
 	    	}
-	    	return t;
-		}
-		catch (Exception e) {
-			console.error(e);
-			return null;
-		}
-	}
-	
-	/**
-	 * (!) Deprication Notice
-	 */
-	public static TankModifier getTankModifier(Trajectory t) {
-		TankModifier m = new TankModifier(t);
-		m.modify(Constants._wheelBaseWidth);
-		return m;
-	}
-	
-	public static Trajectory getTrajectoryWP(Waypoint[] points) {
-		try {
-			//Parse trajectory name
-			String s = "";
-	    	for (Waypoint p : points) {
-	    		s += (Double.toString(p.x) + "/" + Double.toString(p.y) + "/" + Double.toString(p.angle));
-	    	}
-	    	s = "_" + s.hashCode();
-	    	
-	    	//Read file
-	    	console.log(c.AUTO, "Looking for Similar Cached Trajectory Under " + s);
-	    	Trajectory t = readFile(s);
-	    	
-	    	//If the file does not exist, generate a path and save
-	    	if (t == null) {
-	    		console.log(c.AUTO, "No Similar Cached Trajectory Found => Generating Path");
-	    		console.sets.create("MPGEN");
-	    		t = (Trajectory) Pathfinder.generate(points, configWP);
-	    		writeFile(s, t);
-	    		console.log(c.AUTO, "Trajectory Generation Took " + console.sets.getTime("MPGEN") + "s");
-	    	
-	    		//BUGFIX: Get the new file, :D
-		    	console.log(c.AUTO, "Now Looking for Similar Cached Trajectory Under " + s);
-		    	t = readFile(s);
-	    	}
-	    	
 	    	return t;
 		}
 		catch (Exception e) {

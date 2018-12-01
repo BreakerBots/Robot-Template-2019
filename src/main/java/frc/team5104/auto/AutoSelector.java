@@ -1,15 +1,15 @@
-package frc.team5104.autopaths;
+package frc.team5104.auto;
 
-import frc.team5104.autocommands.BreakerPath;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.team5104.auto.paths.*;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import frc.team5104.util.console.t;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 
 /*Breakerbots Robotics Team 2018*/
 /**
- * (2018) Uses ("FMS Data" + "Net Table" => "The Correct Path") 
+ * Uses ("FMS Data" + "Net Table" => "The Correct Path") 
  */
 public class AutoSelector {
 	
@@ -17,7 +17,7 @@ public class AutoSelector {
 	
 	//A trick to the pre initialize all the paths
 	public static enum Paths {
-		Reference(new Reference());
+		Baseline(new Baseline());
 		
 		BreakerPath path;
 		Paths (BreakerPath path){
@@ -30,8 +30,8 @@ public class AutoSelector {
 	
 	public static BreakerPath getAuto() {
 		console.sets.create("GetAuto");
-		//Default Path
-		BreakerPath auto = Paths.Reference.getPath();
+		//Default Path is Baseline
+		BreakerPath auto = Paths.Baseline.getPath();
 
 		Thread gameDataThread = new Thread() {
 			public void run() {
@@ -74,7 +74,7 @@ public class AutoSelector {
 					getEntry("AutoPos").
 					getString("null");
 
-			//Add a switch-case here to select different Auto Routes from the Game Data
+			//Choose path from data `auto = ...;`
 		}
 		//Got No Game Data => Defaults to Run Baseline
 		else {
