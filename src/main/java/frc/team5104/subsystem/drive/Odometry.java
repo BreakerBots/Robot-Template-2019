@@ -24,7 +24,7 @@ public class Odometry {
 			currentPos = (DriveSystems.encoders.getLeft() + DriveSystems.encoders.getRight()) / 2.0;
 			dPos = Units.ticksToFeet(currentPos - lastPos, _DriveConstants._ticksPerRevolution, _DriveConstants._wheelDiameter);
 			lastPos = currentPos;
-			theta = Units.degreesToRadians(BreakerMath.boundAngle180(DriveSystems.gyro.getAngle()));
+			//theta = Units.degreesToRadians(BreakerMath.boundAngle180(DriveSystems.gyro.getAngle()));
             position.addX(Math.cos(theta) * dPos);
             position.addY(Math.sin(theta) * dPos);
             position.setTheta(theta);
@@ -52,7 +52,7 @@ public class Odometry {
 		
 		stop();
 		
-		DriveSystems.gyro.reset();
+		//DriveSystems.gyro.reset();
 		DriveSystems.encoders.reset(10);
 		
 		try { Thread.sleep(10); } catch (Exception e) {}

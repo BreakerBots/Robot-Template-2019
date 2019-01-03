@@ -85,21 +85,21 @@ public class DriveSystems extends BreakerSubsystem.Systems {
 	//Gyro
 	public static class gyro {
 		public static double getRawAngle() {
-			return Devices.Drive.Gyro.getAngle();
+			return Devices.Drive.gyro.getFusedHeading();
 		}
 		
 		public static double getAngle() {
-			double a = -Devices.Drive.Gyro.getAngle();
+			double a = -getRawAngle();
 			a /= Math.cos(Units.degreesToRadians(_DriveConstants._gyroAngle));
 			return a;
 		}
 		
 		public static void calibrate() {
-			Devices.Drive.Gyro.calibrate();
+//			Devices.Drive.L2.
 		}
 		
 		public static void reset() {
-			Devices.Drive.Gyro.reset();
+//			Devices.Drive.L2
 		}
 	}
 	

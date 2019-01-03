@@ -26,7 +26,7 @@ public class Robot extends BreakerRobotController.BreakerRobot {
 			new DriveManager()
 		);
 		
-		CameraServer.getInstance().startAutomaticCapture();
+//		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	//Main
@@ -44,6 +44,8 @@ public class Robot extends BreakerRobotController.BreakerRobot {
 	public void mainLoop() {
 		if (enabled) {
 			BreakerSubsystemManager.update();
+			
+			console.log(DriveSystems.encoders.getString(), DriveSystems.gyro.getRawAngle());
 		}
 		//console.log(Odometry.getPosition().toString(), "A: " + DriveSystems.gyro.getAngle());
 	}
@@ -51,8 +53,8 @@ public class Robot extends BreakerRobotController.BreakerRobot {
 	//Auto
 	public void autoEnabled() {
 		BreakerPathScheduler.set(
-			AutoSelector.getAuto()
-// 			AutoSelector.Paths.Baseline.getPath()
+//			AutoSelector.getAuto()
+ 			AutoSelector.Paths.Curve.getPath()
 		);
 	}
 	

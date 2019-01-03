@@ -15,14 +15,20 @@ public class BreakerTeleopController {
 	
 	public static void update() {
 		//Driving
-		double turn = Deadband.get(HMI.Drive._turn.getAxis(), -0.2);
-		double forward = Deadband.get(HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis(), 0.1);
-		double x1 = (1 - Math.abs(forward)) * (1 - 0.3) + 0.3;
-		turn = Curve.getBezierCurve(turn, x1, 0.4, 1, 0.2);
-		vTeleopLeftSpeed.setSetpoint(forward - turn);
-		vTeleopRightSpeed.setSetpoint(forward + turn);
+//		double turn = Deadband.get(HMI.Drive._turn.getAxis(),  0.1);
+//		double forward = Deadband.get(HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis(), 0.2);
+//		double x1 = (1 - Math.abs(forward)) * (1 - 0.3) + 0.3;
+//		turn = Curve.getBezierCurve(turn, x1, 0.4, 1, 0.2);
+//		vTeleopLeftSpeed.setSetpoint(forward - turn);
+//		vTeleopRightSpeed.setSetpoint(forward + turn);
+//		DriveActions.set(
+//				new RobotDriveSignal(vTeleopLeftSpeed.update(), vTeleopRightSpeed.update(), 
+//						DriveUnit.percentOutput), true
+//				);
+		double turn = Deadband.get(HMI.Drive._turn.getAxis(),  0.2);
+		double forward = Deadband.get(HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis(), 0.2);
 		DriveActions.set(
-				new RobotDriveSignal(vTeleopLeftSpeed.update(), vTeleopRightSpeed.update(), 
+				new RobotDriveSignal(forward - turn, forward + turn,
 						DriveUnit.percentOutput), true
 				);
 		if (HMI.Drive._shift.getPressed())

@@ -17,7 +17,8 @@ public class AutoSelector {
 	
 	//A trick to the pre initialize all the paths
 	public static enum Paths {
-		Baseline(new Baseline());
+		Baseline(new Baseline()),
+		Curve(new Curve());
 		
 		BreakerPath path;
 		Paths (BreakerPath path){
