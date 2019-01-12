@@ -6,7 +6,7 @@ Based on offseason code for **Athena** ([FRC Power-Up 2018](https://en.wikipedia
 - Download or Clone this Repository
 - Open Eclipse and go to "File > Import"
 - Under "Gradle" choose "Existing Gradle Project"
-- Chose this repository as the "Project Root"
+- Choose this repository as the "Project Root"
 - Continue with default settings and import the project
 
 ### Building/Deploying
@@ -24,7 +24,7 @@ You can also run `gradlew riolog` to connect to the logging from the robot.
 - Custom TCP Socket to connect to the BreakerBoard
 
 ## Code Style
-Based roughtly off of the [Google Style Guide](http://google.github.io/styleguide/javaguide.html).
+Based roughly off of the [Google Style Guide](http://google.github.io/styleguide/javaguide.html).
 
 #### Naming:
 - **Constants:** _ + name
