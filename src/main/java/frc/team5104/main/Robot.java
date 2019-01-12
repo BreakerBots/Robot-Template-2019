@@ -1,5 +1,8 @@
 package frc.team5104.main;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import frc.team5104.auto.AutoSelector;
 import frc.team5104.auto.BreakerPathScheduler;
@@ -23,7 +26,7 @@ import frc.team5104.util.console;
 public class Robot extends BreakerRobotController.BreakerRobot {
 	public Robot() {
 		BreakerSubsystemManager.throwSubsystems(
-			new DriveManager()
+			//new DriveManager()
 		);
 		
 //		CameraServer.getInstance().startAutomaticCapture();
@@ -41,10 +44,15 @@ public class Robot extends BreakerRobotController.BreakerRobot {
 		console.logFile.end();
 	}
 	
+	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+	NetworkTableEntry tx = table.getEntry("tx");
+	NetworkTableEntry ty = table.getEntry("ty");
+	NetworkTableEntry ta = table.getEntry("ta");
+	NetworkTableEntry ts = table.getEntry("ts");
+
 	public void mainLoop() {
 		if (enabled) {
 			BreakerSubsystemManager.update();
-			
 			console.log(DriveSystems.encoders.getString(), DriveSystems.gyro.getRawAngle());
 		}
 		//console.log(Odometry.getPosition().toString(), "A: " + DriveSystems.gyro.getAngle());
@@ -52,10 +60,10 @@ public class Robot extends BreakerRobotController.BreakerRobot {
 
 	//Auto
 	public void autoEnabled() {
-		BreakerPathScheduler.set(
-//			AutoSelector.getAuto()
- 			AutoSelector.Paths.Curve.getPath()
-		);
+//		BreakerPathScheduler.set(
+////			AutoSelector.getAuto()
+// 			AutoSelector.Paths.Curve.getPath()
+//		);
 	}
 	
 	public void autoLoop() {
