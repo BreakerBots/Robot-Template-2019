@@ -39,7 +39,7 @@ public class Deadband {
 	}
 	
 	/**
-	 * This is not an inverted deadband, but instead has calculates a fix for a clipping deadband
+	 * This is not an inverted deadband, but instead calculates a fix for a clipping deadband
 	 */
 	public static double getReverse(double x, double radius) {
 		return get(x, -radius) - radius;

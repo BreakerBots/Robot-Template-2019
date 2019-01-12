@@ -36,7 +36,13 @@ public class DriveTrajectory extends BreakerPathAction {
     }
 
     public boolean update() {
-    	DriveActions.set(f.getNextDriveSignal(Odometry.getPosition()), true);
+    	DriveActions.set(
+    		DriveActions.applyDriveStraight(
+    			f.getNextDriveSignal(
+    				Odometry.getPosition()
+    			)
+    		)
+    	);
     	
 		return f.isFinished();
     }

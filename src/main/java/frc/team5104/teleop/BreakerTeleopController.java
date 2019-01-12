@@ -10,31 +10,44 @@ import frc.team5104.util.Deadband;
 import frc.team5104.util.controller;
 
 public class BreakerTeleopController {
-	public static final CurveInterpolator vTeleopLeftSpeed  = new CurveInterpolator(HMI.Drive._driveCurveChange, HMI.Drive._driveCurve);
-	public static final CurveInterpolator vTeleopRightSpeed = new CurveInterpolator(HMI.Drive._driveCurveChange, HMI.Drive._driveCurve);
-	
 	public static void update() {
-		//Driving
-//		double turn = Deadband.get(HMI.Drive._turn.getAxis(),  0.1);
-//		double forward = Deadband.get(HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis(), 0.2);
-//		double x1 = (1 - Math.abs(forward)) * (1 - 0.3) + 0.3;
-//		turn = Curve.getBezierCurve(turn, x1, 0.4, 1, 0.2);
-//		vTeleopLeftSpeed.setSetpoint(forward - turn);
-//		vTeleopRightSpeed.setSetpoint(forward + turn);
-//		DriveActions.set(
-//				new RobotDriveSignal(vTeleopLeftSpeed.update(), vTeleopRightSpeed.update(), 
-//						DriveUnit.percentOutput), true
-//				);
-		double turn = Deadband.get(HMI.Drive._turn.getAxis(),  0.2);
-		double forward = Deadband.get(HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis(), 0.2);
-		DriveActions.set(
-				new RobotDriveSignal(forward - turn, forward + turn,
-						DriveUnit.percentOutput), true
-				);
-		if (HMI.Drive._shift.getPressed())
-			DriveSystems.shifters.toggle();
+		//Drive
+		drive();
 			
 		//Updates
 		controller.update();
+	}
+	
+	//Drive
+	public static final CurveInterpolator vTeleopLeftSpeed  = new CurveInterpolator(HMI.Drive._driveCurveChange, HMI.Drive._driveCurve);
+	public static final CurveInterpolator vTeleopRightSpeed = new CurveInterpolator(HMI.Drive._driveCurveChange, HMI.Drive._driveCurve);
+	public static void drive() {
+		//Get inputs
+		double turn = HMI.Drive._turn.getAxis();
+		double forward = HMI.Drive._forward.getAxis() - HMI.Drive._reverse.getAxis();
+		
+		//Apply controller deadbands
+		turn = Deadband.get(turn,  0.05);
+		forward = Deadband.get(forward, 0.05);
+		
+		//Apply bezier curve (gives more sensitivity at low speeds and less at high)
+		double x1 = (1 - Math.abs(forward)) * (1 - 0.3) + 0.3;
+		turn = Curve.getBezierCurve(turn, x1, 0.4, 1, 0.2);
+		
+		//Apply inertia affect
+		vTeleopLeftSpeed.setSetpoint(forward - turn);
+		vTeleopRightSpeed.setSetpoint(forward + turn);
+		RobotDriveSignal signal = new RobotDriveSignal(vTeleopLeftSpeed.update(), vTeleopRightSpeed.update(), DriveUnit.percentOutput);
+		
+		//Apply motor affects
+		signal = DriveActions.applyDriveStraight(signal);
+		signal = DriveActions.applyMotorMinSpeed(signal);
+		
+		//Set talon speeds
+		DriveActions.set(signal);
+		
+		//Shifting
+		if (HMI.Drive._shift.getPressed())
+			DriveSystems.shifters.toggle();
 	}
 }
