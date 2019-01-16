@@ -1,8 +1,8 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem.drive;
 
-/*Breakerbots Robotics Team 2018*/
 /**
- * A simple wrapper class for sending/saving signals to send to Drive.java (The Drive Train)
+ * A simple class for sending/saving drivetrain movement signals.
  */
 public class RobotDriveSignal {
 	/**

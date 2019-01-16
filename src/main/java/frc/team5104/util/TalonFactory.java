@@ -1,3 +1,4 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -6,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * <h1>Talon Factory</h1>
  * Brewing fresh talons since 2017

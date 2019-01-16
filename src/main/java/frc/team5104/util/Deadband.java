@@ -1,6 +1,6 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * <h1>Deadband</h1>
  * A deadband is a mathmatical process to stop input from the center of the joystick.
@@ -43,5 +43,20 @@ public class Deadband {
 	 */
 	public static double getReverse(double x, double radius) {
 		return get(x, -radius) - radius;
+	}
+	
+	/**
+	 * A clipping deadband that just cuts outs value in the radius
+	 */
+	public static double getClipping(double x, double radius) {
+		if (x > 0) {
+			if (x < radius)
+				x = 0;
+		}
+		else {
+			if (x > -radius)
+				x = 0;
+		}
+		return x;
 	}
 }

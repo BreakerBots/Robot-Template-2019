@@ -1,8 +1,11 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem;
 
 import frc.team5104.main.BreakerRobotController.RobotMode;
 
-/*Breakerbots Robotics Team 2018*/
+/**
+ * A wrapper of all the requirements of a subsystem.
+ */
 public class BreakerSubsystem {
 	public static abstract class Actions {
 		

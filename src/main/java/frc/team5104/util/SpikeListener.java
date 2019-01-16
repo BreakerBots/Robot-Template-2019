@@ -1,10 +1,10 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
 /**
  * <h1>Spike Listener</h1>
  * Returns true if significant spike has occurred in the given interval
  */
-
 public class SpikeListener {
 	private int numPlacesToCheck;
 	private double threshold;

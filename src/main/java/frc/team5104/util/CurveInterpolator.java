@@ -1,6 +1,6 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * <h1>Interpolating Curve</h1>
  * Iterates to a changing setpoint in a certain amount of time.

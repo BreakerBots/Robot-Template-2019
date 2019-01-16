@@ -1,4 +1,6 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
+
 /**
  * <h1>Curve</h1>
  * A simple static class for processesing curves. <br>

@@ -1,8 +1,8 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem;
 
 import frc.team5104.main.BreakerRobotController.RobotMode;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * Manages the updating and handling of all BreakerSubsystems thrown into it
  */

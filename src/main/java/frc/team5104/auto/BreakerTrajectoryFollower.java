@@ -1,3 +1,4 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.auto;
 
 import frc.team5104.subsystem.drive._DriveConstants;
@@ -10,7 +11,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Segment;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * Pathfinder Trajectory Follower (Ramsete Follower)
  * Based on UCLA's "Ramsete" follower... "https://www.dis.uniroma1.it/~labrob/pub/papers/Ramsete01.pdf"

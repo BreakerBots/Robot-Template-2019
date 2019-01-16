@@ -1,6 +1,6 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * Some Simple Math Used for Trajectory Gen, Following and Caching
  */

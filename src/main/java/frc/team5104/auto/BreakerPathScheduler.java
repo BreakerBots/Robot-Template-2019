@@ -1,6 +1,6 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.auto;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * Handles the Execution of BreakerCommands inside the assigned BreakerCommandGroup (Entire Path)
  */

@@ -1,10 +1,10 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * <h1>Controller</h1>
  * A much simpler to use version of WPI's Joystick (controller) class

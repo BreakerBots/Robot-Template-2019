@@ -1,6 +1,9 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem.drive;
 
-/*Breakerbots Robotics Team 2018*/
+/**
+ * A simple class for sending/saving robot positions.
+ */
 public class RobotPosition {
 	public double x, y;
 	private double t;

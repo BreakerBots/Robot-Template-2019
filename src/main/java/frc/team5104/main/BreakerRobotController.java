@@ -1,17 +1,17 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.main;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.hal.FRCNetComm.tInstances;
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.team5104.subsystem.drive.Odometry;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import frc.team5104.util.console.t;
 
-public class BreakerRobotController extends RobotBase {
+public class BreakerRobotController extends BreakerRobotControllerBase {
 	public static enum RobotMode {
 		Disabled,
 		Auto,

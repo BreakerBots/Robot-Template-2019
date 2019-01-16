@@ -1,3 +1,4 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -13,7 +14,6 @@ public class DriveActions extends BreakerSubsystem.Actions {
 	 * @param signal
 	 */
 	public static void set(RobotDriveSignal signal) {
-		
 		switch (signal.unit) {
 			case percentOutput: {
 				DriveSystems.motors.set(
@@ -49,12 +49,13 @@ public class DriveActions extends BreakerSubsystem.Actions {
 	}
 	
 	public static RobotDriveSignal applyMotorMinSpeed(RobotDriveSignal signal) {
-		double minSpeed = -_DriveConstants._minSpeedLowGear;
+		double minSpeed = _DriveConstants._minSpeedLowGear;
 		if (DriveSystems.shifters.inHighGear())
-			minSpeed = -_DriveConstants._minSpeedHighGear;
+			minSpeed = _DriveConstants._minSpeedHighGear;
 		
-		signal.leftSpeed = Deadband.get(signal.leftSpeed, minSpeed);
-		signal.rightSpeed = Deadband.get(signal.rightSpeed, minSpeed);
+		signal.leftSpeed  = signal.leftSpeed * (1 - minSpeed) + minSpeed;
+		signal.rightSpeed = signal.rightSpeed * (1 - minSpeed) + minSpeed;
+
 		return signal;
 	}
 	

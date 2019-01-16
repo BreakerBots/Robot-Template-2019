@@ -1,7 +1,11 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
 import java.io.PrintWriter;
 
+/**
+ * A simple handler for saving CSV files.
+ */
 public class CSV {
 	public String content;
 	

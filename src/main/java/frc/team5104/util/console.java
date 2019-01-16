@@ -1,3 +1,4 @@
+/*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
 import java.io.PrintWriter;
@@ -8,7 +9,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.team5104.main._RobotConstants;
 
-/*Breakerbots Robotics Team 2018*/
 /**
  * <h1>Console</h1>
  * A class for handling logging/printing
@@ -23,8 +23,6 @@ public class console {
 		TELEOP, 
 		AUTO, 
 		MAIN, 
-		SQUEEZY, 
-		ELEV, 
 		DRIVE, 
 		OTHER
 	};
