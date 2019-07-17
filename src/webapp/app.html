@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>BreakerBoard</title>
+	
+	<!--MDC-->
+	<link rel="stylesheet" href="resources/other/mdc.css" />
+	<script src="resources/other/mdc.js"></script>
+
+	<!--CSS-->
+	<link rel="stylesheet" href="resources/css/main.css" />
+	<link rel="stylesheet" href="resources/css/trajectory.css" />
+	<link rel="stylesheet" href="resources/css/tuner.css" />
+
+	<style>
+	</style>
+</head>
+<body>
+	<!--Header-->
+	<header class="mdc-top-app-bar mdc-elevation--z5">
+		<div class="mdc-top-app-bar__row">
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+				<span class="mdc-top-app-bar__title">BreakerBoard</span>
+			</section>
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+				<div class="mdc-tab-bar" role="tablist" data-mdc-auto-init="MDCTabBar">
+					<div class="mdc-tab-scroller">
+						<div class="mdc-tab-scroller__scroll-area mdc-tab-scroller__scroll-area--scroll" style="margin-bottom: 0px;">
+							<div class="mdc-tab-scroller__scroll-content">
+								<a href="#trajectory" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1" id="mdc-tab-1">
+									<span class="mdc-tab__content">
+										<span class="mdc-tab__text-label" style="color: white !important; opacity: 1.0 !important">Trajectory</span>
+									</span><span class="mdc-tab-indicator">
+										<span style="background-color: #fdb515 !important" class="mdc-tab-indicator__content mdc-tab-indicator__content--underline">
+										</span>
+									</span>
+									<span class="mdc-tab__ripple mdc-ripple-upgraded"></span>
+								</a>
+								<a href="#tuner" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0" id="mdc-tab-3">
+									<span class="mdc-tab__content">
+										<span class="mdc-tab__text-label" style="color: white !important; opacity: 1.0 !important">Tuner</span>
+									</span>
+									<span class="mdc-tab-indicator mdc-tab-indicator--active">
+										<span style="background-color: #fdb515 !important" class="mdc-tab-indicator__content mdc-tab-indicator__content--underline" style="">
+										</span>
+									</span>
+									<span class="mdc-tab__ripple mdc-ripple-upgraded" style="--mdc-ripple-fg-size:104px; --mdc-ripple-fg-scale:1.82807; --mdc-ripple-fg-translate-start:-29.9937px, -46.6375px; --mdc-ripple-fg-translate-end:34.8031px, -28px;"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</header>
+
+	<!--Tabs-->
+	<div id="tabs">
+		<!--Trajectory-->
+		<div id="tab-trajectory" class="tab">
+			<div id="trajectory-container">
+				<!--Input (Left Side)-->
+				<div id="inputBox" class="mdc-elevation--z20">
+					<div id="waypointContainer">
+						<div class="waypointInput">
+							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
+								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch" data-sw="14">
+										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">x</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
+								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch" data-sw="14">
+										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">y</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
+								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
+								<div class="mdc-notched-outline">
+									<div class="mdc-notched-outline__leading"></div>
+									<div class="mdc-notched-outline__notch" data-sw="51.5">
+										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">heading</label>
+									</div>
+									<div class="mdc-notched-outline__trailing"></div>
+								</div>
+							</div>
+						</div>
+						<div onclick="addWaypoint()" id="waypointAdd">
+							<button class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">
+								<span class="mdc-button__label">+</span>
+							</button>
+						</div>
+					</div>
+					<div id="viewCode">
+						<button onclick="viewCode();" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">
+							<span class="mdc-button__label">View Code</span>
+						</button>
+					</div>
+				</div>
+
+				<!--Field (Right Side)-->
+				<div id="fieldBox">
+					<canvas id="field" width="884" height="876"></canvas>
+				</div>
+			</div>
+		</div>
+
+		<!--Tuner-->
+		<div id="tab-tuner" class="tab">
+			<div id="tuner-container">
+				<!--Input (Left Side)-->
+				<div id="inputBox" class="mdc-elevation--z20">
+
+				</div>
+
+				<!--Output (Right Side)-->
+				<div id="outputBox">
+					<div style="width: calc(100% - 10px); height: calc(100% - 30px); position: relative;">
+						<canvas id="tunerChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="resources/other/chart.js"></script>
+
+	<!--Javascript-->
+	<script>
+		var _red = "#b90013";
+		var _yellow = "#fdb515";
+		var _error = "#e7880a";
+	</script>
+	<script>mdc.autoInit();</script>
+	<script src="resources/js/tab.js"></script>
+	<script src="resources/js/trajectory.js"></script>
+	<script src="resources/js/tuner.js"></script>
+</body>
+</html>

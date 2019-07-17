@@ -10,18 +10,18 @@ public abstract class BreakerPath {
 	/**
 	 * The Actions for the path
 	 */
-	public BreakerPathAction[] cs = new BreakerPathAction[10];
+	public BreakerPathAction[] pathActions = new BreakerPathAction[10];
 	
 	/**
 	 * The number of Actions in the path
 	 */
-	public int cl = 0;
+	public int pathActionsLength = 0;
 	
 	/**
 	 * Add an action to the Path
 	 */
 	public void add(BreakerPathAction action) {
-		cs[cl] = action;
-		cl++;
+		pathActions[pathActionsLength] = action;
+		pathActionsLength++;
 	}
 }

@@ -1,7 +1,8 @@
 /*BreakerBots Robotics Team 2019*/
 package frc.team5104.subsystem;
 
-import frc.team5104.main.BreakerRobotController.RobotMode;
+import frc.team5104.util.CrashLogger;
+import frc.team5104.util.CrashLogger.Crash;
 
 /**
  * Manages the updating and handling of all BreakerSubsystems thrown into it
@@ -12,7 +13,7 @@ public class BreakerSubsystemManager {
 	/**
 	 * NECESSARY: Tell the Subsystem Manager what Subsystems to manage
 	 */
-	public static void throwSubsystems(BreakerSubsystem.Manager... subsystems) {
+	public static void useSubsystems(BreakerSubsystem.Manager... subsystems) {
 		targets = subsystems;
 	}
 	
@@ -20,18 +21,29 @@ public class BreakerSubsystemManager {
 	 * CALL when the robot becomes enabled
 	 * @param teleop
 	 */
-	public static void enabled(RobotMode mode) {
+	public static void enabled() {
 		for (BreakerSubsystem.Manager t : targets) {
-			t.enabled(mode);
+			try {
+				t.enabled();
+			} catch (Exception e) {
+				CrashLogger.logCrash(new Crash("main", e));
+			}
 		}
 	}
 	
 	/**
 	 * CALL periodically when the robot is enabled
 	 */
-	public static void update() {
+	public static void handle() {
+		try { update(); } catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
+	}
+	private static void update() {
 		for (BreakerSubsystem.Manager t : targets) {
-			t.update();
+			try {
+				t.update();
+			} catch (Exception e) {
+				CrashLogger.logCrash(new Crash("main", e));
+			}
 		}
 	}
 	
@@ -40,7 +52,11 @@ public class BreakerSubsystemManager {
 	 */
 	public static void disabled() {
 		for (BreakerSubsystem.Manager t : targets) {
-			t.disabled();
+			try {
+				t.disabled();
+			} catch (Exception e) {
+				CrashLogger.logCrash(new Crash("main", e));
+			}
 		}
 	}
 }

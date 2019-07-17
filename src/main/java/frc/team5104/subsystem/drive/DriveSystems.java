@@ -2,15 +2,15 @@
 package frc.team5104.subsystem.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.team5104.auto._AutoConstants;
+import frc.team5104.control._Controls;
 import frc.team5104.main.Devices;
 import frc.team5104.subsystem.BreakerSubsystem;
-import frc.team5104.util.Units;
+import frc.team5104.util.BreakerMath;
 import frc.team5104.util.console;
-import frc.team5104.util.controller;
 import frc.team5104.util.console.c;
 
 public class DriveSystems extends BreakerSubsystem.Systems {
@@ -20,12 +20,34 @@ public class DriveSystems extends BreakerSubsystem.Systems {
 	static TalonSRX R1 = Devices.Drive.R1;
 	static TalonSRX R2 = Devices.Drive.R2;
 	
+	//@tunerOutput
+	public static double leftTarget = 6.9;
+	//@tunerOutput
+	public static double rightTarget = 0;
+	//@tunerOutput
+	public static double leftCurrent() {
+		return encoders.getLeftVelocityFeet();
+	}
+	//@tunerOutput
+	public static double rightCurrent() {
+		return encoders.getRightVelocityFeet();
+	}
+	
 	//Motors
 	static class motors {
 		public static void set(double leftSpeed, double rightSpeed, ControlMode mode) {
 			L1.set(mode, leftSpeed);
 			R1.set(mode, rightSpeed);
 		}
+		public static void setWithFeedforward(double leftSpeed, double rightSpeed, double feedForward) {
+			leftTarget = BreakerMath.clamp(leftSpeed, -_AutoConstants._maxVelocity, _AutoConstants._maxVelocity);
+			rightTarget = BreakerMath.clamp(rightSpeed, -_AutoConstants._maxVelocity, _AutoConstants._maxVelocity);
+			L1.set(ControlMode.Velocity, leftSpeed, DemandType.ArbitraryFeedForward, feedForward);
+			R1.set(ControlMode.Velocity, rightSpeed, DemandType.ArbitraryFeedForward, feedForward);
+		}
+		
+		public static double getLeftBusVoltage() { return L1.getBusVoltage(); }
+		public static double getRightBusVoltage() { return R1.getBusVoltage(); }
 	}
 	
 	//Encoders
@@ -38,69 +60,77 @@ public class DriveSystems extends BreakerSubsystem.Systems {
 			R1.setSelectedSensorPosition(0, 0, timeoutMs);
 		}
 		
-		/**
-		 * @return The Left encoder's value
-		 */
-		public static int getLeft() {
-			return L1.getSelectedSensorPosition(0);
-		}
+		//Raw Encoder Positions
+		public static int getRawLeftPosition() { return L1.getSelectedSensorPosition(0); }
+		public static int getRawRightPosition() { return R1.getSelectedSensorPosition(0); }
 		
-		/**
-		 * @return The Right encoder's value
-		 */
-		public static int getRight() {
-			return R1.getSelectedSensorPosition(0);
-		}
+		//Raw Encoder Velocities
+		public static int getRawLeftVelocity() { return L1.getSelectedSensorVelocity(0); }
+		public static int getRawRightVelocity() { return R1.getSelectedSensorVelocity(0); }
+		
+		//Feet Encoder Positions
+		public static double getLeftPositionFeet() { return DriveUnits.ticksToFeet(getRawLeftPosition()); }
+		public static double getRightPositionFeet() { return DriveUnits.ticksToFeet(getRawRightPosition()); }
+		
+		//Feet Encoder Velocities
+		public static double getLeftVelocityFeet() { return DriveUnits.talonVelToFeetPerSecond(getRawLeftVelocity()); }
+		public static double getRightVelocityFeet() { return DriveUnits.talonVelToFeetPerSecond(getRawRightVelocity()); }
 		
 		public static String getString() {
 			try {
-				return "L: " + getLeft() + 
-						", R: " + getRight();
+				return "L: " + getRawLeftPosition() + 
+						", R: " + getRawRightPosition();
 			} catch (Exception e) { e.printStackTrace(); return ""; }
 		}
 	}
 	
 	//Shifters
 	public static class shifters {
-		public static boolean inHighGear() {
-			return Devices.Drive.shift.get() == DoubleSolenoid.Value.kForward;
+		public static boolean inLowGear() {
+			return false;
+			//return Devices.Drive.shift.get() == _DriveConstants._shiftLow;
 		}
 		
 		/**
 		 * @param high True: Set to High Gear, False: Set to Low Gear
 		 */
 		public static void set(boolean high) {
-			if (high ? !inHighGear() : inHighGear()) {
+			if (high ? inLowGear() : !inLowGear()) {
 				console.log(c.DRIVE, high ? "Shifting High" : "Shifting Low");
-				Devices.Drive.shift.set(high ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
-				controller.rumbleSoftFor(high ? 0.75 : 0.25, 0.2);
+				//Devices.Drive.shift.set(high ? PneumaticFactory.getOppositeValue(_DriveConstants._shiftLow) : _DriveConstants._shiftLow);
+				if (high) _Controls.Drive._shiftRumbleHigh.start();
+				else _Controls.Drive._shiftRumbleLow.start();
 			}
 		}
 		
 		public static void toggle() {
-			set(!inHighGear());
+			set(inLowGear());
 		}
 		
 	}
 
 	//Gyro
 	public static class gyro {
-		public static double getRawAngle() {
-			return Devices.Drive.gyro.getFusedHeading();
+		private static double gyroAccount = 0;
+		private static double getRawAngle() {
+			return -1;
+			//return Devices.Drive.gyro.getFusedHeading();
 		}
 		
 		public static double getAngle() {
-			double a = -getRawAngle();
-			a /= Math.cos(Units.degreesToRadians(_DriveConstants._gyroAngle));
-			return a;
+			return -(getRawAngle() - gyroAccount);
 		}
 		
-		public static void calibrate() {
-//			Devices.Drive.L2.
+		public static double getPitch() {
+			//return -(Devices.Drive.gyro2.getPitch() - 0.3);
+			//return Devices.Drive.gyro;
+			return -1;
 		}
 		
-		public static void reset() {
-//			Devices.Drive.L2
+		public static void reset(int timeoutMs) {
+			//Devices.Drive.gyro.setFusedHeading(0, timeoutMs);
+			//gyroAccount = getRawAngle();
+			//Devices.Drive.gyro.configFactoryDefault(10);
 		}
 	}
 	
@@ -113,63 +143,28 @@ public class DriveSystems extends BreakerSubsystem.Systems {
 		
 		// Left Talons Config
 		L2.set(ControlMode.Follower, L1.getDeviceID());
-		L1.setInverted(true);
-		L2.setInverted(true);
-	
-		L1.setNeutralMode(NeutralMode.Brake);
-		L2.setNeutralMode(NeutralMode.Brake);
-		
-		L1.configClosedloopRamp(_DriveConstants._rampSeconds, 10);
-        L2.configClosedloopRamp(_DriveConstants._rampSeconds, 10);
-		
-        L1.configAllowableClosedloopError(0, _DriveConstants._pidId, 10);
-        L1.config_kF(_DriveConstants._pidId, _DriveConstants._pidF, 10);
-        L1.config_kP(_DriveConstants._pidId, _DriveConstants._pidP, 10);
-        L1.config_kI(_DriveConstants._pidId, _DriveConstants._pidI, 10);
-        L1.config_kD(_DriveConstants._pidId, _DriveConstants._pidD, 10);
-        
-        //L1.configPeakCurrentLimit(DriveConstants._currentLimitPeak, 10);
-        //L1.configPeakCurrentDuration(DriveConstants._currentLimitPeakTime, 10);
-        //L1.configContinuousCurrentLimit(DriveConstants._currentLimitSustained, 10);
-        
-        //L1.enableCurrentLimit(true);
-        
+        L1.configAllowableClosedloopError(0, 0, 10);
+        //L1.config_kF(0, _DriveConstants._kF, 10);
+        L1.config_kP(0, _DriveConstants._kP, 10);
+        L1.config_kI(0, _DriveConstants._kI, 10);
+        L1.config_kD(0, _DriveConstants._kD, 10);
         
         // Right Talons Config
         R2.set(ControlMode.Follower, R1.getDeviceID());
-		R1.setInverted(false);
-		R2.setInverted(false);
-	
-		R1.setNeutralMode(NeutralMode.Brake);
-		R2.setNeutralMode(NeutralMode.Brake);
-		
-		R1.configClosedloopRamp(_DriveConstants._rampSeconds, 10);
-        R2.configClosedloopRamp(_DriveConstants._rampSeconds, 10);
-		
-        R1.configAllowableClosedloopError(0, _DriveConstants._pidId, 10);
-        R1.config_kF(_DriveConstants._pidId, _DriveConstants._pidF, 10);
-        R1.config_kP(_DriveConstants._pidId, _DriveConstants._pidP, 10);
-        R1.config_kI(_DriveConstants._pidId, _DriveConstants._pidI, 10);
-        R1.config_kD(_DriveConstants._pidId, _DriveConstants._pidD, 10);
+        R1.configAllowableClosedloopError(0, 0, 10);
+        //R1.config_kF(0, _DriveConstants._kF, 10);
+        R1.config_kP(0, _DriveConstants._kP, 10);
+        R1.config_kI(0, _DriveConstants._kI, 10);
+        R1.config_kD(0, _DriveConstants._kD, 10);
         
-        //R1.configPeakCurrentLimit(DriveConstants._currentLimitPeak, 10);
-        //R1.configPeakCurrentDuration(DriveConstants._currentLimitPeakTime, 10);
-        //R1.configContinuousCurrentLimit(DriveConstants._currentLimitSustained, 10);
-        
-        //R1.enableCurrentLimit(true);
-		
 		//Stop the motors
-		DriveActions.stop();
+		Drive.stop();
 		
-		//Reset Gyro
-		gyro.reset();
-		
-		//Reset Encoder
+		//Reset Gyro + Encodersg
+		gyro.reset(10);
 		encoders.reset(10);
 		
-		//Wait until Talons have Caught Up
-		try {
-			Thread.sleep(100);
-		} catch (Exception e) { console.error(e); }
+		//Make Sure Everything is caught up :)
+		try { Thread.sleep(100); } catch (Exception e) { console.error(e); }
 	}
 }

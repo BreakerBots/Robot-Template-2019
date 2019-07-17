@@ -1,6 +1,7 @@
 /*BreakerBots Robotics Team 2019*/
 package frc.team5104.util;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +25,16 @@ public class console {
 		AUTO, 
 		MAIN, 
 		DRIVE, 
-		OTHER
+		OTHER,
+		
+		VISION,
+		CARGO,
+		HATCH,
+		CLIMBER,
+		
+		WEBAPP, 
+		
+		TUNING
 	};
 	
 	/**
@@ -101,6 +111,13 @@ public class console {
 	 */
 	public static void warn(Object... a) { log(c.OTHER, t.WARNING, objectArrayToString(a)); }
 	
+	// -- DIVIDER
+	/**
+	 * Prints out a divider
+	 */
+	public static void divider() {
+		System.out.println("<----------------------------------------->");
+	}
 	
 	
 	//  ----------------------------------------  Timing Groups/Sets  ----------------------------------------  \\
@@ -204,22 +221,26 @@ public class console {
 			try {
 				if (isLogging) {
 					isLogging = false;
+					boolean hasFMS = DriverStation.getInstance().isFMSAttached();
 					
 					//File Path
-					boolean hasFMS = DriverStation.getInstance().isFMSAttached();
-					if (hasFMS ? _RobotConstants.Logging._SaveMatchLogs : _RobotConstants.Logging._SaveNonMatchLogs) {
-						String filePath = "/home/lvuser/" + (hasFMS ? "MatchLog/" : "GeneralLog/");
-						
-						//File Name
-						filePath += DateTimeFormatter.ofPattern("MM-dd-yyyy_HH-mm").format(LocalDateTime.now()) + ".txt";
-						
-						console.log("Saving Log File as: " + filePath);
-						
-						//Save File
-						PrintWriter writer = new PrintWriter(filePath, "UTF-8");
-						writer.print(log);
-						writer.close();
-					}
+					String filePath = "/home/lvuser/" + (hasFMS ? "MatchLog/" : "GeneralLog/");
+					String fileName;
+					
+					//File Name
+					if (hasFMS ? _RobotConstants.Logging._OverwriteMatchLogs : _RobotConstants.Logging._OverwriteNonMatchLogs)
+						fileName = "log.txt";
+					else
+						fileName = DateTimeFormatter.ofPattern("MM-dd-yyyy_HH-mm").format(LocalDateTime.now()) + ".txt";
+					
+					File directory = new File(filePath);
+					if (!directory.exists())
+						directory.mkdir();
+					
+					//Save File
+					PrintWriter writer = new PrintWriter(filePath + fileName, "UTF-8");
+					writer.print(log);
+					writer.close();
 				}
 			} catch (Exception e) { console.error(e); }
 		}

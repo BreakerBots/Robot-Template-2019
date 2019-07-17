@@ -3,60 +3,52 @@ package frc.team5104.util;
 
 /**
  * <h1>Deadband</h1>
- * A deadband is a mathmatical process to stop input from the center of the joystick.
- * The xbox controller can get stuck slightly off of 0 causing the robot to move slowly on it's own
- * Most deadbands like WPI's and the TalonSRX's just clip off numbers < ~0.05.
- * This sometimes doesn't account for the range in which the joystick can get stuck and may prevent moving the robot a speeds like 0.05.
- * THIS CLASS uses a deadband system that basically, instead of clipping, pushes the values away.
- * A graph of "x" input, "y" output would be like so:
- *  \
- *   \
- *    -----
- *         \
- *          \
+ * A deadband cuts out areas of an input. 
+ * For example in a clipping deadband with a radius of .05, .05 would go to 0 and .06 would not change.
+ * This class has two deadbands. 
+ *  - Clipping: in which areas will be directly cut out (r=.05: .05->0, .06->.06)
+ *  - Slope Adjustment: in which the slope is adjusted (r=.05: .05->0, 0.06->0.01)
+ * Desmos Link: https://www.desmos.com/calculator/xhbilptzt9
  */
 public class Deadband {
+	//Deadband Types
 	/**
-	 * Calculates a deadband upon "x" with the "radius"
-	 * @param x The number to calculate on
-	 * @param radius the Radius of the deadband
-	 * @return The calculated value upon "x"
+	 * Clipping: in which areas will be directly cut out (r=.05: .05->0, .06->.06)
+	 * Slope Adjustment: in which the slope is adjusted (r=.05: .05->0, 0.06->0.01)
 	 */
-	public static double get(double x, double radius) {
-		//m = (y2-y1)/(x2-x1)
-		//b = -m*radius
-		double m = (1-0) / (1-radius);
-		double b = 0 - m*radius;
-		
-		double output = 0;
-		
-		if (x > radius)
-			output = m*x+b;
-		else if (x < -radius)
-			output = m*x-b;
-			
-		return output;
+	public static enum deadbandType {
+		clipping,
+		slopeAdjustment
+	};
+	
+	//Main Getter Function
+	/**
+	 * Processes a deadband upon "x" at "radius" distance.
+	 * @param x The input value
+	 * @param radius The size of the deadband
+	 * @param type The type of deadband (clipping or slope adj)
+	 */
+	public static double get(double x, double radius, deadbandType type) {
+		//Call function for specified deadband and send it abs(x), then undo the abs(x)
+		if (type == deadbandType.clipping)
+			return getClipping(Math.abs(x), radius) * (x > 0 ? 1 : -1);
+		else
+			return getSlopeAdjustment(Math.abs(x), radius) * (x > 0 ? 1 : -1);
 	}
 	
-	/**
-	 * This is not an inverted deadband, but instead calculates a fix for a clipping deadband
-	 */
-	public static double getReverse(double x, double radius) {
-		return get(x, -radius) - radius;
+	//Deadband Processors
+	private static double getSlopeAdjustment(double x, double radius) {
+		double m = 1 / (1-radius);
+		double b = -m*radius;
+		if (x <= radius)
+			return 0;
+		else
+			return m*x + b;
 	}
-	
-	/**
-	 * A clipping deadband that just cuts outs value in the radius
-	 */
-	public static double getClipping(double x, double radius) {
-		if (x > 0) {
-			if (x < radius)
-				x = 0;
-		}
-		else {
-			if (x > -radius)
-				x = 0;
-		}
-		return x;
+	private static double getClipping(double x, double radius) {
+		if (x <= radius)
+			return 0;
+		else
+			return x;
 	}
 }

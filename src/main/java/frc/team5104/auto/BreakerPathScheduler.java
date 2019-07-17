@@ -1,56 +1,61 @@
 /*BreakerBots Robotics Team 2019*/
 package frc.team5104.auto;
 
+import frc.team5104.util.CrashLogger;
+import frc.team5104.util.CrashLogger.Crash;
+
 /**
  * Handles the Execution of BreakerCommands inside the assigned BreakerCommandGroup (Entire Path)
  */
 public class BreakerPathScheduler {
-	public static BreakerPath r = null;
-	public static int cl = 0;
-	public static int i = 0;
-	public static boolean s = false;
+	public static BreakerPath path = null;
+	public static int pathActionsLength = 0;
+	public static int pathIndex = 0;
+	public static boolean pathActionInitialized = false;
 	
 	/**
 	 * Set the target command group
 	 */
-	public static void set(BreakerPath path) {
+	public static void set(BreakerPath targetPath) {
 		//Save the new Command Group
-		r = null;
-		r = path;
-		cl = path.cl;
+		path = targetPath;
+		pathActionsLength = path.pathActionsLength;
 		
 		//Reset Command Group Filter Index
-		i = 0;
+		pathIndex = 0;
 		
 		//Say that the first command hasn't been Initiated
-		s = false;
+		pathActionInitialized = false;
 	}
 	
 	/**
 	 * The update function call in Autonomous Periodic
 	 */
-	public static void update() {
+	public static void handle() {
+		try { update(); } catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
+	}
+	private static void update() {
 		//if the command index is less than the commandGroup length
-		if (i < r.cl) {
+		if (pathIndex < path.pathActionsLength) {
 			//If command has not been initialized
-			if (!s) {
+			if (!pathActionInitialized) {
 				//Call the init function
-				r.cs[i].init();
+				path.pathActions[pathIndex].init();
 				
 				//Dont call it next time
-				s = true;
+				pathActionInitialized = true;
 			}
 			
 			//Call the update function (then if finished)
-			if (r.cs[i].update()) {
+			if (path.pathActions[pathIndex].update()) {
 				//Call the end init function
-				r.cs[i].end();
+				path.pathActions[pathIndex].end();
 				
 				//Go to the next command
-				i++;
+				pathIndex++;
 				
 				//Say the command hasn't been initialized
-				s = false;
+				pathActionInitialized = false;
 			}
 		}
 	}

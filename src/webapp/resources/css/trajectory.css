@@ -1,0 +1,59 @@
+/* Trajectory.css */
+
+/*Main*/
+#trajectory-container {
+	width: 100vw;
+	height: calc(100vh-64px);
+	margin-top: 64px;
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+	background: #77756d;
+}
+	#trajectory-container > #inputBox {
+		width: 100%;
+		height: calc(100vh-64px);
+		padding: 10px;
+		border-top: 10px solid #b90013;
+		border-right: 10px solid #b90013;
+		border-bottom: 10px solid #b90013;
+		border-radius: 0 5px 5px 0;
+		z-index: 1;
+		position: relative;
+		background: white;
+		overflow-y: auto;
+	}
+	#trajectory-container > #fieldBox {
+		width: calc(100vh - 50px);
+		height: calc(100vh - 64px);
+	}
+	#trajectory-container > #fieldBox > #field {
+		height: calc(100vh - 64px);
+		float: right;
+	}
+
+/*Waypoint Input*/
+#waypointContainer {
+	width: 100%;
+	height:	calc(100% - 47px);
+}
+	#waypointContainer > .waypointInput {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		margin: 10px 0 0 0;
+	}
+		#waypointContainer > .waypointInput > * {
+			margin: 0 0 0 10px;
+		}
+		#waypointContainer > .waypointInput > button {
+			margin: 0 0 0 15px;
+		}
+
+#waypointAdd {
+	margin: 10px 0 0 10px;
+}
+
+#viewCode {
+	float: right;
+}

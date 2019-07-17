@@ -1,0 +1,32 @@
+/* Main.css */
+
+html, body {
+	overflow: hidden;
+	margin: 0;
+}
+
+.mdc-tab__ripple::before, .mdc-tab__ripple::after {
+	background-color: #edb038 !important;
+	transition: opacity 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.mdc-tab__ripple:hover::before {
+	opacity: 0.1 !important;
+}
+
+.mdc-tab__ripple.mdc-ripple-upgraded {
+	--mdc-ripple-fg-opacity: 0.4 !important;
+}
+
+#tabs {
+	width: 100vw;
+	height: 100vh;
+}
+
+	#tabs > .tab {
+		display: none;
+	}
+
+		#tabs > .tab.active {
+			display: block;
+		}

@@ -1,0 +1,38 @@
+/* Tuner.css */
+
+#tuner-container {
+	width: 100vw;
+	height: calc(100vh-64px);
+	margin-top: 64px;
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+	background: white;
+}
+
+	#tuner-container > #inputBox {
+		width: 30%;
+		height: calc(100vh-64px);
+		padding: 10px;
+		border-top: 10px solid #b90013;
+		border-right: 10px solid #b90013;
+		border-bottom: 10px solid #b90013;
+		border-radius: 0 5px 5px 0;
+		z-index: 1;
+		position: relative;
+		background: white;
+		overflow-y: auto;
+	}
+
+	#tuner-container > #outputBox {
+		width: 70%;
+		height: calc(100vh - 64px);
+	}
+
+.tunerInputElement {
+	margin: 10px 0 0 0;
+	width: 100%;
+}
+	.tunerInputElement > .mdc-text-field {
+		width: 100%;
+	}
