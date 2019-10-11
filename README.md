@@ -1,5 +1,5 @@
 # BreakerBots Robot Template
-Based on offseason code for **Athena** ([FRC Power-Up 2018](https://en.wikipedia.org/wiki/FIRST_Power_Up)). Athena's code is running **Java** through **[GradleRIO](https://github.com/wpilibsuite/GradleRIO)**.
+A template the BreakerBots' robot project setup.
 
 ### Setup Instructions
 - Download [Gradle](https://gradle.org/releases/)
@@ -10,7 +10,7 @@ Based on offseason code for **Athena** ([FRC Power-Up 2018](https://en.wikipedia
 - Continue with default settings and import the project
 
 ### Building/Deploying
-In the command line of this repository run `gradlew build` and then `gradlew deploy`.
+In the command line of this repository run `gradlew deploy`.
 You can also run `gradlew riolog` to connect to the logging from the robot.
 
 ## Features
@@ -27,5 +27,6 @@ You can also run `gradlew riolog` to connect to the logging from the robot.
 Based roughly off of the [Google Style Guide](http://google.github.io/styleguide/javaguide.html).
 
 #### Naming:
-- **Constants:** _ + name
-
+- **Constants:** ALL_CAPS
+- **Variables:** lowerCamelCase
+- **Classes:** UpperCamelCase
