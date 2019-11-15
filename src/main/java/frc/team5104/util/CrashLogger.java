@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 import java.io.PrintWriter;
@@ -21,9 +21,11 @@ public class CrashLogger {
 		}
 		
 		public boolean equals(Crash otherCrash) {
-			if (otherCrash == null) return false;
-			return this.threadName.equals(otherCrash.threadName) && 
-				   this.exception.getMessage().equals(otherCrash.exception.getMessage());
+			try {
+				if (otherCrash == null) return false;
+				return this.threadName.equals(otherCrash.threadName) && 
+					   this.exception.getMessage().equals(otherCrash.exception.getMessage());
+			} catch (Exception e) { /*expected to fail*/ return false; }
 		}
 	}
 	

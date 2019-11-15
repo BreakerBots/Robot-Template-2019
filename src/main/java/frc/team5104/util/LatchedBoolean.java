@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 /**
@@ -31,11 +31,21 @@ public class LatchedBoolean {
 		this(LatchedBooleanMode.always);
 	}
 	/**
-	 * Created a latch boolean with the specified mode.
+	 * Creates a latched boolean with the specified mode.
 	 * @param mode The specified mode.
 	 */
 	public LatchedBoolean(LatchedBooleanMode mode) {
+		this(mode, false);
+	}
+	
+	/**
+	 * Creates a latched boolean with the specific mode and starting value.
+	 * @param mode The specific mode.
+	 * @param startValue the value to start at (if opposite of first value, latched boolean will be triggered)
+	 */
+	public LatchedBoolean(LatchedBooleanMode mode, boolean startValue) {
 		this.mode = mode;
+		this.lastValue = startValue;
 	}
 	
 	//Main Getter Function

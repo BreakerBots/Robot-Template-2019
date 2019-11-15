@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 /**
@@ -6,7 +6,6 @@ package frc.team5104.util;
  * Stay in school kids.
  */
 public class BreakerMath {
-	
 	//Number Range Clamping
 	public static double clamp(double value, double min, double max) { return min(max(value, max), min); }
 	public static double min(double value, double min) { return value < min ? min : value; }
@@ -19,6 +18,14 @@ public class BreakerMath {
 	public static boolean roughlyEquals(int a, int b, double tolerance) {
 		return Math.abs(a - b) <= tolerance;
 	}
+	
+	//Range
+	public static boolean inRange(double a, double mag) {
+        return inRange(a, -mag, mag);
+    }
+	public static boolean inRange(double a, double min, double max) {
+        return a > min && a < max;
+    }
 	
 	//Rounding
 	public static double round(double a, int places) {

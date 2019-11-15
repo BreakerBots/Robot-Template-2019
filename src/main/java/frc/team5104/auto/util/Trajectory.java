@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.util;
 
 import java.io.Serializable;

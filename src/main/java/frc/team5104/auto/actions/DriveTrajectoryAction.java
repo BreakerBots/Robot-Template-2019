@@ -1,21 +1,20 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.actions;
 
-import frc.team5104.auto.BreakerPathAction;
 import frc.team5104.auto.BreakerTrajectoryFollower;
 import frc.team5104.auto.BreakerTrajectoryGenerator;
+import frc.team5104.auto.util.AutoPathAction;
+import frc.team5104.auto.util.Odometry;
 import frc.team5104.auto.util.TrajectoryWaypoint;
-import frc.team5104.subsystem.drive.Drive;
-import frc.team5104.subsystem.drive.Odometry;
-import frc.team5104.subsystem.drive.DriveSignal;
+import frc.team5104.subsystems.drive.Drive;
+import frc.team5104.subsystems.drive.DriveObjects.DriveSignal;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
 /**
  * Follow a trajectory using the Breaker Trajectory Follower (Ramses Follower)
  */
-public class DriveTrajectoryAction extends BreakerPathAction {
-
+public class DriveTrajectoryAction extends AutoPathAction {
 	private BreakerTrajectoryFollower follower;
 	private TrajectoryWaypoint[] waypoints;
 		
@@ -37,7 +36,7 @@ public class DriveTrajectoryAction extends BreakerPathAction {
 
     public boolean update() {
     	DriveSignal nextSignal = follower.getNextDriveSignal(Odometry.getPosition());
-		nextSignal = Drive.applyDriveStraight(nextSignal);
+		//nextSignal = DriveHelper.applyDriveStraight(nextSignal);
     	Drive.set(nextSignal);
     	
 		return follower.isFinished();

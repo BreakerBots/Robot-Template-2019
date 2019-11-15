@@ -1,11 +1,11 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.actions;
 
-import frc.team5104.auto.BreakerPathAction;
+import frc.team5104.auto.util.AutoPathAction;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
-public class DelayAction extends BreakerPathAction {
+public class DelayAction extends AutoPathAction {
 	long startTime;
 	int delay;
 

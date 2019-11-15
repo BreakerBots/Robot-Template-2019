@@ -1,9 +1,7 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.util;
 
-/**
- * A waypoint to generate a trajectory from.
- */
+/** A waypoint to generate a trajectory from. */
 public class TrajectoryWaypoint {
 	public double x, y, theta;
 	

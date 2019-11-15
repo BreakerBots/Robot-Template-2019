@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 import java.io.File;
@@ -8,119 +8,111 @@ import java.time.format.DateTimeFormatter;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import frc.team5104.main._RobotConstants;
+import frc.team5104.main.Constants;
 
 /**
  * <h1>Console</h1>
  * A class for handling logging/printing
  */
 public class console {
-	
-	//  ----------------------------------------  Normal Logging  ----------------------------------------  \\
-	/**
-	 * Categories for Logging
-	 */
+	/** Categories for Logging */
 	public static enum c { 
-		TELEOP, 
-		AUTO, 
-		MAIN, 
-		DRIVE, 
+		TELEOP,
+		MAIN,
+		DEBUG,
 		OTHER,
-		
+		AUTO,
+		WEBAPP,
 		VISION,
-		CARGO,
-		HATCH,
-		CLIMBER,
 		
-		WEBAPP, 
-		
-		TUNING
+		DRIVE
+		//slap ur subsystems here
+	};
+	/** Types of Logging */
+	public static enum t {
+		ERROR("ERROR "), INFO(""), WARNING("WARNING ");
+		String message; t (String message) { this.message = message; }
 	};
 	
-	/**
-	 * Types for Logging
-	 * "message" is the text appended to begining of log
-	 * ERROR => "ERROR"
-	 * INFO => ""
-	 * WARNING => "WARNING"
-	 */
-	public static enum t { 
-		ERROR  ("ERROR "),
-		INFO   (""),
-		WARNING("WARNING ");
-		
-		String message;
-		t (String message) {
-			this.message = message;
-		}
-	};
-	
-	//Main Log Function (Acts as Bus for other functions)
+	// -- Log::Main
 	/**
 	 * Prints out text to the console under the specific category (Base Function)
 	 * Examples:
 	 * 	 2.12 [MAIN]: Message
 	 *   90.12 ERROR [AUTO]: Message
-	 * @param a The text to print out
-	 * @param t The type (Error, Info, Warning)
-	 * @param c the category (INTAKE, AUTO...)
 	 */
-	public static void log(c c, t t, Object... a) {
-		String f = String.format("%.2f", Timer.getFPGATimestamp()) + ": " + t.message + "[" + c.toString() + "]: " + objectArrayToString(a);
+	public static void log(c category, t type, Object... data) {
+		String f = round(Timer.getFPGATimestamp(), 2) + ": " + type.message + "[" + category.toString() + "]: " + parseAndRound(2, data);
 		System.out.println(f);
 		if (logFile.isLogging)
 			logFile.log += f + "\n";
 	}
 	
-	// -- INFO
-	/**
-	 * Prints out text to the console under the type "INFO"
-	 * @param c The category to print under
-	 * @param a The text to print out
-	 */
-	public static void log(c c, Object... a) { log(c, t.INFO, objectArrayToString(a)); }
-	/**
-	 * Prints out text to the console under the type "INFO" and category "OTHER"
-	 * @param a The text to print out
-	 */
-	public static void log(Object... a) { log(c.OTHER, t.INFO, objectArrayToString(a)); }
+	// -- Log::Info
+	/** Prints out text to the console under the type "INFO" */
+	public static void log(c category, Object... data) { log(category, t.INFO, data); }
+	/** Prints out text to the console under the type "INFO" and category "OTHER" */
+	public static void log(Object... data) { log(c.OTHER, t.INFO, data); }
 	
-	// -- ERROR
-	/**
-	 * Prints out text to the console under the type "ERROR"
-	 * @param c The category to print under
-	 * @param a The text to print out
-	 */
-	public static void error(c c, Object... a) { log(c, t.ERROR, objectArrayToString(a)); }
-	/**
-	 * Prints out text to the console under the type "ERROR" and category "OTHER"
-	 * @param a The text to print out
-	 */
-	public static void error(Object... a) { log(c.OTHER, t.ERROR, objectArrayToString(a)); }
+	// -- Log::Error
+	/** Prints out text to the console under the type "ERROR" */
+	public static void error(c category, Object... data) { log(category, t.ERROR, data); }
+	/** Prints out text to the console under the type "ERROR" and category "OTHER" */
+	public static void error(Object... data) { log(c.OTHER, t.ERROR, data); }
 	
-	// -- WARNING
-	/**
-	 * Prints out text to the console under the type "WARN"
-	 * @param c The category to print under
-	 * @param a The text to print out
-	 */
-	public static void warn(c c, Object... a) { log(c, t.WARNING, objectArrayToString(a)); }
-	/**
-	 * Prints out text to the console under the type "WARN" and category "OTHER"
-	 * @param a The text to print out
-	 */
-	public static void warn(Object... a) { log(c.OTHER, t.WARNING, objectArrayToString(a)); }
+	// -- Log::Warning
+	/** Prints out text to the console under the type "WARN" */
+	public static void warn(c category, Object... data) { log(category, t.WARNING, data); }
+	/** Prints out text to the console under the type "WARN" and category "OTHER" */
+	public static void warn(Object... data) { log(c.OTHER, t.WARNING, data); }
 	
-	// -- DIVIDER
-	/**
-	 * Prints out a divider
-	 */
+	// -- Divider
+	/** Prints out a divider */
 	public static void divider() {
 		System.out.println("<----------------------------------------->");
 	}
 	
+	// -- Parse
+	/** Parses multiple objects into one string (no rounding). The same function as used when normally calling console.log() */
+	public static String parse(Object... data) {
+		String returnString = "";
+		for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+			returnString += data[dataIndex] + (dataIndex != (data.length - 1) ? ", " : "");
+		}
+		return returnString;
+	}
+	/** Rounds all doubles, then parses multiple objects into one string. The same function as used when normally calling console.log(). */
+	public static String parseAndRound(int decimalPlaces, Object... data) {
+		String returnString = "";
+		for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+			if (data[dataIndex] instanceof Double)
+				returnString += round(((Double) data[dataIndex]).doubleValue(), decimalPlaces);
+			else returnString += data[dataIndex];
+			returnString += (dataIndex != (data.length - 1) ? ", " : "");
+		}
+		return returnString;
+	}
+	/** Parts a list of objects into a CC (colon-comma) pattern. Output will be "v1: v2, v3: v4..." Rounds all doubles to 2 decimal places */
+	public static String parseCCPattern(Object... data) {
+		String returnString = "";
+		for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+			if (data[dataIndex] instanceof Double)
+				returnString += round(((Double) data[dataIndex]).doubleValue(), 2);
+			else returnString += data[dataIndex];
+			returnString += (dataIndex % 2 == 0) ? (": ") : (dataIndex != (data.length - 1) ? ", " : "");
+		}
+		return returnString;
+	}
 	
-	//  ----------------------------------------  Timing Groups/Sets  ----------------------------------------  \\
+	// -- Rounding
+	/** Rounds a number to 2 decimal places */
+	public static String round(double number) { return round(number, 2); }
+	/** Rounds a number to N decimal places */
+	public static String round(double number, int decimalPlaces) {
+		return String.format("%." + ((int) BreakerMath.clamp(decimalPlaces, 0, 10)) + "f", number);
+	}
+	
+	// -- Timing Groups/Sets
 	public static class sets {
 		public static final int MaxSets = 10;
 		public static String sn[] = new String[MaxSets];
@@ -192,11 +184,11 @@ public class console {
 		 * @param timeSpacer What to add to the message before the time.
 		 */
 		public static void log(c c, t t, String timingGroupName, Object... a) {
-			console.log(c, t, objectArrayToString(a) + " " + String.format("%.2f", getTime(timingGroupName)) + "s");
+			console.log(c, t, parse(a) + " " + String.format("%.2f", getTime(timingGroupName)) + "s");
 		}
 	}
 	
-	//  ----------------------------------------  File Logging  ----------------------------------------  \\
+	//  --  File Logging
 	public static class logFile {
 		private static String log = "";
 		public static boolean isLogging = false;
@@ -228,7 +220,7 @@ public class console {
 					String fileName;
 					
 					//File Name
-					if (hasFMS ? _RobotConstants.Logging._OverwriteMatchLogs : _RobotConstants.Logging._OverwriteNonMatchLogs)
+					if (hasFMS ? Constants.OVERWRITE_MATCH_LOGS : Constants.OVERWRITE_NON_MATCH_LOGS)
 						fileName = "log.txt";
 					else
 						fileName = DateTimeFormatter.ofPattern("MM-dd-yyyy_HH-mm").format(LocalDateTime.now()) + ".txt";
@@ -244,17 +236,6 @@ public class console {
 				}
 			} catch (Exception e) { console.error(e); }
 		}
-	}
-	
-	private static String objectArrayToString(Object[] a) {
-		String r = "";
-		for (int i = 0; i < a.length; i++) {
-			if (i != (a.length - 1))
-				r += a[i] + ", ";
-			else
-				r += a[i];
-		}
-		return r;
 	}
 }
 

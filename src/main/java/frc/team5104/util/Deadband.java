@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 /**
@@ -16,7 +16,7 @@ public class Deadband {
 	 * Clipping: in which areas will be directly cut out (r=.05: .05->0, .06->.06)
 	 * Slope Adjustment: in which the slope is adjusted (r=.05: .05->0, 0.06->0.01)
 	 */
-	public static enum deadbandType {
+	public static enum DeadbandType {
 		clipping,
 		slopeAdjustment
 	};
@@ -28,9 +28,9 @@ public class Deadband {
 	 * @param radius The size of the deadband
 	 * @param type The type of deadband (clipping or slope adj)
 	 */
-	public static double get(double x, double radius, deadbandType type) {
+	public static double get(double x, double radius, DeadbandType type) {
 		//Call function for specified deadband and send it abs(x), then undo the abs(x)
-		if (type == deadbandType.clipping)
+		if (type == DeadbandType.clipping)
 			return getClipping(Math.abs(x), radius) * (x > 0 ? 1 : -1);
 		else
 			return getSlopeAdjustment(Math.abs(x), radius) * (x > 0 ? 1 : -1);

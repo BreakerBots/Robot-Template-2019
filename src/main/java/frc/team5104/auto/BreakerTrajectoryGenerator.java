@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto;
 
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import frc.team5104.auto.util.Trajectory;
 import frc.team5104.auto.util.TrajectoryGenerator;
 import frc.team5104.auto.util.TrajectoryWaypoint;
-import frc.team5104.main._RobotConstants;
+import frc.team5104.main.Constants;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
@@ -44,10 +44,10 @@ public class BreakerTrajectoryGenerator {
 	    		console.log(c.AUTO, "No Similar Cached Trajectory Found => Generating Path");
 	    		console.sets.create("MPGEN");
 	    		t = TrajectoryGenerator.generate(points, 
-	    				_AutoConstants._maxVelocity,
-	    				_AutoConstants._maxAcceleration,
-	    				_AutoConstants._maxJerk,
-	    				1.0 / _RobotConstants.Loops._robotHz
+	    				Constants.AUTO_MAX_VELOCITY,
+	    				Constants.AUTO_MAX_ACCEL,
+	    				Constants.AUTO_MAX_JERK,
+	    				Constants.AUTO_LOOP_SPEED
 	    			);
 	    		writeFile(s, t);
 	    		console.log(c.AUTO, "Trajectory Generation Took " + console.sets.getTime("MPGEN") + "s");

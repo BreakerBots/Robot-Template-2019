@@ -1,4 +1,4 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Controller {
 	//List of Controllers
 	public static enum Controllers {
-		Main(0);
-		//Secondary(1);
+		Main(0), 
+		Secondary(1);
 		private Joystick handler;
 		private Controllers(int slot) { this.handler = new Joystick(slot); }
 	};
@@ -81,7 +81,7 @@ public class Controller {
 		 * @param control The specified control
 		 * @param controller The target controller for this rumble.
 		 */
-		public Control(ControlList control, Controllers controller) { this(control, controller, false, 0.6); }
+		public Control(ControlList control, Controllers controller) { this(control, controller, false, 0.6, 600); }
 		/**
 		 * Creates a control object that can be referenced later.
 		 * @param control The specified control
@@ -89,7 +89,7 @@ public class Controller {
 		 * @param deadzone (For axis only) When converting from axis to button: the crossover point in which the axis should be considered pressed
 		 */
 		public Control(ControlList control, boolean reversed, double deadzone) {
-			this(control, Controllers.Main, reversed, deadzone);
+			this(control, Controllers.Main, reversed, deadzone, 600);
 		}
 		/**
 		 * Creates a control object that can be referenced later.
@@ -98,11 +98,12 @@ public class Controller {
 		 * @param reversed (For axis only) When converting from axis to button: if the axis should be flipped before
 		 * @param deadzone (For axis only) When converting from axis to button: the crossover point in which the axis should be considered pressed
 		 */
-		public Control(ControlList control, Controllers controller, boolean reversed, double deadzone) {
+		public Control(ControlList control, Controllers controller, boolean reversed, double deadzone, int heldEventLength) {
 			this.control = control;
 			this.controller = controller;
 			this.reversed = reversed;
 			this.deadzone = deadzone;
+			this.heldEventLength = heldEventLength;
 			register.add(this);
 		}
 		

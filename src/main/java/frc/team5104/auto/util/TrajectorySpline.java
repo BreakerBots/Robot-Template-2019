@@ -1,11 +1,9 @@
-/*BreakerBots Robotics Team 2019*/
+/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.util;
 
 import frc.team5104.util.BreakerMath;
 
-/**
- * A spline...
- */
+/** A spline... */
 public class TrajectorySpline {
 	//Spline Types
 	public static class Type {
