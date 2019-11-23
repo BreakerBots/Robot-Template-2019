@@ -5,19 +5,19 @@ package frc.team5104.util;
  * Simply smoothes out a input by using an average between the last n inputs.
  * Useful for sensors that give variable outputs or any variable that spikes.
  */
-public class Buffer {
+public class MovingAverage {
 	private double[] values;
-	public Buffer(int n, double init) {
+	public MovingAverage(int n, double init) {
 		values = new double[n];
 		for(int i = 0; i < n; i++) 
 			values[i] = init;
 	}
-	public Buffer(int n, int init) {
+	public MovingAverage(int n, int init) {
 		values = new double[n];
 		for(int i = 0; i < n; i++) 
 			values[i] = init;
 	}
-	public Buffer(int n, boolean init) {
+	public MovingAverage(int n, boolean init) {
 		values = new double[n];
 		for(int i = 0; i < n; i++) 
 			values[i] = init ? 1 : 0;

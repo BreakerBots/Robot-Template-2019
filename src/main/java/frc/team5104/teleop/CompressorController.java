@@ -9,7 +9,7 @@ public class CompressorController extends TeleopController {
 	protected String getName() { return "Compressor Controller"; }
 
 	protected void update() {
-		if (Controls.COMPRESSOR_TOGGLE.getPressed()) {
+		if (Controls.COMPRESSOR_TOGGLE.get()) {
 			if (BreakerCompressor.isRunning())
 				BreakerCompressor.stop();
 			else

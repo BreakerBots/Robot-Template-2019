@@ -2,7 +2,6 @@
 package frc.team5104.util;
 
 /**
- * <h1>Deadband</h1>
  * A deadband cuts out areas of an input. 
  * For example in a clipping deadband with a radius of .05, .05 would go to 0 and .06 would not change.
  * This class has two deadbands. 
@@ -17,8 +16,9 @@ public class Deadband {
 	 * Slope Adjustment: in which the slope is adjusted (r=.05: .05->0, 0.06->0.01)
 	 */
 	public static enum DeadbandType {
-		clipping,
-		slopeAdjustment
+		CLIPPING,
+		SLOPE_ADJ,
+		NONE
 	};
 	
 	//Main Getter Function
@@ -30,10 +30,11 @@ public class Deadband {
 	 */
 	public static double get(double x, double radius, DeadbandType type) {
 		//Call function for specified deadband and send it abs(x), then undo the abs(x)
-		if (type == DeadbandType.clipping)
+		if (type == DeadbandType.CLIPPING)
 			return getClipping(Math.abs(x), radius) * (x > 0 ? 1 : -1);
-		else
+		if (type == DeadbandType.SLOPE_ADJ)
 			return getSlopeAdjustment(Math.abs(x), radius) * (x > 0 ? 1 : -1);
+		else return x;
 	}
 	
 	//Deadband Processors
@@ -50,5 +51,18 @@ public class Deadband {
 			return 0;
 		else
 			return x;
+	}
+	
+	//Saved Deadband
+	double savedRadius;
+	DeadbandType savedType;
+	public Deadband() { this(0, DeadbandType.NONE); }
+	public Deadband(double radius) { this(radius, DeadbandType.SLOPE_ADJ); }
+	public Deadband(double radius, DeadbandType type) {
+		this.savedRadius = radius;
+		this.savedType = type;
+	}
+	public double get(double x) {
+		return get(x, this.savedRadius, this.savedType);
 	}
 }

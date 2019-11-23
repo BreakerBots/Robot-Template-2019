@@ -11,7 +11,7 @@ import frc.team5104.subsystems.drive.Drive;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.teleop.DriveController;
 import frc.team5104.util.BreakerCompressor;
-import frc.team5104.util.Controller;
+import frc.team5104.util.BreakerController;
 import frc.team5104.util.WebappTuner;
 import frc.team5104.util.managers.StateMachineManager;
 import frc.team5104.util.managers.SubsystemManager;
@@ -67,5 +67,5 @@ public class Robot extends RobotController.BreakerRobot {
 	public void testLoop() { BreakerCompressor.run(); }
 	
 	//Main
-	public void mainLoop() { Controller.handle(); }
+	public void mainLoop() { BreakerController.update(); }
 }
