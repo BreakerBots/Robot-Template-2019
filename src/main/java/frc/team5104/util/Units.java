@@ -1,12 +1,11 @@
 /* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
-/**
- * Some basic unit conversions
- */
+/** Some basic unit conversions */
 public class Units {
-	public static double diameterToCircumfrance(double diameter) {
-		return diameter * Math.PI;
+	//Talons
+	public static double encoderTicksToDegrees(int ticks) {
+		return ticks / 4096.0 * 360.0;
 	}
 	
 	// Feet and Inches

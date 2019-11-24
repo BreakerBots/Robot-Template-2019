@@ -140,8 +140,9 @@ public class BreakerController {
 			return false;
 		}
 		/** Returns an alternative trigger depending on button type.
-		    Normal returns button released action. Hold returns nothing.
-		    Double Click returns if the double click was killed off with only 1 button pressed (event).*/
+		     - Normal: returns button released action. 
+		     - Hold: returns nothing.
+		     - Double Click: returns if the double click was killed off with only 1 button pressed (event).*/
 		public boolean getAlt() {
 			if (buttonType == ButtonType.NORMAL)
 				return released;
@@ -160,7 +161,7 @@ public class BreakerController {
 		}
 		
 		//Slots
-		public static int
+		public static final int
 		A = 1,
 		B = 2,
 		X = 3,
@@ -198,6 +199,7 @@ public class BreakerController {
 			this.port = port;
 			this.slot = slot;
 			this.deadband = deadband == null ? new Deadband() : deadband;
+			this.curve = curve;
 			this.reversed = reversed;
 		}
 		
@@ -214,8 +216,14 @@ public class BreakerController {
 			return 0;
 		}
 		
+		//Settings
+		public void changeCurveX1(double x1) {
+			if (curve != null)
+				curve.x1 = x1;
+		}
+		
 		//Slots
-		public static int 
+		public static final int 
 		LEFT_JOYSTICK_X = 0, 
 		LEFT_JOYSTICK_Y = 1, 
 		LEFT_TRIGGER = 2, 

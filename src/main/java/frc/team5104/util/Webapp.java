@@ -23,7 +23,6 @@ public class Webapp {
 
 	public static boolean run() {
 		try {
-			
 			File dir = new File(getBaseUrl());
 			if (dir.exists() == false) {
 				console.log(c.WEBAPP, "Webapp not on roboRio. Please deploy the webapp using `webapp deploy`");

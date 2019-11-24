@@ -11,7 +11,7 @@ public class DriveController extends TeleopController {
 
 	protected void update() {
 		double forward = Controls.DRIVE_FORWARD.get() - Controls.DRIVE_REVERSE.get();
-		Controls.DRIVE_TURN.curve.x1 = DriveHelper.getTurnAdjust(forward);
+		Controls.DRIVE_TURN.changeCurveX1(DriveHelper.getTurnAdjust(forward));
 		double turn = Controls.DRIVE_TURN.get();
 		Drive.set(DriveHelper.get(turn, forward, true));
 	}
