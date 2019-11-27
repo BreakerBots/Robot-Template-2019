@@ -13,8 +13,8 @@ public class DriveHelper {
 	private static final double LEFT_ACCOUNT_FORWARD  = 1.000;
 	private static final double LEFT_ACCOUNT_REVERSE  = 1.000;
 	
-	private static final double MIN_SPEED_HIGH_GEAR_FORWARD = 1.00/12.0; //percent
-	private static final double MIN_SPEED_HIGH_GEAR_TURN = 1.5/12.0;
+	private static final double MIN_SPEED_HIGH_GEAR_FORWARD = 1.75/12.0; //percent
+	private static final double MIN_SPEED_HIGH_GEAR_TURN = 3.3/12.0;
 	private static final double MIN_SPEED_LOW_GEAR_FORWARD = 0;
 	private static final double MIN_SPEED_LOW_GEAR_TURN = 0;
 	

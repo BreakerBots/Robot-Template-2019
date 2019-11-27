@@ -63,10 +63,11 @@ public class BreakerTrajectoryFollower {
 		right = ((-Constants.DRIVE_WHEEL_BASE_WIDTH * w) / 2 + v);
 
 		//Go to the next index
-		trajectoryIndex += 1;
+		trajectoryIndex++;
 	   
-		return new DriveSignal(
-				left, right, true
+		return new DriveSignal (
+				left, right, true, DriveUnit.feetPerSecond,
+				((Constants.DRIVE_KS + (Constants.DRIVE_KV * current.velocity) + (Constants.DRIVE_KA * current.acceleration))) / 12.0
 			);
 	}
 

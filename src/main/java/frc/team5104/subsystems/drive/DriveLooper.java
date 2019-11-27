@@ -21,7 +21,8 @@ class DriveLooper extends Subsystem.Looper {
 				Drive._interface.set(
 						currentDriveSignal.leftSpeed, 
 						currentDriveSignal.rightSpeed, 
-						ControlMode.PercentOutput
+						ControlMode.PercentOutput,
+						currentDriveSignal.feedForward
 					);
 				break;
 			}
@@ -29,7 +30,8 @@ class DriveLooper extends Subsystem.Looper {
 				Drive._interface.set(
 						DriveUnits.feetPerSecondToTalonVel(currentDriveSignal.leftSpeed), 
 						DriveUnits.feetPerSecondToTalonVel(currentDriveSignal.rightSpeed), 
-						ControlMode.Velocity
+						ControlMode.Velocity,
+						currentDriveSignal.feedForward
 					);
 				break;
 			}
@@ -37,7 +39,8 @@ class DriveLooper extends Subsystem.Looper {
 				Drive._interface.set(
 						currentDriveSignal.leftSpeed / Drive._interface.getLeftGearboxVoltage(),
 						currentDriveSignal.rightSpeed / Drive._interface.getRightGearboxVoltage(),
-						ControlMode.PercentOutput
+						ControlMode.PercentOutput,
+						currentDriveSignal.feedForward
 					);
 				break;
 			}

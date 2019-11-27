@@ -3,6 +3,8 @@ package frc.team5104.subsystems.drive;
 
 import frc.team5104.subsystems.drive.DriveObjects.DriveEncoders;
 import frc.team5104.subsystems.drive.DriveObjects.DriveSignal;
+import frc.team5104.subsystems.drive.DriveObjects.DriveUnits;
+import frc.team5104.util.WebappTuner.tunerOutput;
 import frc.team5104.util.managers.Subsystem;
 import frc.team5104.util.managers.Subsystem.Interface;
 import frc.team5104.util.managers.Subsystem.Looper;
@@ -19,6 +21,10 @@ public class Drive extends Subsystem.Actions {
 	public static void set(DriveSignal signal) { _looper.setDriveSignal(signal); }
 	public static void stop() { _looper.setDriveSignal(new DriveSignal()); }
 	
+	@tunerOutput
+	public static double getLeftEncoderFPS() { return DriveUnits.wheelRevolutionsToFeet(getEncoders().leftVelocityRevs); }
+	@tunerOutput
+	public static double getRightEncoderFPS() { return DriveUnits.wheelRevolutionsToFeet(getEncoders().rightVelocityRevs); }
 	public static DriveEncoders getEncoders() { return _interface.getEncoders(); }
 	public static void resetEncoders() { _interface.resetEncoders(); }
 	

@@ -27,37 +27,31 @@ public class BreakerTrajectoryGenerator {
 	 * @return A Trajectory to follow those waypoints
 	 */
 	public static Trajectory getTrajectory(TrajectoryWaypoint[] points) {
-//		try {
-			//Parse trajectory name
-			String s = "";
-	    	for (TrajectoryWaypoint p : points) {
-	    		s += (Double.toString(p.x) + "/" + Double.toString(p.y) + "/" + Double.toString(p.theta));
-	    	}
-	    	s = "_" + s.hashCode();
-	    	
-	    	//Read file
-	    	console.log(c.AUTO, "Looking for Similar Cached Trajectory Under " + s);
-	    	Trajectory t = readFile(s);
-	    	
-	    	//If the file does not exist, generate a path and save
-	    	if (t == null) {
-	    		console.log(c.AUTO, "No Similar Cached Trajectory Found => Generating Path");
-	    		console.sets.create("MPGEN");
-	    		t = TrajectoryGenerator.generate(points, 
-	    				Constants.AUTO_MAX_VELOCITY,
-	    				Constants.AUTO_MAX_ACCEL,
-	    				Constants.AUTO_MAX_JERK,
-	    				Constants.AUTO_LOOP_SPEED
-	    			);
-	    		writeFile(s, t);
-	    		console.log(c.AUTO, "Trajectory Generation Took " + console.sets.getTime("MPGEN") + "s");
-	    	}
-	    	return t;
-//		}
-//		catch (Exception e) {
-//			console.error(e);
-//			return null;
-//		}
+		//Parse trajectory name
+		String trajectoryName = "" + Constants.AUTO_MAX_VELOCITY + Constants.AUTO_MAX_ACCEL + Constants.AUTO_MAX_JERK + Constants.AUTO_LOOP_SPEED;
+    	for (TrajectoryWaypoint p : points) {
+    		trajectoryName += (Double.toString(p.x) + "/" + Double.toString(p.y) + "/" + Double.toString(p.theta));
+    	}
+    	trajectoryName = "_" + trajectoryName.hashCode();
+    	
+    	//Read file
+    	console.log(c.AUTO, "Looking for Similar Cached Trajectory Under " + trajectoryName);
+    	Trajectory trajectory = readFile(trajectoryName);
+    	
+    	//If the file does not exist, generate a path and save
+    	if (trajectory == null) {
+    		console.log(c.AUTO, "No Similar Cached Trajectory Found => Generating Path");
+    		console.sets.create("MPGEN");
+    		trajectory = TrajectoryGenerator.generate(points, 
+    				Constants.AUTO_MAX_VELOCITY,
+    				Constants.AUTO_MAX_ACCEL,
+    				Constants.AUTO_MAX_JERK,
+    				1.0 / Constants.AUTO_LOOP_SPEED
+    			);
+    		writeFile(trajectoryName, trajectory);
+    		console.log(c.AUTO, "Trajectory Generation Took " + console.sets.getTime("MPGEN") + "s");
+    	}
+    	return trajectory;
 	}
 	
 	/**
@@ -76,13 +70,10 @@ public class BreakerTrajectoryGenerator {
 		catch (Exception e) { return null; }
 	}
 	
-	/**
-	 * Writes the path to a new file
-	 */
+	/** Writes the path to a new file */
 	private static void writeFile(String name, Trajectory t) {
 		try {
 			File directory = new File(cacheDirectory);
-			console.log("exists: " + directory.exists());
 			if (!directory.exists()) {
 				console.log("missing dir, making");
 				directory.mkdir();

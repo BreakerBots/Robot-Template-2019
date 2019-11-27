@@ -2,7 +2,9 @@
 package frc.team5104.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import frc.team5104.main.Constants;
 import frc.team5104.subsystems.drive.DriveObjects.DriveEncoders;
@@ -17,11 +19,12 @@ class DriveInterface extends Subsystem.Interface {
 	private TalonSRX talonR1 = new TalonSRX(13);
 	private TalonSRX talonR2 = new TalonSRX(14);
 	//private DoubleSolenoid shifter = new DoubleSolenoid(Ports.DRIVE_SHIFTER_FORWARD, Ports.DRIVE_SHIFTER_REVERSE);
+	private PigeonIMU gyro = new PigeonIMU(talonR2);
 	
 	//Functions
-	void set(double leftSpeed, double rightSpeed, ControlMode controlMode) {
-		talonL1.set(controlMode, leftSpeed);
-		talonR1.set(controlMode, rightSpeed);
+	void set(double leftSpeed, double rightSpeed, ControlMode controlMode, double feedForward) {
+		talonL1.set(controlMode, leftSpeed, DemandType.ArbitraryFeedForward, feedForward);
+		talonR1.set(controlMode, rightSpeed, DemandType.ArbitraryFeedForward, feedForward);
 	}
 	void stop() {
 		talonL1.set(ControlMode.Disabled, 0);
@@ -33,8 +36,12 @@ class DriveInterface extends Subsystem.Interface {
 	double getLeftGearboxOutputVoltage() { return talonL1.getMotorOutputVoltage(); }
 	double getRightGearboxOutputVoltage() { return talonR1.getMotorOutputVoltage(); }
 
-	void resetGyro() { /*?*/ }
-	double getGyro() { return -1; }
+	void resetGyro() { gyro.addYaw(getGyro()); }
+	double getGyro() {
+		double[] ypr = new double[3];
+		gyro.getYawPitchRoll(ypr); 
+		return -ypr[0];
+	}
 
 	void resetEncoders() {
 		talonL1.setSelectedSensorPosition(0);
@@ -60,24 +67,22 @@ class DriveInterface extends Subsystem.Interface {
 	protected void init() {
 		talonL1.configFactoryDefault();
 		talonL2.configFactoryDefault();
-		talonL1.configAllowableClosedloopError(0, 0, 10);
-		talonL1.config_kP(0, Constants.DRIVE_KP, 10);
-		talonL1.config_kI(0, Constants.DRIVE_KI, 10);
-		talonL1.config_kD(0, Constants.DRIVE_KD, 10);
-		talonL1.config_kF(0, Constants.DRIVE_KF, 10);
+		talonL1.config_kP(0, Constants.DRIVE_KP, 0);
+		talonL1.config_kI(0, Constants.DRIVE_KI, 0);
+		talonL1.config_kD(0, Constants.DRIVE_KD, 0);
+		talonL1.config_kF(0, 0, 0);
 		talonL2.set(ControlMode.Follower, talonL1.getDeviceID());
 		talonL1.setInverted(true);
 		talonL2.setInverted(true);
 		
 		talonR1.configFactoryDefault();
 		talonR2.configFactoryDefault();
-		talonR1.configAllowableClosedloopError(0, 0, 10);
-		talonR1.config_kP(0, Constants.DRIVE_KP, 10);
-		talonR1.config_kI(0, Constants.DRIVE_KI, 10);
-		talonR1.config_kD(0, Constants.DRIVE_KD, 10);
-		talonR1.config_kF(0, Constants.DRIVE_KF, 10);
+		talonR1.config_kP(0, Constants.DRIVE_KP, 0);
+		talonR1.config_kI(0, Constants.DRIVE_KI, 0);
+		talonR1.config_kD(0, Constants.DRIVE_KD, 0);
+		talonR1.config_kF(0, 0, 0);
 		talonR2.set(ControlMode.Follower, talonR1.getDeviceID());
-        
+		
 		stop();
 		resetGyro();
 		resetEncoders();

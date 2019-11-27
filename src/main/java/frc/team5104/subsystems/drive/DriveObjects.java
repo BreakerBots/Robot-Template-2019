@@ -9,6 +9,7 @@ public class DriveObjects {
 		// Robot Drive Signal Variables
 		public double leftSpeed;
 		public double rightSpeed;
+		public double feedForward;
 		public boolean isHighGear;
 		public DriveUnit unit;
 		
@@ -25,9 +26,14 @@ public class DriveObjects {
 		}
 		
 		public DriveSignal(double leftSpeed, double rightSpeed, boolean isHighGear, DriveUnit unit) {
+			this(leftSpeed, rightSpeed, isHighGear, unit, 0);
+		}
+		
+		public DriveSignal(double leftSpeed, double rightSpeed, boolean isHighGear, DriveUnit unit, double feedForward) {
 			this.leftSpeed = leftSpeed;
 			this.rightSpeed = rightSpeed;
 			this.unit = unit;
+			this.feedForward = feedForward;
 			this.isHighGear = isHighGear;
 		}
 		

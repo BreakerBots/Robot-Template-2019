@@ -27,7 +27,7 @@ public class DriveTrajectoryAction extends AutoPathAction {
     	console.log(c.AUTO, "Running Trajectory");
     	
     	//Reset Odometry and Get Path (Reset it twice to make sure it all good)
-    	follower = new BreakerTrajectoryFollower( BreakerTrajectoryGenerator.getTrajectory(waypoints) );
+    	follower = new BreakerTrajectoryFollower(BreakerTrajectoryGenerator.getTrajectory(waypoints));
 		Odometry.reset();
 		
 		//Wait 100ms for Device Catchup

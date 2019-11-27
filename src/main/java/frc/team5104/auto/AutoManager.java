@@ -34,12 +34,13 @@ public class AutoManager {
 	public static void setTargetPath(AutoPath path) { targetPath = path; }
 	
 	public static void run() {
-		if (_thread == null) init();
+		init();
 		_thread.startPeriodic(1.0 / Constants.AUTO_LOOP_SPEED);
 	}
 	
 	public static void stop() {
-		if (_thread != null) _thread.stop();
+		if (_thread != null) 
+			_thread.stop();
 		_thread = null;
 		pathScheduler = null;
 	}
