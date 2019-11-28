@@ -17,14 +17,14 @@ public class SubsystemManager {
 		targetSubsystems = availableSubsystems;
 
 		//Initialize Subsystem's Interface & Print out target subsystems
-		String printOut = "Running Subsystems: ";
+		String message = "Running Subsystems: ";
 		for (Subsystem.Actions subsystem : targetSubsystems) {
 			try {
 				subsystem.getInterface().init();
-				printOut += subsystem.getName() + " ";
+				message += subsystem.getName() + ", ";
 			} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
 		}
-		console.log(c.MAIN, t.INFO, printOut);
+		console.log(c.MAIN, t.INFO, message.substring(0, message.length()-2));
 	}
 	
 	/** Call when the robot becomes enabled */

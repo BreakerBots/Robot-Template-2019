@@ -10,8 +10,7 @@ import frc.team5104.statemachines.ExampleStatemachine;
 import frc.team5104.subsystems.drive.Drive;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.teleop.DriveController;
-import frc.team5104.util.BreakerCompressor;
-import frc.team5104.util.BreakerController;
+import frc.team5104.util.XboxController;
 import frc.team5104.util.WebappTuner;
 import frc.team5104.util.managers.StateMachineManager;
 import frc.team5104.util.managers.SubsystemManager;
@@ -36,7 +35,6 @@ public class Robot extends RobotController.BreakerRobot {
 		Webapp.run();
 		Odometry.run();
 		AutoManager.setTargetPath(new ExamplePath());
-		BreakerCompressor.stop();
 		//Limelight.init();
 		//Cameras.init();
 		
@@ -50,22 +48,22 @@ public class Robot extends RobotController.BreakerRobot {
 		else { TeleopControllerManager.enabled(); }
 		StateMachineManager.enabled();
 		SubsystemManager.enabled();
-		BreakerCompressor.stop();
+		CompressorController.stop();
 	}
 	public void teleopStop() {
 		StateMachineManager.enabled();
 		SubsystemManager.disabled();
 	}
 	public void teleopLoop() {
-		if (RobotState.isSandstorm()) { BreakerCompressor.stop(); }
+		if (RobotState.isSandstorm()) { CompressorController.stop(); }
 		else { TeleopControllerManager.update(); }
 		StateMachineManager.update();
 		SubsystemManager.update();
 	}
 	
 	//Test
-	public void testLoop() { BreakerCompressor.run(); }
+	public void testLoop() { CompressorController.start(); }
 	
 	//Main
-	public void mainLoop() { BreakerController.update(); }
+	public void mainLoop() { XboxController.update(); }
 }

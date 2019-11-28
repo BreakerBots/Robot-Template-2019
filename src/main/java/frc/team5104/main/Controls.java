@@ -2,14 +2,14 @@
 package frc.team5104.main;
 
 import frc.team5104.util.BezierCurve;
-import frc.team5104.util.BreakerController;
-import frc.team5104.util.BreakerController.Axis;
-import frc.team5104.util.BreakerController.Button;
+import frc.team5104.util.XboxController;
+import frc.team5104.util.XboxController.Axis;
+import frc.team5104.util.XboxController.Button;
 import frc.team5104.util.Deadband;
 
 /** All the controls for the robot */
 public class Controls {
-	public static BreakerController driver = BreakerController.create(0);
+	public static XboxController driver = XboxController.create(0);
 	
 	//Drive (used in DriveController)
 	public static final Axis DRIVE_TURN = driver.getAxis(Axis.LEFT_JOYSTICK_X, new Deadband(0.08), new BezierCurve(0.15, 0.7, 0.8, 0.225));

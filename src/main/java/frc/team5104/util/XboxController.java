@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.team5104.util.BreakerController.Button.ButtonType;
+import frc.team5104.util.XboxController.Button.ButtonType;
 import frc.team5104.util.console.c;
 
-public class BreakerController {
-	private static ArrayList<BreakerController> controllers = new ArrayList<BreakerController>();
+public class XboxController {
+	private static ArrayList<XboxController> controllers = new ArrayList<XboxController>();
 	private int port;
 	private ArrayList<Button> buttons = new ArrayList<Button>();
 	private ArrayList<Axis> axises = new ArrayList<Axis>();
@@ -17,23 +17,23 @@ public class BreakerController {
 	private boolean hasSentDisconnectMessage = false;
 	
 	//Contructors
-	public static BreakerController create(int port) {
-		for (BreakerController controller : controllers)
+	public static XboxController create(int port) {
+		for (XboxController controller : controllers)
 			if (controller.port == port) {
 				console.error(c.MAIN, "controller on port " + port + " already declared!");
 				return null;
 			}
 		
-		return new BreakerController(port);
+		return new XboxController(port);
 	}
-	BreakerController(int port) {
+	XboxController(int port) {
 		this.port = port;
 		controllers.add(this);
 	}
 	
 	//Update
 	public static void update() {
-		for (BreakerController controller : controllers) {
+		for (XboxController controller : controllers) {
 			for (Button button : controller.buttons)
 				button.update();
 			if (controller.activeRumble != null)
@@ -260,7 +260,7 @@ public class BreakerController {
 			setRumble(on);
 			
 			if (System.currentTimeMillis() > startTime + timeoutMs) {
-				for (BreakerController controller : controllers)
+				for (XboxController controller : controllers)
 					if (controller.port == port) controller.activeRumble = null;
 			}
 		}
@@ -275,7 +275,7 @@ public class BreakerController {
 
 		public void start() {
 			startTime = System.currentTimeMillis();
-			for (BreakerController controller : controllers)
+			for (XboxController controller : controllers)
 				if (controller.port == port) controller.activeRumble = this;
 		}
 	}

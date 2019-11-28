@@ -16,11 +16,11 @@ public class TeleopControllerManager {
 		targetTeleopControllers = teleopControllers;
 		
 		//Print out
-		String printOut = "Running Teleop Controllers: ";
+		String message = "Running Teleop Controllers: ";
 		for (TeleopController teleopController : teleopControllers) {
-			printOut += teleopController.getName() + " ";
+			message += teleopController.getName() + ", ";
 		}
-		console.log(c.MAIN, t.INFO, printOut);
+		console.log(c.MAIN, t.INFO, message.substring(0, message.length()-2));
 	}
 	
 	/** Call periodically when the robot is enabled (and wants teleoperation) */
