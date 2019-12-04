@@ -20,7 +20,4 @@ public class Controls {
 	
 	//Compressor
 	public static final Button COMPRESSOR_TOGGLE = driver.getButton(Button.MENU);
-	
-	//Superstructure
-	
 }
