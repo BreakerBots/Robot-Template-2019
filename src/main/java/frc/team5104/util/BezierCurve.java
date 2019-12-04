@@ -23,7 +23,7 @@ public class BezierCurve {
 		double x3 = 1.0;
 		double y3 = 1.0;
 		x = (1-x);
-		x = 1 - ( ((1-x) * getP(x, x0, x1, x2)) + (x * getP(x, x1, x2, x3)) );
+		x = 1 - (((1-x) * getP(x, x0, x1, x2)) + (x * getP(x, x1, x2, x3)));
 		x =	( ((1-x) * getP(x, y0, y1, y2)) + (x * getP(x, y1, y2, y3)) );
 		return x * (tn ? -1 : 1);
 	}

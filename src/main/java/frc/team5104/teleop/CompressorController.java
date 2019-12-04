@@ -2,7 +2,7 @@
 package frc.team5104.teleop;
 
 import edu.wpi.first.wpilibj.Compressor;
-import frc.team5104.main.Controls;
+import frc.team5104.Controls;
 import frc.team5104.util.managers.TeleopController;
 
 public class CompressorController extends TeleopController {
@@ -16,6 +16,10 @@ public class CompressorController extends TeleopController {
 				stop();
 			else start();
 		}
+	}
+	
+	protected void enabled() {
+		stop();
 	}
 	
 	public static void stop() {

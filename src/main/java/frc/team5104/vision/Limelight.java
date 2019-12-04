@@ -1,4 +1,3 @@
-/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.vision;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -6,7 +5,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
-import frc.team5104.util.WebappTuner.tunerOutput;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
@@ -27,9 +25,7 @@ public class Limelight {
 		else return defaultValue;
 	}
 
-	@tunerOutput
 	public static double getTargetX() { return getDouble("tx", 5104); }
-	@tunerOutput
 	public static double getTargetY() { return getDouble("ty", 5104); }
 	public static boolean hasTarget() { return getDouble("tv", 0) == 1; }
 	public static boolean isConnected() { return getDouble("tl", 0) != 0.0; }

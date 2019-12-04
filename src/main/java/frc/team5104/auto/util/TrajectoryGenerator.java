@@ -37,7 +37,7 @@ public class TrajectoryGenerator {
 	 * @param maxJerk The max jerk (ft/s/s/s) in the trajectory
 	 * @param deltaTime The time between each loop. (1/loopHz)
 	 */
-	public static Trajectory generate(TrajectoryWaypoint[] waypoints, double maxVelocity, double maxAcceleration, double maxJerk, double deltaTime) {
+	public static Trajectory generate(FieldPosition[] waypoints, double maxVelocity, double maxAcceleration, double maxJerk, double deltaTime) {
 		if (waypoints.length < 2) {
 			console.error("Not Enough Waypoints!");
 			return null;

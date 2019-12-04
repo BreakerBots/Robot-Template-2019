@@ -9,4 +9,6 @@ public abstract class TeleopController {
 	protected abstract void update();
 	/** Called once the robot becomes enabled */
 	protected void enabled() {  }
+	/** Called once the robot becomes disabled */
+	protected void disabled() {  }
 }

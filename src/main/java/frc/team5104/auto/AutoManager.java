@@ -2,11 +2,11 @@
 package frc.team5104.auto;
 
 import edu.wpi.first.wpilibj.Notifier;
+import frc.team5104.Constants;
 import frc.team5104.auto.util.AutoPath;
-import frc.team5104.main.Constants;
-import frc.team5104.main.setup.RobotState;
 import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
+import frc.team5104.util.setup.RobotState;
 
 /** Basically just handles a separate thread for autonomous. The path is updated in "AutoPathScheduler" */
 public class AutoManager {
@@ -26,7 +26,7 @@ public class AutoManager {
 			}
 			else {
 				//stop
-				_thread.stop();
+				stop();
 			}
 		} catch (Exception e) { CrashLogger.logCrash(new Crash("auto", e)); }});
 	}

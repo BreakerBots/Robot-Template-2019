@@ -1,5 +1,5 @@
 /* BreakerBots Robotics Team (FRC 5104) 2020 */
-package frc.team5104.auto;
+package frc.team5104.auto.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,29 +7,26 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import frc.team5104.auto.util.Trajectory;
-import frc.team5104.auto.util.TrajectoryGenerator;
-import frc.team5104.auto.util.TrajectoryWaypoint;
-import frc.team5104.main.Constants;
+import frc.team5104.Constants;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
 /**
- * 
+ * Reads from and saves cached trajectories.
  */
-public class BreakerTrajectoryGenerator {
+public class TrajectoryCacher {
 	private static final String cacheDirectory = "/home/lvuser/TrajectoryCache/";
 	
 	/**
-	 * Will either return a cached version of a Trajectory under those points (~500ms)
+	 * Will either return a cached version of a Trajectory under those points (~50ms)
 	 * or will Generate a Trajectory a cache it (~5000ms - ~15000ms)
 	 * @param points Waypoints to generate the trajectory from
 	 * @return A Trajectory to follow those waypoints
 	 */
-	public static Trajectory getTrajectory(TrajectoryWaypoint[] points) {
+	public static Trajectory getTrajectory(FieldPosition[] points) {
 		//Parse trajectory name
 		String trajectoryName = "" + Constants.AUTO_MAX_VELOCITY + Constants.AUTO_MAX_ACCEL + Constants.AUTO_MAX_JERK + Constants.AUTO_LOOP_SPEED;
-    	for (TrajectoryWaypoint p : points) {
+    	for (FieldPosition p : points) {
     		trajectoryName += (Double.toString(p.x) + "/" + Double.toString(p.y) + "/" + Double.toString(p.theta));
     	}
     	trajectoryName = "_" + trajectoryName.hashCode();

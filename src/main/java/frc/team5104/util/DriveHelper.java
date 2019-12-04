@@ -1,8 +1,7 @@
 /* BreakerBots Robotics Team (FRC 5104) 2020 */
-package frc.team5104.subsystems.drive;
+package frc.team5104.util;
 
-import frc.team5104.subsystems.drive.DriveObjects.DriveSignal;
-import frc.team5104.subsystems.drive.DriveObjects.DriveUnit;
+import frc.team5104.util.DriveSignal.DriveUnit;
 
 /** A class for better handling of the robot's drive train (PLAZZZ MAKE BETTEER) */
 public class DriveHelper {
@@ -32,7 +31,7 @@ public class DriveHelper {
 		DriveSignal signal = new DriveSignal(
 			(forward + turn) * 12,
 			(forward - turn) * 12,
-			inHighGear, DriveUnit.voltage
+			inHighGear, DriveUnit.VOLTAGE
 		);
 		signal = applyDriveStraight(signal);
 		signal = applyMotorMinSpeed(signal, inHighGear);

@@ -1,20 +1,23 @@
-/* BreakerBots Robotics Team (FRC 5104) 2020 */
-package frc.team5104.main;
+/*BreakerBots Robotics Team 2019*/
+package frc.team5104;
 
+import frc.team5104.Superstructure.SystemState;
 import frc.team5104.auto.AutoManager;
 import frc.team5104.auto.paths.ExamplePath;
 import frc.team5104.auto.util.Odometry;
-import frc.team5104.main.setup.RobotController;
-import frc.team5104.main.setup.RobotState;
-import frc.team5104.statemachines.ExampleStatemachine;
-import frc.team5104.subsystems.drive.Drive;
+import frc.team5104.subsystems.Drive;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.teleop.DriveController;
-import frc.team5104.util.XboxController;
+import frc.team5104.teleop.SuperstructureController;
 import frc.team5104.util.WebappTuner;
-import frc.team5104.util.managers.StateMachineManager;
+import frc.team5104.util.XboxController;
+import frc.team5104.util.console;
 import frc.team5104.util.managers.SubsystemManager;
 import frc.team5104.util.managers.TeleopControllerManager;
+import frc.team5104.util.setup.RobotController;
+import frc.team5104.util.setup.RobotState;
+import frc.team5104.vision.Limelight;
+import frc.team5104.vision.VisionManager;
 import frc.team5104.util.Webapp;
 
 public class Robot extends RobotController.BreakerRobot {
@@ -23,47 +26,54 @@ public class Robot extends RobotController.BreakerRobot {
 		SubsystemManager.useSubsystems(
 			new Drive()
 		);
-		StateMachineManager.useStateMachines(
-			new ExampleStatemachine()
-		);
 		TeleopControllerManager.useTeleopControllers(
 			new DriveController(),
+			new SuperstructureController(),
 			new CompressorController()
 		);
 		
 		//Other Initialization
 		Webapp.run();
 		Odometry.run();
+		Limelight.init();
+		CompressorController.stop();
 		AutoManager.setTargetPath(new ExamplePath());
-		//Limelight.init();
-		//Cameras.init();
-		
-		//Debug Subsystems
-		WebappTuner.init();
+		WebappTuner.init(VisionManager.class);
 	}
 	
 	//Teleop (includes sandstorm)
 	public void teleopStart() {
+		console.logFile.start();
 		if (RobotState.isSandstorm()) { Odometry.reset(); AutoManager.run(); }
 		else { TeleopControllerManager.enabled(); }
-		StateMachineManager.enabled();
+		TeleopControllerManager.enabled();
+		Superstructure.enabled();
 		SubsystemManager.enabled();
-		CompressorController.stop();
 	}
 	public void teleopStop() {
-		StateMachineManager.enabled();
+		if (RobotState.isSandstorm()) { AutoManager.stop(); }
+		else { TeleopControllerManager.disabled(); }
+		Superstructure.enabled();
 		SubsystemManager.disabled();
+		console.logFile.end();
 	}
 	public void teleopLoop() {
 		if (RobotState.isSandstorm()) { CompressorController.stop(); }
 		else { TeleopControllerManager.update(); }
-		StateMachineManager.update();
+		Superstructure.update();
 		SubsystemManager.update();
 	}
 	
 	//Test
-	public void testLoop() { CompressorController.start(); }
+	public void testLoop() {
+		Superstructure.setSystemState(SystemState.DISABLED);
+		Drive.stop();
+		SubsystemManager.update();
+		CompressorController.start(); 
+	}
 	
 	//Main
-	public void mainLoop() { XboxController.update(); }
+	public void mainLoop() { 
+		XboxController.update(); 
+	}
 }

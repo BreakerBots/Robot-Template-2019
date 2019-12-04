@@ -27,7 +27,6 @@ public class TeleopControllerManager {
 	public static void update() {
 		for (TeleopController teleopController : targetTeleopControllers) {
 			try {
-				//Call teleop controller function
 				teleopController.update();
 			} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
 		}
@@ -37,8 +36,15 @@ public class TeleopControllerManager {
 	public static void enabled() {
 		for (TeleopController teleopController : targetTeleopControllers) {
 			try {
-				//Call teleop controller function
 				teleopController.enabled();
+			} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
+		}
+	}
+
+	public static void disabled() {
+		for (TeleopController teleopController : targetTeleopControllers) {
+			try {
+				teleopController.disabled();
 			} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
 		}
 	}

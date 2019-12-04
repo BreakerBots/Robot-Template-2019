@@ -1,28 +1,26 @@
-/* BreakerBots Robotics Team (FRC 5104) 2020 */
-package frc.team5104.main.setup;
+/*BreakerBots Robotics Team 2019*/
+package frc.team5104.util.setup;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import frc.team5104.main.Robot;
-import frc.team5104.main.Constants;
-import frc.team5104.main.setup.RobotState.RobotMode;
+import frc.team5104.Constants;
+import frc.team5104.Robot;
 import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import frc.team5104.util.console.t;
+import frc.team5104.util.setup.RobotState.RobotMode;
 
 public class RobotController extends RobotBase {
 	//Modes
 	private RobotMode lastMode = RobotMode.Disabled;
 	private BreakerRobot robot;
 	private RobotState state = RobotState.getInstance();
-	private final double loopPeriod = 20; //50hz
+	private final double loopPeriod = 20;
 	
 	//Init Robot
 	public void startCompetition() {
@@ -35,7 +33,6 @@ public class RobotController extends RobotBase {
 		
 		HAL.observeUserProgramStarting();
 		
-		console.log(c.MAIN, "Devices Created and Seth Proofed");
 		console.sets.log(c.MAIN, t.INFO, "RobotInit", "Initialization took ");
 		
 		//Main Loop
@@ -85,8 +82,6 @@ public class RobotController extends RobotBase {
 					
 					robot.teleopLoop();
 					HAL.observeUserProgramTeleop();
-					
-					state.gotDriverStationResponse = DriverStation.getInstance().waitForData(0.2);
 				} catch (Exception e) {
 					CrashLogger.logCrash(new Crash("main", e));
 				}
@@ -138,7 +133,6 @@ public class RobotController extends RobotBase {
 					console.logFile.start();
 					robot.mainEnabled();
 				}
-				LiveWindow.setEnabled(state.currentMode == RobotMode.Disabled);
 				lastMode = state.currentMode;
 			}
 		} catch (Exception e) {
@@ -151,9 +145,6 @@ public class RobotController extends RobotBase {
 		} catch (Exception e) {
 			CrashLogger.logCrash(new Crash("main", e));
 		}
-		
-		//Update Live Window
-		LiveWindow.updateValues();
 	}
 	
 	//Child Class

@@ -35,13 +35,8 @@ public class TrajectorySpline {
 		arc_length_ = -1;
 	}
 
-	@SuppressWarnings("unused")
-	private static boolean almostEqual(double x, double y) {
-		return Math.abs(x - y) < 1E-6;
-	}
-
-	public static boolean reticulateSplines(TrajectoryWaypoint start, TrajectoryWaypoint goal, TrajectorySpline result, Type type) {
-		return reticulateSplines(start.x, start.y, start.theta, goal.x, goal.y, goal.theta, result, type);
+	public static boolean reticulateSplines(FieldPosition start, FieldPosition goal, TrajectorySpline result, Type type) {
+		return reticulateSplines(start.y, start.x, start.theta, goal.y, goal.x, goal.theta, result, type);
 	}
 	public static boolean reticulateSplines(double x0, double y0, double theta0, double x1, double y1, double theta1, TrajectorySpline result, Type type) {
 		result.type_ = type;

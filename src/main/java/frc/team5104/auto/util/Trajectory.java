@@ -12,15 +12,11 @@ public class Trajectory implements Serializable {
 	TrajectorySegment[] segments_;
 	
 	//Constructors
-	/**
-	 * Creates a trajectory from an array of segments.
-	 */
+	/** Creates a trajectory from an array of segments. */
 	public Trajectory(TrajectorySegment[] segments) {
 		segments_ = segments;
 	}
-	/**
-	 * Creates a empty trajectory of a certain length.
-	 */
+	/** Creates a empty trajectory of a certain length. */
 	public Trajectory(int length) {
 		if (length < Integer.MAX_VALUE-6) {
 			segments_ = new TrajectorySegment[length];
