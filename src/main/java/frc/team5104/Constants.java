@@ -7,13 +7,12 @@ public class Constants {
 	public static final boolean OVERWRITE_MATCH_LOGS = false;
 	public static final int MAIN_LOOP_SPEED = 50;
 	public static final int AUTO_LOOP_SPEED = 100;
-	public static final String ROBOT_NAME = "High-Tide";
+	public static final String ROBOT_NAME = "Example-Robot";
 	
 	//Drive
 	public static final double DRIVE_WHEEL_DIAMETER = 6.0/12.0; //ft
 	public static final double DRIVE_TICKS_PER_REVOLUTION = 4096.0 * 3.0 * (54.0/30.0);
 	public static final double DRIVE_WHEEL_BASE_WIDTH = 25.5 / 12.0; //ft
-	public static final int DRIVE_CURRENT_LIMIT = 40; //amps
 	public static final double DRIVE_KP = 0.5;
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;

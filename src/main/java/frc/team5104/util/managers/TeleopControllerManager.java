@@ -18,7 +18,7 @@ public class TeleopControllerManager {
 		//Print out
 		String message = "Running Teleop Controllers: ";
 		for (TeleopController teleopController : teleopControllers) {
-			message += teleopController.getName() + ", ";
+			message += teleopController.getClass().getSimpleName() + ", ";
 		}
 		console.log(c.MAIN, t.INFO, message.substring(0, message.length()-2));
 	}

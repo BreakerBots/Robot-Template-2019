@@ -21,7 +21,7 @@ public class SubsystemManager {
 		for (Subsystem subsystem : targetSubsystems) {
 			try {
 				subsystem.init();
-				message += subsystem.getName() + ", ";
+				message += subsystem.getClass().getSimpleName() + ", ";
 			} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
 		}
 		console.log(c.MAIN, t.INFO, message.substring(0, message.length()-2));

@@ -12,12 +12,10 @@ import frc.team5104.util.Units;
 import frc.team5104.util.managers.Subsystem;
 
 public class Drive extends Subsystem {
-	public String getName() { return "Drive"; }
-
 	private static TalonSRX talonL1, talonL2, talonR1, talonR2;
 	private static PigeonIMU gyro;
 	
-	//Loop
+	//Update
 	private static DriveSignal currentDriveSignal = new DriveSignal();
 	public void update() {
 		switch (currentDriveSignal.unit) {
@@ -59,11 +57,11 @@ public class Drive extends Subsystem {
 	}
 	
 	//Internal Functions
-	private static void setMotors(double leftSpeed, double rightSpeed, ControlMode controlMode, double leftFeedForward, double rightFeedForward) {
+	void setMotors(double leftSpeed, double rightSpeed, ControlMode controlMode, double leftFeedForward, double rightFeedForward) {
 		talonL1.set(controlMode, leftSpeed, DemandType.ArbitraryFeedForward, leftFeedForward);
 		talonR1.set(controlMode, rightSpeed, DemandType.ArbitraryFeedForward, rightFeedForward);
 	}
-	private static void stopMotors() {
+	void stopMotors() {
 		talonL1.set(ControlMode.Disabled, 0);
 		talonR1.set(ControlMode.Disabled, 0);
 	}

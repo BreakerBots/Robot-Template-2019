@@ -27,9 +27,6 @@ public class console {
 		VISION,
 		
 		DRIVE,
-		INTAKE,
-		WRIST,
-		ELEVATOR,
 		SUPERSTRUCTURE
 		//slap ur subsystems here
 	};

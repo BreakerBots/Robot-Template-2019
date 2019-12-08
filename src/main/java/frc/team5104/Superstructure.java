@@ -8,22 +8,26 @@ package frc.team5104;
  */
 public class Superstructure {
 	//States and Variables
-	public static enum SystemState { DISABLED }
+	public static enum SystemState { DISABLED, CALIBRATING, MANUAL, AUTOMATIC }
+	public static enum Mode { IDLE /*slap ur modes here*/ }
+	/* slap da reset of ur states here */
 	private static SystemState systemState = SystemState.DISABLED;
+	private static Mode mode = Mode.IDLE;
+	/* slap da reset of ur current states here */
 	
 	//External Functions
 	public static SystemState getSystemState() { return systemState; }
-	public static void setSystemState(SystemState systemState) { 
-		Superstructure.systemState = systemState;
-	}
+	public static void setSystemState(SystemState systemState) {  Superstructure.systemState = systemState; }
+	public static Mode getMode() { return mode; }
+	public static void setMode(Mode mode) { Superstructure.mode = mode; }
+	/* slap da reset of ur getters/setters here */
 
-	//Manage States
-	static void update() {
+	//Update
+	protected static void update() {
 		
 	}
-	static void enabled() { setToDefaultStates(); }
-	static void disabled() { setToDefaultStates(); }
-	private static void setToDefaultStates() {
-		systemState = SystemState.DISABLED;
+	protected static void reset() {
+		setSystemState(SystemState.CALIBRATING); 
+		setMode(Mode.IDLE);
 	}
 }
