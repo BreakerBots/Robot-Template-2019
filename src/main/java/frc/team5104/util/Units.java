@@ -9,6 +9,9 @@ public class Units {
 	public static double encoderTicksToDegrees(int ticks) {
 		return ticks / 4096.0 * 360.0;
 	}
+	public static double degreesToEncoderTicks(int degrees) {
+		return degrees / 360.0 * 4090.0;
+	}
 	
 	// Feet and Inches
 	public static double feetToInches(double feet) {
@@ -21,12 +24,11 @@ public class Units {
 	
 	// Meters and Feet
 	public static double metersToFeet(double meters) {
-		return meters * 3.2808;
+		return meters * 3.28084;
 	}
 	public static double feetToMeters(double feet) {
 		return feet / 3.2808;
 	}
-	
 	
 	// Radians and Degrees
 	public static double degreesToRadians(double deg) {

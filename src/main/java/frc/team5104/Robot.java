@@ -34,7 +34,7 @@ public class Robot extends RobotController.BreakerRobot {
 		
 		//Other Initialization
 		Webapp.run();
-		Odometry.run();
+		Odometry.init();
 		Limelight.init();
 		CompressorController.stop();
 		AutoManager.setTargetPath(new ExamplePath());
@@ -44,7 +44,7 @@ public class Robot extends RobotController.BreakerRobot {
 	//Teleop (includes sandstorm)
 	public void teleopStart() {
 		console.logFile.start();
-		if (RobotState.isSandstorm()) { Odometry.reset(); AutoManager.run(); }
+		if (RobotState.isSandstorm()) { Odometry.resetOdometry(); AutoManager.run(); }
 		else { TeleopControllerManager.enabled(); }
 		TeleopControllerManager.enabled();
 		Superstructure.reset();
@@ -73,7 +73,5 @@ public class Robot extends RobotController.BreakerRobot {
 	}
 	
 	//Main
-	public void mainLoop() { 
-		XboxController.update(); 
-	}
+	public void mainLoop() { XboxController.update(); }
 }

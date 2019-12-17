@@ -83,6 +83,12 @@ public class Drive extends Subsystem {
 		talonL1.setSelectedSensorPosition(0);
 		talonR1.setSelectedSensorPosition(0);
 	}
+	public static double getLeftEncoderPositionMeters() {
+		return Units.feetToMeters(Units.ticksToFeet(getLeftEncoderPositionRaw()));
+	}
+	public static double getRightEncoderPositionMeters() {
+		return Units.feetToMeters(Units.ticksToFeet(getRightEncoderPositionRaw()));
+	}
 	public static int getLeftEncoderPositionRaw() {
 		return talonL1.getSelectedSensorPosition();
 	}
@@ -101,9 +107,7 @@ public class Drive extends Subsystem {
 		talonL1.configFactoryDefault();
 		talonL2.configFactoryDefault();
 		talonL1.config_kP(0, Constants.DRIVE_KP, 0);
-		talonL1.config_kI(0, Constants.DRIVE_KI, 0);
 		talonL1.config_kD(0, Constants.DRIVE_KD, 0);
-		talonL1.config_kF(0, 0, 0);
 		talonL2.set(ControlMode.Follower, talonL1.getDeviceID());
 		talonL1.setInverted(true);
 		talonL2.setInverted(true);
@@ -111,9 +115,7 @@ public class Drive extends Subsystem {
 		talonR1.configFactoryDefault();
 		talonR2.configFactoryDefault();
 		talonR1.config_kP(0, Constants.DRIVE_KP, 0);
-		talonR1.config_kI(0, Constants.DRIVE_KI, 0);
 		talonR1.config_kD(0, Constants.DRIVE_KD, 0);
-		talonR1.config_kF(0, 0, 0);
 		talonR2.set(ControlMode.Follower, talonR1.getDeviceID());
 		
 		stopMotors();

@@ -4,6 +4,7 @@ package frc.team5104.auto;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.team5104.Constants;
 import frc.team5104.auto.util.AutoPath;
+import frc.team5104.auto.util.Odometry;
 import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
 import frc.team5104.util.setup.RobotState;
@@ -19,8 +20,11 @@ public class AutoManager {
 		pathScheduler = new AutoPathScheduler(targetPath);
 		
 		//loop
-		_thread = new Notifier(() -> {try {
+		_thread = new Notifier(() -> { try {
 			if (RobotState.isSandstorm()) {
+				//update odometry
+				Odometry.update();
+				
 				//update path
 				pathScheduler.update();
 			}
