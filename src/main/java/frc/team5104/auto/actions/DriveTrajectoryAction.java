@@ -3,20 +3,10 @@ package frc.team5104.auto.actions;
 
 import java.util.Arrays;
 
+import controller.PIDController;
+import controller.RamseteController;
+import controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.team5104.Constants;
 import frc.team5104.auto.util.AutoPathAction;
 import frc.team5104.auto.util.Odometry;
@@ -26,6 +16,16 @@ import frc.team5104.util.console;
 import frc.team5104.util.DriveSignal;
 import frc.team5104.util.DriveSignal.DriveUnit;
 import frc.team5104.util.console.c;
+import geometry.Pose2d;
+import geometry.Rotation2d;
+import geometry.Translation2d;
+import kinematics.ChassisSpeeds;
+import kinematics.DifferentialDriveKinematics;
+import kinematics.DifferentialDriveWheelSpeeds;
+import trajectory.Trajectory;
+import trajectory.TrajectoryConfig;
+import trajectory.TrajectoryGenerator;
+import trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 /**
  * Follow a trajectory using the Breaker Trajectory Follower (Ramses Follower)

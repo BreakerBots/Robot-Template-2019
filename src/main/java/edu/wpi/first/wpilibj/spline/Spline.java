@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.spline;
+package spline;
 
 import java.util.Arrays;
 
 import org.ejml.simple.SimpleMatrix;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import geometry.Pose2d;
+import geometry.Rotation2d;
 
 /**
  * Represents a two-dimensional parametric spline that interpolates between two

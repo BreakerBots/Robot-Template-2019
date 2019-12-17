@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory;
+package trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
+import kinematics.DifferentialDriveKinematics;
+import trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import trajectory.constraint.TrajectoryConstraint;
 
 /**
  * Represents the configuration for generating a trajectory. This class stores the start velocity,

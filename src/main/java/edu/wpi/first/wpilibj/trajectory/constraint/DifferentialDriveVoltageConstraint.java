@@ -5,15 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory.constraint;
+package trajectory.constraint;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import kinematics.ChassisSpeeds;
+import kinematics.DifferentialDriveKinematics;
+import kinematics.DifferentialDriveWheelSpeeds;
 
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+import static util.ErrorMessages.requireNonNullParam;
+
+import controller.SimpleMotorFeedforward;
+import geometry.Pose2d;
 
 /**
  * A class that enforces constraints on differential drive voltage expenditure based on the motor

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory;
+package trajectory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

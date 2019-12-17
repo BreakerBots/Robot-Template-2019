@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.smartdashboard;
+package smartdashboard;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

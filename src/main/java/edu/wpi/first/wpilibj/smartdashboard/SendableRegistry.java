@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.smartdashboard;
+package smartdashboard;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -17,8 +17,6 @@ import java.util.function.Consumer;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Sendable;
-
 
 /**
  * The SendableRegistry class is the public interface for registering sensors

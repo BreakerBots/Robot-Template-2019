@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpiutil.math.numbers;
+package math.numbers;
 
-import edu.wpi.first.wpiutil.math.Nat;
-import edu.wpi.first.wpiutil.math.Num;
+import math.Nat;
+import math.Num;
 
 /**
  * A class representing the number 18.

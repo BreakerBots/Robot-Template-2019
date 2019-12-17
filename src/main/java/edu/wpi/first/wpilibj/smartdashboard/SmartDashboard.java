@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.smartdashboard;
+package smartdashboard;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -17,7 +17,6 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Sendable;
 
 /**
  * The {@link SmartDashboard} class is the bridge between robot programs and the SmartDashboard on

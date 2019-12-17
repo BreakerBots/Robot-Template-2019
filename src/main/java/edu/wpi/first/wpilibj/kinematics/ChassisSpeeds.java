@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.kinematics;
+package kinematics;
 
 
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import geometry.Rotation2d;
 
 /**
  * Represents the speed of a robot chassis. Although this struct contains

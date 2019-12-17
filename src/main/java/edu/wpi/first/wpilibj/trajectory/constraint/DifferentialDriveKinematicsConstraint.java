@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory.constraint;
+package trajectory.constraint;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import geometry.Pose2d;
+import kinematics.ChassisSpeeds;
+import kinematics.DifferentialDriveKinematics;
+import kinematics.DifferentialDriveWheelSpeeds;
 
 /**
  * A class that enforces constraints on the differential drive kinematics.

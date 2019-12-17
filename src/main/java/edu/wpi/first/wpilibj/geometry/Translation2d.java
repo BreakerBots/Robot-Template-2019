@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.geometry;
+package geometry;
 
 import java.io.IOException;
 import java.util.Objects;

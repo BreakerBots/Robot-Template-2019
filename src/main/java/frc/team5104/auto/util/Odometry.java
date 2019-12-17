@@ -1,10 +1,10 @@
 package frc.team5104.auto.util;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.team5104.subsystems.Drive;
+import geometry.Pose2d;
+import geometry.Rotation2d;
+import kinematics.DifferentialDriveOdometry;
+import kinematics.DifferentialDriveWheelSpeeds;
 
 /**
  * A wrapper class for keeping track of the the robots position.

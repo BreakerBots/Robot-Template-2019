@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.kinematics;
+package kinematics;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Twist2d;
+import geometry.Pose2d;
+import geometry.Rotation2d;
+import geometry.Twist2d;
 
 /**
  * Class for differential drive odometry. Odometry allows you to track the

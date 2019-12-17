@@ -5,13 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpiutil.math;
+package math;
 
 import java.util.Objects;
 
 import org.ejml.simple.SimpleMatrix;
 
-import edu.wpi.first.wpiutil.math.numbers.N1;
+import math.numbers.N1;
 
 public final class MatrixUtils {
   private MatrixUtils() {

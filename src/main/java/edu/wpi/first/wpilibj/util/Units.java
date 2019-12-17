@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.util;
+package util;
 
 /**
  * Utility class that converts between commonly used units in FRC.

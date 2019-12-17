@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.spline;
+package spline;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
+import geometry.Pose2d;
 
 /**
  * Represents a pair of a pose and a curvature.

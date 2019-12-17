@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.spline;
+package spline;
 
 import org.ejml.simple.SimpleMatrix;
 

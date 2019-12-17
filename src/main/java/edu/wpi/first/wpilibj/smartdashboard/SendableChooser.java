@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.smartdashboard;
+package smartdashboard;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,9 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.Sendable;
-
-import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
+import util.ErrorMessages;
 
 /**
  * The {@link SendableChooser} class is a useful tool for presenting a selection of options to the
@@ -106,7 +104,7 @@ public class SendableChooser<V> implements Sendable, AutoCloseable {
    * @param object the option
    */
   public void setDefaultOption(String name, V object) {
-    requireNonNullParam(name, "name", "setDefaultOption");
+    ErrorMessages.requireNonNullParam(name, "name", "setDefaultOption");
 
     m_defaultChoice = name;
     addOption(name, object);
@@ -184,28 +182,4 @@ public class SendableChooser<V> implements Sendable, AutoCloseable {
       }
     });
   }
-
-@Override
-public String getName() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public void setName(String name) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public String getSubsystem() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-@Override
-public void setSubsystem(String subsystem) {
-	// TODO Auto-generated method stub
-	
-}
 }

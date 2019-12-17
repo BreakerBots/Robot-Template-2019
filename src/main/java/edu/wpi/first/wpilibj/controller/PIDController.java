@@ -5,14 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.controller;
+package controller;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
-import edu.wpi.first.wpiutil.math.MathUtil;
+import smartdashboard.Sendable;
+import math.MathUtil;
+import smartdashboard.SendableRegistry;
 
 /**
  * Implements a PID control loop.
@@ -325,8 +324,7 @@ public class PIDController implements Sendable, AutoCloseable {
     m_totalError = 0;
   }
 
-  @Override
-  public void initSendable(SendableBuilder builder) {
+  public void initSendable(smartdashboard.SendableBuilder builder) {
     builder.setSmartDashboardType("PIDController");
     builder.addDoubleProperty("p", this::getP, this::setP);
     builder.addDoubleProperty("i", this::getI, this::setI);
@@ -395,4 +393,5 @@ public void setSubsystem(String subsystem) {
 	// TODO Auto-generated method stub
 	
 }
+
 }

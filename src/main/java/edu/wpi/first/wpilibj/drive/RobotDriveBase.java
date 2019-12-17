@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.drive;
+package drive;
 
 import edu.wpi.first.wpilibj.MotorSafety;
 

@@ -29,12 +29,12 @@
  * SOFTWARE.
  */
 
-package edu.wpi.first.wpilibj.spline;
+package spline;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.geometry.Twist2d;
+import geometry.Twist2d;
 
 /**
  * Class used to parameterize a spline by its arc length.

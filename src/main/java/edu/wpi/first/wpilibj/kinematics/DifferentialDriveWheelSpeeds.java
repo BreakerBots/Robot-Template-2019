@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.kinematics;
+package kinematics;
 
 /**
  * Represents the wheel speeds for a differential drive drivetrain.

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.util;
+package util;
 
 import static java.util.Objects.requireNonNull;
 

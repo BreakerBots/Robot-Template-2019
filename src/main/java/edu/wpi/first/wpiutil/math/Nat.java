@@ -5,30 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpiutil.math;
+package math;
 
-//CHECKSTYLE.OFF: ImportOrder
-import edu.wpi.first.wpiutil.math.numbers.N0;
-import edu.wpi.first.wpiutil.math.numbers.N1;
-import edu.wpi.first.wpiutil.math.numbers.N2;
-import edu.wpi.first.wpiutil.math.numbers.N3;
-import edu.wpi.first.wpiutil.math.numbers.N4;
-import edu.wpi.first.wpiutil.math.numbers.N5;
-import edu.wpi.first.wpiutil.math.numbers.N6;
-import edu.wpi.first.wpiutil.math.numbers.N7;
-import edu.wpi.first.wpiutil.math.numbers.N8;
-import edu.wpi.first.wpiutil.math.numbers.N9;
-import edu.wpi.first.wpiutil.math.numbers.N10;
-import edu.wpi.first.wpiutil.math.numbers.N11;
-import edu.wpi.first.wpiutil.math.numbers.N12;
-import edu.wpi.first.wpiutil.math.numbers.N13;
-import edu.wpi.first.wpiutil.math.numbers.N14;
-import edu.wpi.first.wpiutil.math.numbers.N15;
-import edu.wpi.first.wpiutil.math.numbers.N16;
-import edu.wpi.first.wpiutil.math.numbers.N17;
-import edu.wpi.first.wpiutil.math.numbers.N18;
-import edu.wpi.first.wpiutil.math.numbers.N19;
-import edu.wpi.first.wpiutil.math.numbers.N20;
+import math.numbers.N0;
+import math.numbers.N1;
+import math.numbers.N10;
+import math.numbers.N11;
+import math.numbers.N12;
+import math.numbers.N13;
+import math.numbers.N14;
+import math.numbers.N15;
+import math.numbers.N16;
+import math.numbers.N17;
+import math.numbers.N18;
+import math.numbers.N19;
+import math.numbers.N2;
+import math.numbers.N20;
+import math.numbers.N3;
+import math.numbers.N4;
+import math.numbers.N5;
+import math.numbers.N6;
+import math.numbers.N7;
+import math.numbers.N8;
+import math.numbers.N9;
 
 //CHECKSTYLE.ON
 

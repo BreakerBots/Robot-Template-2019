@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.drive;
+package drive;
 
 /**
  * This is a 2D vector struct that supports basic vector operations.

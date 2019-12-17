@@ -29,14 +29,14 @@
  * SOFTWARE.
  */
 
-package edu.wpi.first.wpilibj.trajectory;
+package trajectory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.spline.PoseWithCurvature;
-import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint.MinMax;
+import spline.PoseWithCurvature;
+import trajectory.constraint.TrajectoryConstraint;
+import trajectory.constraint.TrajectoryConstraint.MinMax;
 
 /**
  * Class used to parameterize a trajectory by time.

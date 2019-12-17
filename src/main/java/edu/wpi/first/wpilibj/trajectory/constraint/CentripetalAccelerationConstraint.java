@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory.constraint;
+package trajectory.constraint;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
+import geometry.Pose2d;
 
 /**
  * A constraint on the maximum absolute centripetal acceleration allowed when

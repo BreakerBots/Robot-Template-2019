@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpiutil.math;
+package math;
 
-import edu.wpi.first.wpiutil.math.numbers.N1;
+import math.numbers.N1;
 
 /**
  * A specialization of {@link MatBuilder} for constructing vectors (Nx1 matrices).

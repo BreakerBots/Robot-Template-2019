@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.kinematics;
+package kinematics;
 
 /**
  * Helper class that converts a chassis velocity (dx and dtheta components) to

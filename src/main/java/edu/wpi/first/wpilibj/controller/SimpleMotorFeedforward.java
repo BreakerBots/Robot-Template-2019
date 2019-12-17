@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.controller;
+package controller;
 
 /**
  * A helper class that computes feedforward outputs for a simple permanent-magnet DC motor.

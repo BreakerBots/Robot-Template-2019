@@ -5,21 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpilibj.trajectory;
+package trajectory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Transform2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.spline.PoseWithCurvature;
-import edu.wpi.first.wpilibj.spline.Spline;
-import edu.wpi.first.wpilibj.spline.Spline.ControlVector;
-import edu.wpi.first.wpilibj.spline.SplineHelper;
-import edu.wpi.first.wpilibj.spline.SplineParameterizer;
+import geometry.Pose2d;
+import geometry.Rotation2d;
+import geometry.Transform2d;
+import geometry.Translation2d;
+import spline.PoseWithCurvature;
+import spline.Spline;
+import spline.SplineHelper;
+import spline.SplineParameterizer;
+import spline.Spline.ControlVector;
 
 public final class TrajectoryGenerator {
   /**
