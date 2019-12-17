@@ -5,17 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.wpi.first.wpiutil.math;
+package edu.wpi.first.wpiutil.math.numbers;
 
-import edu.wpi.first.wpiutil.math.numbers.N1;
+import edu.wpi.first.wpiutil.math.Nat;
+import edu.wpi.first.wpiutil.math.Num;
 
 /**
- * A specialization of {@link MatBuilder} for constructing vectors (Nx1 matrices).
- *
- * @param <N> The dimension of the vector to be constructed.
- */
-public class VecBuilder<N extends Num> extends MatBuilder<N, N1> {
-  public VecBuilder(Nat<N> rows) {
-    super(rows, Nat.N1());
+ * A class representing the number 16.
+*/
+public final class N16 extends Num implements Nat<N16> {
+  private N16() {
   }
+
+  /**
+   * The integer this class represents.
+   *
+   * @return The literal number 16.
+  */
+  @Override
+  public int getNum() {
+    return 16;
+  }
+
+  /**
+   * The singleton instance of this class.
+  */
+  public static final N16 instance = new N16();
 }

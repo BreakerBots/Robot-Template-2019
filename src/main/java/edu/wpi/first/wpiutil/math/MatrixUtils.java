@@ -11,6 +11,8 @@ import java.util.Objects;
 
 import org.ejml.simple.SimpleMatrix;
 
+import edu.wpi.first.wpiutil.math.numbers.N1;
+
 public final class MatrixUtils {
   private MatrixUtils() {
     throw new AssertionError("utility class");
@@ -38,7 +40,8 @@ public final class MatrixUtils {
    * @return A vector of size N filled with zeros.
    */
   public static <N extends Num> Matrix<N, N1> zeros(Nat<N> nums) {
-    return new Matrix<>(new SimpleMatrix(Objects.requireNonNull(nums).getNum(), 1));
+	  //this may be an issue <N, N1> was inserted
+    return new Matrix<N, N1>(new SimpleMatrix(Objects.requireNonNull(nums).getNum(), 1));
   }
 
   /**
