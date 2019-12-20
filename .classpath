@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="edu/wpi/first/wpiutil/math/numbers/|edu/wpi/first/wpilibj/controller/|edu/wpi/first/wpilibj/drive/|edu/wpi/first/wpilibj/filters/|edu/wpi/first/wpilibj/geometry/|edu/wpi/first/wpilibj/kinematics/|edu/wpi/first/wpilibj/smartdashboard/|edu/wpi/first/wpilibj/spline/|edu/wpi/first/wpilibj/trajectory/|edu/wpi/first/wpilibj/trajectory/constraint/|edu/wpi/first/wpilibj/util/|edu/wpi/first/wpiutil/math/|edu/wpi/first/wpiutil/|edu/wpi/first/wpilibj/|edu/wpi/first/|edu/wpi/|edu/" kind="src" output="bin/main" path="src/main/java">
+	<classpathentry kind="src" output="bin/main" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src/main/java/edu/wpi/first/wpiutil"/>
-	<classpathentry kind="src" path="src/main/java/edu/wpi/first/wpilibj"/>
-	<classpathentry excluding="first/wpiutil/|first/wpilibj/" kind="src" path="src/main/java/edu/wpi"/>
-	<classpathentry excluding="wpi/first/wpiutil/|wpi/first/wpilibj/|wpi/" kind="src" path="src/main/java/edu"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
 	<classpathentry kind="output" path="bin/default"/>
