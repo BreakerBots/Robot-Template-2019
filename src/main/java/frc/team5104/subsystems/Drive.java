@@ -18,6 +18,8 @@ public class Drive extends Subsystem {
 	//Update
 	private static DriveSignal currentDriveSignal = new DriveSignal();
 	public void update() {
+		System.out.println(currentDriveSignal);
+		
 		switch (currentDriveSignal.unit) {
 			case PERCENT_OUTPUT: {
 				setMotors(

@@ -44,26 +44,23 @@ public class Robot extends RobotController.BreakerRobot {
 	//Teleop (includes sandstorm)
 	public void teleopStart() {
 		console.logFile.start();
-		if (RobotState.isSandstorm()) { Odometry.resetOdometry(); AutoManager.run(); }
+		if (RobotState.isSandstorm()) { AutoManager.init(); }
 		else { TeleopControllerManager.enabled(); }
 		TeleopControllerManager.enabled();
 		Superstructure.reset();
 		SubsystemManager.enabled();
 	}
 	public void teleopStop() {
-		if (RobotState.isSandstorm()) { AutoManager.stop(); }
-		else { TeleopControllerManager.disabled(); }
+		if (!RobotState.isSandstorm()) { TeleopControllerManager.disabled(); }
 		Superstructure.reset();
 		SubsystemManager.disabled();
 		console.logFile.end();
 	}
 	public void teleopLoop() {
-		if (RobotState.isSandstorm()) { CompressorController.stop(); }
+		if (RobotState.isSandstorm()) { AutoManager.update(); }
 		else { TeleopControllerManager.update(); }
 		Superstructure.update();
 		SubsystemManager.update();
-//		Odometry.update();
-//		System.out.println(Odometry.getPose());
 	}
 	
 	//Test

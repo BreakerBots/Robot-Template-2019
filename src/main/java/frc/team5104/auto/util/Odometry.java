@@ -34,7 +34,7 @@ public class Odometry {
 		        Drive.getRightEncoderPositionMeters());
 	}
 	
-	public static void resetOdometry() {
+	public static void reset() {
 	    Drive.resetEncoders();
 	    Drive.resetGyro();
 	    m_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(Drive.getGyro()));

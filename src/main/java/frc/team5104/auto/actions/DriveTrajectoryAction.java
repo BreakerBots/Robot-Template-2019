@@ -67,11 +67,12 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		m_trajectory = TrajectoryGenerator.generateTrajectory(
 				Arrays.asList(
 					new Pose2d(0, 0, new Rotation2d(0)), 
-					new Pose2d(5, 5, new Rotation2d(0))
+					new Pose2d(3, 3, new Rotation2d(0))
 				),
 				config);
 
-		m_follower = new RamseteController(Constants.AUTO_CORRECTION_FACTOR, Constants.AUTO_DAMPENING_FACTOR);
+		m_follower = new RamseteController(
+				Constants.AUTO_CORRECTION_FACTOR, Constants.AUTO_DAMPENING_FACTOR);
 		m_leftController = new PIDController(Constants.DRIVE_KP, 0, Constants.DRIVE_KD);
 		m_rightController = new PIDController(Constants.DRIVE_KP, 0, Constants.DRIVE_KD);
 	}
@@ -81,8 +82,12 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		console.log(c.AUTO, "Running Trajectory");
 		m_prevTime = 0;
 		Trajectory.State initialState = m_trajectory.sample(0);
-		m_prevSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(initialState.velocityMetersPerSecond, 0,
-				initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond));
+		m_prevSpeeds = m_kinematics.toWheelSpeeds(
+			new ChassisSpeeds(
+				initialState.velocityMetersPerSecond, 0,
+				initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond
+			)
+		);
 		m_timer.reset();
 		m_timer.start();
 		m_leftController.reset();
@@ -93,8 +98,12 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		double curTime = m_timer.get();
 		double dt = curTime - m_prevTime;
 
-		DifferentialDriveWheelSpeeds targetWheelSpeeds = m_kinematics
-				.toWheelSpeeds(m_follower.calculate(Odometry.getPose(), m_trajectory.sample(curTime)));
+		DifferentialDriveWheelSpeeds targetWheelSpeeds = m_kinematics.toWheelSpeeds(
+			m_follower.calculate(
+				Odometry.getPose(), 
+				m_trajectory.sample(curTime)
+			)
+		);
 
 		double leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
 		double rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
@@ -109,15 +118,17 @@ public class DriveTrajectoryAction extends AutoPathAction {
 				(rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
 		leftOutput = leftFeedforward
-				+ m_leftController.calculate(Odometry.getWheelSpeeds().leftMetersPerSecond, leftSpeedSetpoint);
+				+ m_leftController.calculate(
+						Odometry.getWheelSpeeds().leftMetersPerSecond, leftSpeedSetpoint);
 
 		rightOutput = rightFeedforward
-				+ m_rightController.calculate(Odometry.getWheelSpeeds().rightMetersPerSecond, rightSpeedSetpoint);
+				+ m_rightController.calculate(
+						Odometry.getWheelSpeeds().rightMetersPerSecond, rightSpeedSetpoint);
 
 		m_prevTime = curTime;
 		m_prevSpeeds = targetWheelSpeeds;
 
-		Drive.set(new DriveSignal(leftOutput, rightOutput, DriveUnit.VOLTAGE));
+		Drive.set(new DriveSignal(leftOutput, rightOutput, false, DriveUnit.VOLTAGE, leftFeedforward, rightFeedforward));
 
 		return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds());
 	}
