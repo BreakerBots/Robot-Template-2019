@@ -18,8 +18,6 @@ public class Drive extends Subsystem {
 	//Update
 	private static DriveSignal currentDriveSignal = new DriveSignal();
 	public void update() {
-		System.out.println(currentDriveSignal);
-		
 		switch (currentDriveSignal.unit) {
 			case PERCENT_OUTPUT: {
 				setMotors(
@@ -75,7 +73,9 @@ public class Drive extends Subsystem {
 	public static double getRightGearboxVoltage() { return talonR1.getBusVoltage(); }
 	public static double getLeftGearboxOutputVoltage() { return talonL1.getMotorOutputVoltage(); }
 	public static double getRightGearboxOutputVoltage() { return talonR1.getMotorOutputVoltage(); }
-	public static void resetGyro() { gyro.addYaw(getGyro()); }
+	public static void resetGyro() { 
+		gyro.addYaw(getGyro()); 
+	}
 	public static double getGyro() {
 		double[] ypr = new double[3];
 		gyro.getYawPitchRoll(ypr); 

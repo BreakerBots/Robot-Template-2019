@@ -1,6 +1,8 @@
 package frc.team5104.auto.util;
 
 import frc.team5104.subsystems.Drive;
+import frc.team5104.util.console;
+import frc.team5104.util.console.c;
 import wpi.geometry.Pose2d;
 import wpi.geometry.Rotation2d;
 import wpi.kinematics.DifferentialDriveOdometry;
@@ -17,7 +19,8 @@ public class Odometry {
 	public static void init() {
 		Drive.resetEncoders();
 		Drive.resetGyro();
-		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(Drive.getGyro()));
+		m_odometry = new DifferentialDriveOdometry(new Rotation2d());
+		console.log(c.AUTO, "Initialized Odometry");
 	}
 	
 	public static void update() {
@@ -37,6 +40,7 @@ public class Odometry {
 	public static void reset() {
 	    Drive.resetEncoders();
 	    Drive.resetGyro();
-	    m_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(Drive.getGyro()));
+	    m_odometry.resetPosition(new Pose2d(), new Rotation2d());
+	   console.log(c.AUTO, "Reset Odometry at " + getPose());
 	}
 }

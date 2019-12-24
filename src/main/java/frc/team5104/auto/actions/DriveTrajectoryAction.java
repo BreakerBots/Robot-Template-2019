@@ -95,12 +95,13 @@ public class DriveTrajectoryAction extends AutoPathAction {
 	}
 
 	public boolean update() {
+		
 		double curTime = m_timer.get();
 		double dt = curTime - m_prevTime;
 
 		DifferentialDriveWheelSpeeds targetWheelSpeeds = m_kinematics.toWheelSpeeds(
 			m_follower.calculate(
-				Odometry.getPose(), 
+				Odometry.getPose(),
 				m_trajectory.sample(curTime)
 			)
 		);
@@ -128,7 +129,8 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		m_prevTime = curTime;
 		m_prevSpeeds = targetWheelSpeeds;
 
-		Drive.set(new DriveSignal(leftOutput, rightOutput, false, DriveUnit.VOLTAGE, leftFeedforward, rightFeedforward));
+		Drive.set(new DriveSignal(leftOutput, rightOutput, 
+				false, DriveUnit.VOLTAGE));
 
 		return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds());
 	}
@@ -136,6 +138,10 @@ public class DriveTrajectoryAction extends AutoPathAction {
 	public void end() {
 		m_timer.stop();
 		Drive.stop();
-		console.log(c.AUTO, "Trajectory Finished in " + console.sets.getTime("RunTrajectoryTime") + "s");
+		console.log(c.AUTO, 
+				"Trajectory Finished in " + 
+				console.sets.getTime("RunTrajectoryTime") + "s" +
+				", at: " + Odometry.getPose()
+		);
 	}
 }

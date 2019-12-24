@@ -19,7 +19,9 @@ public class AutoManager {
 		pathScheduler = new AutoPathScheduler(targetPath);
 	}
 	
-	public static void setTargetPath(AutoPath path) { targetPath = path; }
+	public static void setTargetPath(AutoPath path) { 
+		targetPath = path; 
+	}
 	
 	public static void update() {
 		if (RobotState.isSandstorm()) {
@@ -30,7 +32,8 @@ public class AutoManager {
 			Odometry.update();
 			
 			//update path
-			pathScheduler.update();
+			if (pathScheduler != null)
+				pathScheduler.update();
 		}
 	}
 }

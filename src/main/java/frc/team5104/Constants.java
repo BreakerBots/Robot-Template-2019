@@ -12,7 +12,7 @@ public class Constants {
 	public static final double DRIVE_WHEEL_DIAMETER = 6.0/12.0; //ft
 	public static final double DRIVE_TICKS_PER_REVOLUTION = 4096.0 * 3.0 * (54.0/30.0);
 	public static final double DRIVE_WHEEL_BASE_WIDTH = 25.5 / 12.0; //ft
-	public static final double DRIVE_KP = 0;
+	public static final double DRIVE_KP = 1;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KS = 1.48;
 	public static final double DRIVE_KA = 0.773;
