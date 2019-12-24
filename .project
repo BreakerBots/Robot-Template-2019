@@ -20,4 +20,16 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>wpilibj</name>
+			<type>2</type>
+			<location>C:/Users/BreakerBots/Documents/GitHub/Robot-Template/src/edu/wpi/first/wpilibj</location>
+		</link>
+		<link>
+			<name>wpiutil</name>
+			<type>2</type>
+			<location>C:/Users/BreakerBots/Documents/GitHub/Robot-Template/src/edu/wpi/first/wpiutil</location>
+		</link>
+	</linkedResources>
 </projectDescription>
