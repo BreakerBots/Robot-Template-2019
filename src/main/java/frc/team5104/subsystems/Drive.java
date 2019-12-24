@@ -77,7 +77,7 @@ public class Drive extends Subsystem {
 	public static double getGyro() {
 		double[] ypr = new double[3];
 		gyro.getYawPitchRoll(ypr); 
-		return -ypr[0];
+		return ypr[0];
 	}
 	public static void resetEncoders() {
 		talonL1.setSelectedSensorPosition(0);

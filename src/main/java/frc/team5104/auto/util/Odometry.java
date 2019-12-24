@@ -1,10 +1,10 @@
 package frc.team5104.auto.util;
 
 import frc.team5104.subsystems.Drive;
-import geometry.Pose2d;
-import geometry.Rotation2d;
-import kinematics.DifferentialDriveOdometry;
-import kinematics.DifferentialDriveWheelSpeeds;
+import wpi.geometry.Pose2d;
+import wpi.geometry.Rotation2d;
+import wpi.kinematics.DifferentialDriveOdometry;
+import wpi.kinematics.DifferentialDriveWheelSpeeds;
 
 /**
  * A wrapper class for keeping track of the the robots position.
@@ -15,6 +15,8 @@ public class Odometry {
 	private static DifferentialDriveOdometry m_odometry;
 	
 	public static void init() {
+		Drive.resetEncoders();
+		Drive.resetGyro();
 		m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(Drive.getGyro()));
 	}
 	
@@ -34,6 +36,7 @@ public class Odometry {
 	
 	public static void resetOdometry() {
 	    Drive.resetEncoders();
+	    Drive.resetGyro();
 	    m_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(Drive.getGyro()));
 	}
 }

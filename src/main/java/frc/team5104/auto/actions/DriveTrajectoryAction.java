@@ -3,9 +3,6 @@ package frc.team5104.auto.actions;
 
 import java.util.Arrays;
 
-import controller.PIDController;
-import controller.RamseteController;
-import controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Timer;
 import frc.team5104.Constants;
 import frc.team5104.auto.util.AutoPathAction;
@@ -16,16 +13,18 @@ import frc.team5104.util.console;
 import frc.team5104.util.DriveSignal;
 import frc.team5104.util.DriveSignal.DriveUnit;
 import frc.team5104.util.console.c;
-import geometry.Pose2d;
-import geometry.Rotation2d;
-import geometry.Translation2d;
-import kinematics.ChassisSpeeds;
-import kinematics.DifferentialDriveKinematics;
-import kinematics.DifferentialDriveWheelSpeeds;
-import trajectory.Trajectory;
-import trajectory.TrajectoryConfig;
-import trajectory.TrajectoryGenerator;
-import trajectory.constraint.DifferentialDriveVoltageConstraint;
+import wpi.controller.PIDController;
+import wpi.controller.RamseteController;
+import wpi.controller.SimpleMotorFeedforward;
+import wpi.geometry.Pose2d;
+import wpi.geometry.Rotation2d;
+import wpi.kinematics.ChassisSpeeds;
+import wpi.kinematics.DifferentialDriveKinematics;
+import wpi.kinematics.DifferentialDriveWheelSpeeds;
+import wpi.trajectory.Trajectory;
+import wpi.trajectory.TrajectoryConfig;
+import wpi.trajectory.TrajectoryGenerator;
+import wpi.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 /**
  * Follow a trajectory using the Breaker Trajectory Follower (Ramses Follower)
@@ -43,30 +42,33 @@ public class DriveTrajectoryAction extends AutoPathAction {
 	private double m_prevTime;
 
 	public DriveTrajectoryAction() {
-		m_feedforward = new SimpleMotorFeedforward(Constants.DRIVE_KS, Constants.DRIVE_KV, Constants.DRIVE_KA);
+		m_feedforward = new SimpleMotorFeedforward(
+				Constants.DRIVE_KS, Constants.DRIVE_KV, Constants.DRIVE_KA);
 
-		m_kinematics = new DifferentialDriveKinematics(Units.feetToMeters(Constants.DRIVE_WHEEL_BASE_WIDTH));
+		m_kinematics = new DifferentialDriveKinematics(
+				Units.feetToMeters(Constants.DRIVE_WHEEL_BASE_WIDTH)
+			);
 
 		// Create a voltage constraint to ensure we don't accelerate too fast
-		DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(m_feedforward,
-				m_kinematics, 10);
+		DifferentialDriveVoltageConstraint autoVoltageConstraint = 
+				new DifferentialDriveVoltageConstraint(
+					m_feedforward,
+					m_kinematics, 
+					10
+				);
 
 		// Create config for trajectory
-		TrajectoryConfig config = new TrajectoryConfig(Constants.AUTO_MAX_VELOCITY, Constants.AUTO_MAX_ACCEL)
-				// Add kinematics to ensure max speed is actually obeyed
-				.setKinematics(m_kinematics)
-				// Apply the voltage constraint
-				.addConstraint(autoVoltageConstraint);
+		TrajectoryConfig config = new TrajectoryConfig(
+				Units.feetToMeters(Constants.AUTO_MAX_VELOCITY), 
+				Units.feetToMeters(Constants.AUTO_MAX_ACCEL)
+			).setKinematics(m_kinematics).addConstraint(autoVoltageConstraint);
 
 		// An example trajectory to follow. All units in meters.
 		m_trajectory = TrajectoryGenerator.generateTrajectory(
-				// Start at the origin facing the +X direction
-				new Pose2d(0, 0, new Rotation2d(0)),
-				// Pass through these two interior waypoints, making an 's' curve path
-				Arrays.asList(new Translation2d(1, 1), new Translation2d(2, -1)),
-				// End 3 meters straight ahead of where we started, facing forward
-				new Pose2d(3, 0, new Rotation2d(0)),
-				// Pass config
+				Arrays.asList(
+					new Pose2d(0, 0, new Rotation2d(0)), 
+					new Pose2d(5, 5, new Rotation2d(0))
+				),
 				config);
 
 		m_follower = new RamseteController(Constants.AUTO_CORRECTION_FACTOR, Constants.AUTO_DAMPENING_FACTOR);

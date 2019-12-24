@@ -62,6 +62,8 @@ public class Robot extends RobotController.BreakerRobot {
 		else { TeleopControllerManager.update(); }
 		Superstructure.update();
 		SubsystemManager.update();
+//		Odometry.update();
+//		System.out.println(Odometry.getPose());
 	}
 	
 	//Test
