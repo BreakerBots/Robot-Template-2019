@@ -9,7 +9,7 @@ import frc.team5104.subsystems.Drive;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.teleop.DriveController;
 import frc.team5104.teleop.SuperstructureController;
-import frc.team5104.util.WebappTuner;
+import frc.team5104.util.Tuner;
 import frc.team5104.util.XboxController;
 import frc.team5104.util.console;
 import frc.team5104.util.managers.SubsystemManager;
@@ -38,7 +38,7 @@ public class Robot extends RobotController.BreakerRobot {
 		Limelight.init();
 		CompressorController.stop();
 		AutoManager.setTargetPath(new ExamplePath());
-		WebappTuner.init(VisionManager.class);
+		Tuner.init(VisionManager.class);
 	}
 	
 	//Teleop (includes sandstorm)

@@ -11,7 +11,6 @@
 
 	<!--CSS-->
 	<link rel="stylesheet" href="resources/css/main.css" />
-	<link rel="stylesheet" href="resources/css/trajectory.css" />
 	<link rel="stylesheet" href="resources/css/tuner.css" />
 
 	<style>
@@ -19,25 +18,17 @@
 </head>
 <body>
 	<!--Header-->
-	<header class="mdc-top-app-bar mdc-elevation--z5">
+	<header class="mdc-top-app-bar mdc-elevation--z5" style="border-bottom: 5px solid #FAB01D; border-top:5px solid #FAB01D;">
 		<div class="mdc-top-app-bar__row">
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+				<img src="resources/images/icon-bg.png" style="width: 50px"/>
 				<span class="mdc-top-app-bar__title">BreakerBoard</span>
 			</section>
-			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" style="visibility: hidden">
 				<div class="mdc-tab-bar" role="tablist" data-mdc-auto-init="MDCTabBar">
 					<div class="mdc-tab-scroller">
 						<div class="mdc-tab-scroller__scroll-area mdc-tab-scroller__scroll-area--scroll" style="margin-bottom: 0px;">
 							<div class="mdc-tab-scroller__scroll-content">
-								<a href="#trajectory" class="mdc-tab" role="tab" aria-selected="false" tabindex="-1" id="mdc-tab-1">
-									<span class="mdc-tab__content">
-										<span class="mdc-tab__text-label" style="color: white !important; opacity: 1.0 !important">Trajectory</span>
-									</span><span class="mdc-tab-indicator">
-										<span style="background-color: #fdb515 !important" class="mdc-tab-indicator__content mdc-tab-indicator__content--underline">
-										</span>
-									</span>
-									<span class="mdc-tab__ripple mdc-ripple-upgraded"></span>
-								</a>
 								<a href="#tuner" class="mdc-tab mdc-tab--active" role="tab" aria-selected="true" tabindex="0" id="mdc-tab-3">
 									<span class="mdc-tab__content">
 										<span class="mdc-tab__text-label" style="color: white !important; opacity: 1.0 !important">Tuner</span>
@@ -58,76 +49,41 @@
 
 	<!--Tabs-->
 	<div id="tabs">
-		<!--Trajectory-->
-		<div id="tab-trajectory" class="tab">
-			<div id="trajectory-container">
-				<!--Input (Left Side)-->
-				<div id="inputBox" class="mdc-elevation--z20">
-					<div id="waypointContainer">
-						<div class="waypointInput">
-							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
-								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
-								<div class="mdc-notched-outline">
-									<div class="mdc-notched-outline__leading"></div>
-									<div class="mdc-notched-outline__notch" data-sw="14">
-										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">x</label>
-									</div>
-									<div class="mdc-notched-outline__trailing"></div>
-								</div>
-							</div>
-							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
-								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
-								<div class="mdc-notched-outline">
-									<div class="mdc-notched-outline__leading"></div>
-									<div class="mdc-notched-outline__notch" data-sw="14">
-										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">y</label>
-									</div>
-									<div class="mdc-notched-outline__trailing"></div>
-								</div>
-							</div>
-							<div class="mdc-text-field mdc-text-field--outlined mdc-text-field--disabled" data-mdc-auto-init="MDCTextField">
-								<input oninput="refreshTrajectory()" value="0" disabled type="number" step="0.01" id="tf-outlined" class="mdc-text-field__input">
-								<div class="mdc-notched-outline">
-									<div class="mdc-notched-outline__leading"></div>
-									<div class="mdc-notched-outline__notch" data-sw="51.5">
-										<label for="tf-outlined" class="mdc-floating-label mdc-floating-label--float-above">heading</label>
-									</div>
-									<div class="mdc-notched-outline__trailing"></div>
-								</div>
-							</div>
-						</div>
-						<div onclick="addWaypoint()" id="waypointAdd">
-							<button class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">
-								<span class="mdc-button__label">+</span>
-							</button>
-						</div>
-					</div>
-					<div id="viewCode">
-						<button onclick="viewCode();" class="mdc-button mdc-button--raised" data-mdc-auto-init="MDCRipple">
-							<span class="mdc-button__label">View Code</span>
-						</button>
-					</div>
-				</div>
-
-				<!--Field (Right Side)-->
-				<div id="fieldBox">
-					<canvas id="field" width="884" height="876"></canvas>
-				</div>
-			</div>
-		</div>
-
 		<!--Tuner-->
 		<div id="tab-tuner" class="tab">
 			<div id="tuner-container">
 				<!--Input (Left Side)-->
-				<div id="inputBox" class="mdc-elevation--z20">
+				<div id="inputBox" class="mdc-elevation--z20 breaker-scrollbar">
 
 				</div>
 
 				<!--Output (Right Side)-->
-				<div id="outputBox">
+				<div id="outputBox" class="breaker-scrollbar">
+					<div id="outputBoxTopBar">
+						<div>
+							<i onclick="handleTunerPausePlay()" style="margin: 10px 0 0 10px; display: inline-block;" class="mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">
+								<img id="tuner-pause-play" src="resources/images/pause.png" style="width: 100%" />
+							</i>
+							<i onclick="handleSaveCSV()" style="margin: 10px 0 0 0px; display: inline-block;" class="mdc-icon-toggle" data-mdc-auto-init="MDCIconToggle">
+								<img src="resources/images/save.png" style="width: 100%" />
+							</i>
+						</div>
+						<div id="outputBoxGraphLengthMs" style="height: 40px !important; margin-top: 15px; float: right;" class="mdc-text-field mdc-text-field--outlined" data-mdc-auto-init="MDCTextField">
+							<input oninput="chartMaxLengthMs = this.value * 1000;" type="number" class="mdc-text-field__input">
+							<div class="mdc-notched-outline">
+								<div class="mdc-notched-outline__leading"></div>
+								<div class="mdc-notched-outline__notch">
+									<label for="tf-outlined" class="mdc-floating-label">Graph Length (Seconds)</label>
+								</div>
+								<div class="mdc-notched-outline__trailing"></div>
+							</div>
+						</div>
+					</div>
 					<div style="width: calc(100% - 10px); height: calc(100% - 30px); position: relative;">
 						<canvas id="tunerChart"></canvas>
+						<div id="tunerOutputValues">
+
+						</div>
 					</div>
 				</div>
 			</div>
@@ -144,7 +100,6 @@
 	</script>
 	<script>mdc.autoInit();</script>
 	<script src="resources/js/tab.js"></script>
-	<script src="resources/js/trajectory.js"></script>
 	<script src="resources/js/tuner.js"></script>
 </body>
 </html>
