@@ -66,16 +66,19 @@ function updateTunerOutputs(outputs) {
 
 	for (var o = 0; o < Object.keys(outputs).length; o++) {
 		var exists = false;
-		chartConfig.data.datasets.forEach(function (dataset, i) {
-			if (dataset.label === Object.keys(outputs)[o]) {
-				dataset.data.push(Object.values(outputs)[o]);
-				for (var c = 0; c < rm; c++) { dataset.data.shift(); }
-				exists = true;
-				dataset.exists = true;
-			}
-		});
-		if (!exists) {
+		if (!isNaN(Object.values(outputs)[o])) {
+			chartConfig.data.datasets.forEach(function (dataset, i) {
+				if (dataset.label === Object.keys(outputs)[o]) {
+					dataset.data.push(Object.values(outputs)[o]);
+					for (var c = 0; c < rm; c++) { dataset.data.shift(); }
+					exists = true;
+					dataset.exists = true;
+				}
+			});
+		
+			if (!exists) {
 			addTunerOutput(Object.keys(outputs)[o], Object.values(outputs)[o]);
+			}
 		}
 	}
 
