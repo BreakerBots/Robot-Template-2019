@@ -1,5 +1,5 @@
 /* Breakerbots Robotics Team 2019 */
-package frc.team5104.webapp;
+package frc.team5104.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import frc.team5104.main.Constants;
+import frc.team5104.Constants;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
@@ -25,6 +25,7 @@ import frc.team5104.util.console.c;
  * See Tuner.java for the tuner functionality.
  * @version 2.5
  */
+@SuppressWarnings("restriction")
 public class Webapp {
 	private static final int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
 	private static final double version = 2.5;

@@ -1,9 +1,7 @@
-package frc.team5104.webapp;
+package frc.team5104.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import frc.team5104.webapp.Plotter.PlotterPoint.Color;
 
 public class Plotter {
 
@@ -18,7 +16,7 @@ public class Plotter {
 		buffer.add(new PlotterPoint(true));
 	}
 	
-	public static void plot(double x, double y, Color color) {
+	public static void plot(double x, double y, PlotterPoint.Color color) {
 		plot(new PlotterPoint(x, y, color));
 	}
 	
