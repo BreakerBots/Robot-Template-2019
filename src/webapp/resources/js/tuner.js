@@ -77,7 +77,7 @@ function updateTunerOutputs(outputs) {
 			});
 		
 			if (!exists) {
-			addTunerOutput(Object.keys(outputs)[o], Object.values(outputs)[o]);
+				addTunerOutput(Object.keys(outputs)[o], Object.values(outputs)[o]);
 			}
 		}
 	}
@@ -190,9 +190,15 @@ function handleTunerPausePlay() {
 }
 window.addEventListener("keydown", handleTunerKeyPressed, false);
 function handleTunerKeyPressed(evt) {
-	if (evt.code == "Space") {
-		handleTunerPausePlay();
-		evt.preventDefault();
+	if (location.hash == "#tuner") {
+		if (evt.code == "Space") {
+			handleTunerPausePlay();
+			evt.preventDefault();
+		}
+		else if (evt.key == "s" && evt.ctrlKey) {
+			handleSaveCSV();
+			evt.preventDefault();
+		}
 	}
 }
 
@@ -211,7 +217,7 @@ function tunerSet(name, value) {
 	}));
 }
 function tunerUpdate() {
-	if (tunerRunning) {
+	if (tunerRunning && robotConnected) {
 		chartIndex += outputRefreshRateMs / 1000.0;
 		var xhr = new XMLHttpRequest();
 		xhr.timeout = 200;
@@ -251,13 +257,12 @@ function handleSaveCSV() {
 		});
 		csvContent = csvContent.slice(0, -1) + "\r\n";
 	}
-	
 
 	var encodedUri = encodeURI(csvContent);
 	var link = document.createElement("a");
 	link.setAttribute("href", encodedUri);
-	link.setAttribute("download", "breakerboard_data_" + Math.round(Math.random()*100000) + ".csv");
-	document.body.appendChild(link); // Required for FF
+	link.setAttribute("download", "breakerboard_tuner_data_" + Math.round(Math.random()*100000) + ".csv");
+	document.body.appendChild(link);
 
 	link.click();
 }
