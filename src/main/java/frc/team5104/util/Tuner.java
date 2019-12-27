@@ -1,4 +1,4 @@
-package frc.team5104.util;
+package frc.team5104.webapp;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,7 +14,7 @@ import frc.team5104.util.CrashLogger.Crash;
  * Either add the annotations @tunerOutput (graphing) and @tunerInput (inputs)
  * to methods and fields and plug in the class with Tuner.init(CLASS) or 
  * use the new methods "getTunerInput()" and "setTunerOutput()"
- * @version 2.0
+ * @version 2.5
  */
 public class Tuner {
 	private static ArrayList<TunerRunnable> runnables = new ArrayList<TunerRunnable>();

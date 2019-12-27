@@ -1,5 +1,5 @@
 /* Breakerbots Robotics Team 2019 */
-package frc.team5104.util;
+package frc.team5104.webapp;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -16,18 +16,18 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import frc.team5104.main.Constants;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
 /**
  * Hosts the BreakerBoard (WebApp) through the RoboRIO.
  * See Tuner.java for the tuner functionality.
- * @version 2.0
+ * @version 2.5
  */
-@SuppressWarnings("restriction")
 public class Webapp {
 	private static final int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
-	private static final double version = 2.0;
+	private static final double version = 2.5;
 	private static HttpServer server;
 
 	@SuppressWarnings("resource")
@@ -50,12 +50,15 @@ public class Webapp {
 			
 			//Web App Requests
 			server.createContext("/tuner", new TunerHandler());
+			server.createContext("/plotter", new PlotterHandler());
+			server.createContext("/robot", new RobotHandler());
 			
 			//Start Server
 			server.setExecutor(null);
 			server.start();
 			
-			console.log("Hosting Web App at 10.51.4.2:" + port);
+			//TODO GET LOCAL IP
+			console.log("Hosting Web App at 10.51.4.2:" + server.getAddress().getPort());
 			
 			return true;
 		} catch (Exception e) { 
@@ -161,6 +164,45 @@ public class Webapp {
             	String value = data.substring(data.indexOf("\"value\":\"")+9, data.length()-1);
             	
             	Tuner.handleInput(name, value);
+			}
+		}
+	}
+	
+	private static class PlotterHandler implements HttpHandler {
+		public void handle(HttpExchange t) throws IOException {
+			t.getResponseHeaders().add("Content-Type", "application/json");
+			
+			String requestType = t.getRequestURI().toString().substring(9);
+			
+			//Get
+			if (requestType.equals("get")) {
+				//Send outputs
+				String response = Plotter.getBufferDataAsJSON();
+				Plotter.clearBuffer();
+				
+				t.sendResponseHeaders(200, response.length());
+	            OutputStream os = t.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();
+			}
+		}
+	}
+	
+	private static class RobotHandler implements HttpHandler {
+		public void handle(HttpExchange t) throws IOException {
+			t.getResponseHeaders().add("Content-Type", "application/json");
+			
+			String requestType = t.getRequestURI().toString().substring(7);
+			
+			//Get
+			if (requestType.equals("get")) {
+				//Send outputs
+				String response = "{\"name\":\"" + Constants.ROBOT_NAME + "\"}";
+				
+				t.sendResponseHeaders(200, response.length());
+	            OutputStream os = t.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();
 			}
 		}
 	}
