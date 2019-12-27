@@ -1,4 +1,3 @@
-/* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.util;
 
 import java.lang.annotation.Retention;
@@ -7,13 +6,48 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
 
-public class WebappTuner {
+/**
+ * Handles all tuner inputs and outputs for the WebApp.
+ * Either add the annotations @tunerOutput (graphing) and @tunerInput (inputs)
+ * to methods and fields and plug in the class with Tuner.init(CLASS) or 
+ * use the new methods "getTunerInput()" and "setTunerOutput()"
+ * @version 2.5
+ */
+public class Tuner {
 	private static ArrayList<TunerRunnable> runnables = new ArrayList<TunerRunnable>();
 	
+	//Getters and Setters
+	public static String getTunerInput(String name, Object defaultValue) {
+		boolean found = false;
+		for (TunerRunnable runnable : runnables) {
+			if (runnable.name.equals(name)) {
+				found = true;
+				return runnable.getValue();
+			}
+		}
+		if (!found) {
+			runnables.add(new NoTargetTunerRunnable(name, defaultValue.toString(), true));
+		}
+		return defaultValue.toString();
+	}
+	public static void setTunerOutput(String name, Object output) {
+		boolean found = false;
+		for (TunerRunnable runnable : runnables) {
+			if (runnable.name.equals(name)) {
+				found = true;
+				runnable.setValue(output.toString());
+			}
+		}
+		if (!found) {
+			runnables.add(new NoTargetTunerRunnable(name, output.toString(), false));
+		}
+	}
+	
 	//Initialize the class
-	public static void init(Class<?>... targets) {
+	public static void use(Class<?>... targets) {
 		for (Class<?> target : targets) {
 			for (Field field : target.getDeclaredFields()) {
 		        field.setAccessible(true);
@@ -29,29 +63,27 @@ public class WebappTuner {
 	}
 	
 	//Webapp Functions
-	public static String getInit() {
-		String str = "{";
-		for (TunerRunnable runnable : runnables) {
-			str += "\"" + runnable.name + "\"" + ": [" + runnable.isInput + "," + runnable.getValue() + "],";
-		}
-		if (str.charAt(str.length()-1) == ',')
-			str = str.substring(0, str.length() - 1);
-		str += "}";
-		return str;
-	}
-	public static String getOutputs() {
-		String str = "{";
+	protected static String getOutput() {
+		String str = "{\"outputs\":{";
 		for (TunerRunnable runnable : runnables) {
 			if (!runnable.isInput) {
-				str += "\"" + runnable.name + "\"" + ": " + runnable.getValue() + ",";
+				str += "\"" + runnable.name + "\"" + ": \"" + runnable.getValue() + "\",";
 			}
 		}
 		if (str.charAt(str.length()-1) == ',')
 			str = str.substring(0, str.length() - 1);
-		str += "}";
+		str += "},\"inputs\":{";
+		for (TunerRunnable runnable : runnables) {
+			if (runnable.isInput) {
+				str += "\"" + runnable.name + "\"" + ": \"" + runnable.getValue() + "\",";
+			}
+		}
+		if (str.charAt(str.length()-1) == ',')
+			str = str.substring(0, str.length() - 1);
+		str += "}}";
 		return str;
 	}
-	public static void handleInput(String name, String data) {
+	protected static void handleInput(String name, String data) {
 		for (TunerRunnable runnable : runnables) {
 			if (name.equals(runnable.name)) {
 				runnable.setValue(data);
@@ -60,7 +92,7 @@ public class WebappTuner {
 	}
 	
 	//Tuner Runnable
-	static class TunerRunnable {
+	protected static class TunerRunnable {
 		private Field fieldTarget;
 		private Method methodTarget;
 		public String name;
@@ -94,6 +126,7 @@ public class WebappTuner {
             if (name.equals(""))
             	name = methodTarget.getName();
 		}
+		public TunerRunnable() { }
 		
 		String getValue() {
 			try {
@@ -138,15 +171,37 @@ public class WebappTuner {
 		}
 	}
 	
+	protected static class NoTargetTunerRunnable extends TunerRunnable {
+		String storedValue;
+		
+		public NoTargetTunerRunnable(String name, String defaultValue, boolean isInput) {
+			this.isInput = isInput;
+			this.name = name;
+			this.storedValue = defaultValue;
+		}
+		
+		String getValue() {
+			return storedValue;
+		}
+		
+		void setValue(String value) {
+			this.storedValue = value;
+		}
+	}
+	
 	//Annotations
 	@Retention(RetentionPolicy.RUNTIME)
-	/** An input into the control system (values being set from the tuner) */
+	/**
+	 * An input into the control system (values being set from the tuner)
+	 */
 	public @interface tunerInput {
 		String name() default "";
 	}
 	
 	@Retention(RetentionPolicy.RUNTIME)
-	/** An output from the control system (values being graphed in the tuner) */
+	/**
+	 * An output from the control system (values being graphed in the tuner)
+	 */
 	public @interface tunerOutput {
 		String name() default "";
 	}

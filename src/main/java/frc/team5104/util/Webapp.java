@@ -1,4 +1,4 @@
-/* BreakerBots Robotics Team (FRC 5104) 2020 */
+/* Breakerbots Robotics Team 2019 */
 package frc.team5104.util;
 
 import java.io.BufferedInputStream;
@@ -9,28 +9,40 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import frc.team5104.Constants;
+import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 
+/**
+ * Hosts the BreakerBoard (WebApp) through the RoboRIO.
+ * See Tuner.java for the tuner functionality.
+ * @version 2.5
+ */
 @SuppressWarnings("restriction")
 public class Webapp {
+	private static final int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
+	private static final double version = 2.5;
 	private static HttpServer server;
 
+	@SuppressWarnings("resource")
 	public static boolean run() {
 		try {
-			File dir = new File(getBaseUrl());
-			if (dir.exists() == false) {
-				console.log(c.WEBAPP, "Webapp not on roboRio. Please deploy the webapp using `webapp deploy`");
-				return false;
-			}
-						
+			//Check Version
+			try {
+				Scanner scan = new Scanner(new File(getBaseUrl() + "version.txt"));
+				if (!scan.hasNextLine() || !scan.nextLine().equals("BreakerBots WebApp Version " + version))
+					throw new Exception();
+				scan.close();
+			} catch (Exception e) { throw new Exception("Invalid Version... Redeploy WebApp"); }
+			
 			//Setup Server
-			int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 			
 			//Web App URLs	
@@ -39,12 +51,15 @@ public class Webapp {
 			
 			//Web App Requests
 			server.createContext("/tuner", new TunerHandler());
+			server.createContext("/plotter", new PlotterHandler());
+			server.createContext("/robot", new RobotHandler());
 			
 			//Start Server
 			server.setExecutor(null);
 			server.start();
 			
-			console.log(c.WEBAPP, "Hosting Web App at 10.51.4.2:" + port);
+			//TODO GET LOCAL IP
+			console.log("Hosting Web App at 10.51.4.2:" + server.getAddress().getPort());
 			
 			return true;
 		} catch (Exception e) { 
@@ -53,9 +68,8 @@ public class Webapp {
 		}
 	}
 	
-	private static String getBaseUrl() {
-		String u = "/home/lvuser/webapp/";
-		return u;
+	public static String getBaseUrl() {
+		return System.getProperty("user.dir") + "\\src\\webapp\\";
 	}
 	
 	private static class RequestHandler implements HttpHandler {
@@ -78,7 +92,7 @@ public class Webapp {
 			Headers h = t.getResponseHeaders();
 			h.add("Content-Type", contentType);
 
-			//Read
+			//File
 			File file = new File(finalUrl);
 			FileInputStream input = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(input);
@@ -127,21 +141,10 @@ public class Webapp {
 			
 			String requestType = t.getRequestURI().toString().substring(7);
 			
-			//Init
-			if (requestType.equals("init")) {
-				//Send headers
-				String response = WebappTuner.getInit();
-				
-				t.sendResponseHeaders(200, response.length());
-	            OutputStream os = t.getResponseBody();
-	            os.write(response.getBytes());
-	            os.close();
-			}
-			
 			//Get
-			else if (requestType.equals("get")) {
+			if (requestType.equals("get")) {
 				//Send outputs
-				String response = WebappTuner.getOutputs();
+				String response = Tuner.getOutput();
 				
 				t.sendResponseHeaders(200, response.length());
 	            OutputStream os = t.getResponseBody();
@@ -161,7 +164,46 @@ public class Webapp {
             	String name = data.substring(data.indexOf("\"name\":\"")+8, data.indexOf(',')-1);
             	String value = data.substring(data.indexOf("\"value\":\"")+9, data.length()-1);
             	
-            	WebappTuner.handleInput(name, value);
+            	Tuner.handleInput(name, value);
+			}
+		}
+	}
+	
+	private static class PlotterHandler implements HttpHandler {
+		public void handle(HttpExchange t) throws IOException {
+			t.getResponseHeaders().add("Content-Type", "application/json");
+			
+			String requestType = t.getRequestURI().toString().substring(9);
+			
+			//Get
+			if (requestType.equals("get")) {
+				//Send outputs
+				String response = Plotter.getBufferDataAsJSON();
+				Plotter.clearBuffer();
+				
+				t.sendResponseHeaders(200, response.length());
+	            OutputStream os = t.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();
+			}
+		}
+	}
+	
+	private static class RobotHandler implements HttpHandler {
+		public void handle(HttpExchange t) throws IOException {
+			t.getResponseHeaders().add("Content-Type", "application/json");
+			
+			String requestType = t.getRequestURI().toString().substring(7);
+			
+			//Get
+			if (requestType.equals("get")) {
+				//Send outputs
+				String response = "{\"name\":\"" + Constants.ROBOT_NAME + "\"}";
+				
+				t.sendResponseHeaders(200, response.length());
+	            OutputStream os = t.getResponseBody();
+	            os.write(response.getBytes());
+	            os.close();
 			}
 		}
 	}
