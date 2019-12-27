@@ -47,7 +47,7 @@ public class Tuner {
 	}
 	
 	//Initialize the class
-	public static void init(Class<?>... targets) {
+	public static void use(Class<?>... targets) {
 		for (Class<?> target : targets) {
 			for (Field field : target.getDeclaredFields()) {
 		        field.setAccessible(true);
