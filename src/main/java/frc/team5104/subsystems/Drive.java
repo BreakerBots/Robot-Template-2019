@@ -74,12 +74,14 @@ public class Drive extends Subsystem {
 	public static double getLeftGearboxOutputVoltage() { return talonL1.getMotorOutputVoltage(); }
 	public static double getRightGearboxOutputVoltage() { return talonR1.getMotorOutputVoltage(); }
 	public static void resetGyro() { 
-		gyro.addYaw(getGyro()); 
+		//gyro.addYaw(getGyro());
+		gyro.setFusedHeading(0);
 	}
 	public static double getGyro() {
-		double[] ypr = new double[3];
-		gyro.getYawPitchRoll(ypr); 
-		return ypr[0];
+		//double[] ypr = new double[3];
+		//gyro.getYawPitchRoll(ypr); 
+		//return ypr[0];
+		return gyro.getFusedHeading();
 	}
 	public static void resetEncoders() {
 		talonL1.setSelectedSensorPosition(0);

@@ -12,6 +12,8 @@ import frc.team5104.util.Units;
 import frc.team5104.util.console;
 import frc.team5104.util.DriveSignal;
 import frc.team5104.util.DriveSignal.DriveUnit;
+import frc.team5104.util.Plotter;
+import frc.team5104.util.Plotter.PlotterPoint.Color;
 import frc.team5104.util.console.c;
 import wpi.controller.PIDController;
 import wpi.controller.RamseteController;
@@ -53,7 +55,7 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		DifferentialDriveVoltageConstraint autoVoltageConstraint = 
 				new DifferentialDriveVoltageConstraint(
 					m_feedforward,
-					m_kinematics, 
+					m_kinematics,
 					10
 				);
 
@@ -67,9 +69,12 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		m_trajectory = TrajectoryGenerator.generateTrajectory(
 				Arrays.asList(
 					new Pose2d(0, 0, new Rotation2d(0)), 
-					new Pose2d(3, 3, new Rotation2d(0))
+					new Pose2d(2, 2, new Rotation2d(0))
 				),
 				config);
+		
+		//plot trajectory on plotter
+		//Plotter.plotAll(m_trajectory.getStates(), Color.RED);
 
 		m_follower = new RamseteController(
 				Constants.AUTO_CORRECTION_FACTOR, Constants.AUTO_DAMPENING_FACTOR);
@@ -95,7 +100,6 @@ public class DriveTrajectoryAction extends AutoPathAction {
 	}
 
 	public boolean update() {
-		
 		double curTime = m_timer.get();
 		double dt = curTime - m_prevTime;
 
@@ -105,10 +109,15 @@ public class DriveTrajectoryAction extends AutoPathAction {
 				m_trajectory.sample(curTime)
 			)
 		);
-
+		
 		double leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
 		double rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
 
+		//Plotter.plot(curTime, leftSpeedSetpoint, Color.BLACK);
+		//Plotter.plot(curTime, rightSpeedSetpoint, Color.BLUE);
+		Plotter.plot(curTime, Odometry.getWheelSpeeds().leftMetersPerSecond, Color.GREEN);
+		Plotter.plot(curTime, Odometry.getWheelSpeeds().rightMetersPerSecond, Color.PURPLE);
+		
 		double leftOutput;
 		double rightOutput;
 
@@ -118,6 +127,9 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
 				(rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
+		Plotter.plot(curTime, leftFeedforward, Color.BLACK);
+		Plotter.plot(curTime, rightFeedforward, Color.BLUE);
+		
 		leftOutput = leftFeedforward
 				+ m_leftController.calculate(
 						Odometry.getWheelSpeeds().leftMetersPerSecond, leftSpeedSetpoint);

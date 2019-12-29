@@ -20,7 +20,7 @@ public class AutoManager {
 	}
 	
 	public static void setTargetPath(AutoPath path) { 
-		targetPath = path; 
+		targetPath = path;
 	}
 	
 	public static void update() {
@@ -29,7 +29,7 @@ public class AutoManager {
 			CompressorController.stop();
 			
 			//update odometry
-			Odometry.update();
+			//Odometry.update();
 			
 			//update path
 			if (pathScheduler != null)

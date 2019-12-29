@@ -40,7 +40,10 @@ public class Webapp {
 				if (!scan.hasNextLine() || !scan.nextLine().equals("BreakerBots WebApp Version " + version))
 					throw new Exception();
 				scan.close();
-			} catch (Exception e) { throw new Exception("Invalid Version... Redeploy WebApp"); }
+			} catch (Exception e) { 
+				console.log(e);
+				throw new Exception("Invalid Version... Redeploy WebApp"); 
+			}
 			
 			//Setup Server
 			server = HttpServer.create(new InetSocketAddress(port), 0);
@@ -69,7 +72,7 @@ public class Webapp {
 	}
 	
 	public static String getBaseUrl() {
-		return System.getProperty("user.dir") + "\\src\\webapp\\";
+		return "/home/lvuser/webapp/";
 	}
 	
 	private static class RequestHandler implements HttpHandler {

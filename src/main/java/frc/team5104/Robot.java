@@ -9,7 +9,6 @@ import frc.team5104.subsystems.Drive;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.teleop.DriveController;
 import frc.team5104.teleop.SuperstructureController;
-import frc.team5104.util.WebappTuner;
 import frc.team5104.util.XboxController;
 import frc.team5104.util.console;
 import frc.team5104.util.managers.SubsystemManager;
@@ -17,7 +16,8 @@ import frc.team5104.util.managers.TeleopControllerManager;
 import frc.team5104.util.setup.RobotController;
 import frc.team5104.util.setup.RobotState;
 import frc.team5104.vision.Limelight;
-import frc.team5104.vision.VisionManager;
+import frc.team5104.util.Plotter;
+import frc.team5104.util.Plotter.PlotterPoint.Color;
 import frc.team5104.util.Webapp;
 
 public class Robot extends RobotController.BreakerRobot {
@@ -34,15 +34,17 @@ public class Robot extends RobotController.BreakerRobot {
 		
 		//Other Initialization
 		Webapp.run();
+		Plotter.reset();
 		Odometry.init();
 		Limelight.init();
 		CompressorController.stop();
 		AutoManager.setTargetPath(new ExamplePath());
-		WebappTuner.init(VisionManager.class);
 	}
 	
 	//Teleop (includes sandstorm)
 	public void teleopStart() {
+		Odometry.reset(); // delete me
+		
 		console.logFile.start();
 		if (RobotState.isSandstorm()) { AutoManager.init(); }
 		else { TeleopControllerManager.enabled(); }
@@ -61,6 +63,12 @@ public class Robot extends RobotController.BreakerRobot {
 		else { TeleopControllerManager.update(); }
 		Superstructure.update();
 		SubsystemManager.update();
+		Odometry.update(); //delete me
+		Plotter.plot( //delete me
+				Odometry.getPose().getTranslation().getX(), 
+				Odometry.getPose().getTranslation().getY(),
+				Color.ORANGE
+			);
 	}
 	
 	//Test

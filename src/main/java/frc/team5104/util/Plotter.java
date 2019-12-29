@@ -3,6 +3,8 @@ package frc.team5104.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import wpi.trajectory.Trajectory.State;
+
 public class Plotter {
 
 	private static List<PlotterPoint> buffer = new ArrayList<PlotterPoint>();
@@ -10,6 +12,16 @@ public class Plotter {
 	public static void plotAll(PlotterPoint[] points) {
 		for (PlotterPoint point : points)
 			plot(point);
+	}
+	
+	public static void plotAll(List<State> states, PlotterPoint.Color color) {
+		for (int i = 0; i < states.size(); i++) {
+			plot(
+				states.get(i).poseMeters.getTranslation().getX(), 
+				states.get(i).poseMeters.getTranslation().getY(),
+				color
+			);
+		}
 	}
 	
 	public static void reset() {
