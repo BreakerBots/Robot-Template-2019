@@ -1,4 +1,4 @@
-package frc.team5104.auto.util;
+package frc.team5104.auto;
 
 import frc.team5104.subsystems.Drive;
 import frc.team5104.util.console;
@@ -33,8 +33,10 @@ public class Odometry {
 	}
 	
 	public static DifferentialDriveWheelSpeeds getWheelSpeeds() {
-	    return new DifferentialDriveWheelSpeeds(Drive.getLeftEncoderPositionMeters(),
-		        Drive.getRightEncoderPositionMeters());
+	    return new DifferentialDriveWheelSpeeds(
+	    		Drive.getLeftEncoderVelocityMetersSecond(),
+		        Drive.getRightEncoderVelocityMetersSecond()
+	    	);
 	}
 	
 	public static void reset() {

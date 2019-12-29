@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.team5104.Constants;
-import frc.team5104.auto.util.AutoPathAction;
-import frc.team5104.auto.util.Odometry;
+import frc.team5104.auto.AutoPathAction;
+import frc.team5104.auto.Odometry;
 import frc.team5104.subsystems.Drive;
 import frc.team5104.util.Units;
 import frc.team5104.util.console;
@@ -89,7 +89,8 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		Trajectory.State initialState = m_trajectory.sample(0);
 		m_prevSpeeds = m_kinematics.toWheelSpeeds(
 			new ChassisSpeeds(
-				initialState.velocityMetersPerSecond, 0,
+				initialState.velocityMetersPerSecond, 
+				0,
 				initialState.curvatureRadPerMeter * initialState.velocityMetersPerSecond
 			)
 		);

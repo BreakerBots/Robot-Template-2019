@@ -1,8 +1,6 @@
 /* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto;
 
-import frc.team5104.auto.util.AutoPath;
-import frc.team5104.auto.util.Odometry;
 import frc.team5104.teleop.CompressorController;
 import frc.team5104.util.setup.RobotState;
 

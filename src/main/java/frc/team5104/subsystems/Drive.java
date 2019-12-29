@@ -87,6 +87,18 @@ public class Drive extends Subsystem {
 		talonL1.setSelectedSensorPosition(0);
 		talonR1.setSelectedSensorPosition(0);
 	}
+	public static double getLeftEncoderVelocityMetersSecond() {
+		return Units.feetToMeters(Units.talonVelToFeetPerSecond(getLeftEncoderVelocityRaw()));
+	}
+	public static double getRightEncoderVelocityMetersSecond() {
+		return Units.feetToMeters(Units.talonVelToFeetPerSecond(getRightEncoderVelocityRaw()));
+	}
+	public static int getLeftEncoderVelocityRaw() {
+		return talonL1.getSelectedSensorVelocity();
+	}
+	public static int getRightEncoderVelocityRaw() {
+		return talonR1.getSelectedSensorVelocity();
+	}
 	public static double getLeftEncoderPositionMeters() {
 		return Units.feetToMeters(Units.ticksToFeet(getLeftEncoderPositionRaw()));
 	}
