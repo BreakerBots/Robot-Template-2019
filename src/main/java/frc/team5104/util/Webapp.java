@@ -181,8 +181,7 @@ public class Webapp {
 			//Get
 			if (requestType.equals("get")) {
 				//Send outputs
-				String response = Plotter.getBufferDataAsJSON();
-				Plotter.clearBuffer();
+				String response = Plotter.readBuffer();
 				
 				t.sendResponseHeaders(200, response.length());
 	            OutputStream os = t.getResponseBody();

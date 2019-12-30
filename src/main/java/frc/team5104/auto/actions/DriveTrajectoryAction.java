@@ -1,25 +1,22 @@
 /* BreakerBots Robotics Team (FRC 5104) 2020 */
 package frc.team5104.auto.actions;
 
-import java.util.Arrays;
-
 import edu.wpi.first.wpilibj.Timer;
 import frc.team5104.Constants;
 import frc.team5104.auto.AutoPathAction;
 import frc.team5104.auto.Odometry;
+import frc.team5104.auto.Position;
 import frc.team5104.subsystems.Drive;
 import frc.team5104.util.Units;
 import frc.team5104.util.console;
 import frc.team5104.util.DriveSignal;
 import frc.team5104.util.DriveSignal.DriveUnit;
 import frc.team5104.util.Plotter;
-import frc.team5104.util.Plotter.PlotterPoint.Color;
+import frc.team5104.util.Plotter.Color;
 import frc.team5104.util.console.c;
 import wpi.controller.PIDController;
 import wpi.controller.RamseteController;
 import wpi.controller.SimpleMotorFeedforward;
-import wpi.geometry.Pose2d;
-import wpi.geometry.Rotation2d;
 import wpi.kinematics.ChassisSpeeds;
 import wpi.kinematics.DifferentialDriveKinematics;
 import wpi.kinematics.DifferentialDriveWheelSpeeds;
@@ -43,9 +40,12 @@ public class DriveTrajectoryAction extends AutoPathAction {
 	private DifferentialDriveWheelSpeeds m_prevSpeeds;
 	private double m_prevTime;
 
-	public DriveTrajectoryAction() {
+	public DriveTrajectoryAction(boolean plotTrajectory, boolean isReversed, Position... waypoints) {
 		m_feedforward = new SimpleMotorFeedforward(
-				Constants.DRIVE_KS, Constants.DRIVE_KV, Constants.DRIVE_KA);
+				Constants.DRIVE_KS,
+				Constants.DRIVE_KV,
+				Constants.DRIVE_KA
+			);
 
 		m_kinematics = new DifferentialDriveKinematics(
 				Units.feetToMeters(Constants.DRIVE_WHEEL_BASE_WIDTH)
@@ -63,21 +63,25 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		TrajectoryConfig config = new TrajectoryConfig(
 				Units.feetToMeters(Constants.AUTO_MAX_VELOCITY), 
 				Units.feetToMeters(Constants.AUTO_MAX_ACCEL)
-			).setKinematics(m_kinematics).addConstraint(autoVoltageConstraint);
+			).setKinematics(m_kinematics)
+			 .addConstraint(autoVoltageConstraint)
+			 .setReversed(isReversed);
 
 		// An example trajectory to follow. All units in meters.
 		m_trajectory = TrajectoryGenerator.generateTrajectory(
-				Arrays.asList(
-					new Pose2d(0, 0, new Rotation2d(0)), 
-					new Pose2d(2, 2, new Rotation2d(0))
-				),
-				config);
+				Position.toPose2dMeters(waypoints),
+				config
+			);
 		
 		//plot trajectory on plotter
-		//Plotter.plotAll(m_trajectory.getStates(), Color.RED);
+		if (plotTrajectory) {
+			Plotter.plotAll(Position.fromStates(m_trajectory.getStates()), Color.RED);
+		}
 
 		m_follower = new RamseteController(
-				Constants.AUTO_CORRECTION_FACTOR, Constants.AUTO_DAMPENING_FACTOR);
+				Constants.AUTO_CORRECTION_FACTOR, 
+				Constants.AUTO_DAMPENING_FACTOR
+			);
 		m_leftController = new PIDController(Constants.DRIVE_KP, 0, Constants.DRIVE_KD);
 		m_rightController = new PIDController(Constants.DRIVE_KP, 0, Constants.DRIVE_KD);
 	}
@@ -106,44 +110,41 @@ public class DriveTrajectoryAction extends AutoPathAction {
 
 		DifferentialDriveWheelSpeeds targetWheelSpeeds = m_kinematics.toWheelSpeeds(
 			m_follower.calculate(
-				Odometry.getPose(),
+				Odometry.getPose2dMeters(),
 				m_trajectory.sample(curTime)
 			)
 		);
-		
-		double leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
-		double rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
 
-		//Plotter.plot(curTime, leftSpeedSetpoint, Color.BLACK);
-		//Plotter.plot(curTime, rightSpeedSetpoint, Color.BLUE);
-		Plotter.plot(curTime, Odometry.getWheelSpeeds().leftMetersPerSecond, Color.GREEN);
-		Plotter.plot(curTime, Odometry.getWheelSpeeds().rightMetersPerSecond, Color.PURPLE);
-		
-		double leftOutput;
-		double rightOutput;
+		double leftFeedforward = m_feedforward.calculate(
+				targetWheelSpeeds.leftMetersPerSecond,
+				(targetWheelSpeeds.leftMetersPerSecond - m_prevSpeeds.leftMetersPerSecond) / dt
+			);
 
-		double leftFeedforward = m_feedforward.calculate(leftSpeedSetpoint,
-				(leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
+		double rightFeedforward = m_feedforward.calculate(
+				targetWheelSpeeds.rightMetersPerSecond,
+				(targetWheelSpeeds.rightMetersPerSecond - m_prevSpeeds.rightMetersPerSecond) / dt
+			);
 
-		double rightFeedforward = m_feedforward.calculate(rightSpeedSetpoint,
-				(rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
+		double leftFeedback = m_leftController.calculate(
+				Odometry.getWheelSpeeds().leftMetersPerSecond, 
+				targetWheelSpeeds.leftMetersPerSecond
+			);
 
-		Plotter.plot(curTime, leftFeedforward, Color.BLACK);
-		Plotter.plot(curTime, rightFeedforward, Color.BLUE);
-		
-		leftOutput = leftFeedforward
-				+ m_leftController.calculate(
-						Odometry.getWheelSpeeds().leftMetersPerSecond, leftSpeedSetpoint);
-
-		rightOutput = rightFeedforward
-				+ m_rightController.calculate(
-						Odometry.getWheelSpeeds().rightMetersPerSecond, rightSpeedSetpoint);
+		double rightFeedback = m_rightController.calculate(
+				Odometry.getWheelSpeeds().rightMetersPerSecond,
+				targetWheelSpeeds.rightMetersPerSecond
+			);
 
 		m_prevTime = curTime;
 		m_prevSpeeds = targetWheelSpeeds;
 
-		Drive.set(new DriveSignal(leftOutput, rightOutput, 
-				false, DriveUnit.VOLTAGE));
+		Drive.set(
+			new DriveSignal(
+					leftFeedforward + leftFeedback, 
+					rightFeedforward + rightFeedback, 
+					true, DriveUnit.VOLTAGE
+			)
+		);
 
 		return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds());
 	}
@@ -154,7 +155,7 @@ public class DriveTrajectoryAction extends AutoPathAction {
 		console.log(c.AUTO, 
 				"Trajectory Finished in " + 
 				console.sets.getTime("RunTrajectoryTime") + "s" +
-				", at: " + Odometry.getPose()
+				", at: " + Odometry.getPositionFeet()
 		);
 	}
 }

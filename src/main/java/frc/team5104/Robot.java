@@ -17,7 +17,6 @@ import frc.team5104.util.setup.RobotController;
 import frc.team5104.util.setup.RobotState;
 import frc.team5104.vision.Limelight;
 import frc.team5104.util.Plotter;
-import frc.team5104.util.Plotter.PlotterPoint.Color;
 import frc.team5104.util.Webapp;
 
 public class Robot extends RobotController.BreakerRobot {
@@ -63,12 +62,6 @@ public class Robot extends RobotController.BreakerRobot {
 		else { TeleopControllerManager.update(); }
 		Superstructure.update();
 		SubsystemManager.update();
-		Odometry.update(); //delete me
-		Plotter.plot( //delete me
-				Odometry.getPose().getTranslation().getX(), 
-				Odometry.getPose().getTranslation().getY(),
-				Color.ORANGE
-			);
 	}
 	
 	//Test

@@ -1,6 +1,7 @@
 package frc.team5104.auto;
 
 import frc.team5104.subsystems.Drive;
+import frc.team5104.util.Units;
 import frc.team5104.util.console;
 import frc.team5104.util.console.c;
 import wpi.geometry.Pose2d;
@@ -24,25 +25,36 @@ public class Odometry {
 	}
 	
 	public static void update() {
-		m_odometry.update(Rotation2d.fromDegrees(Drive.getGyro()), Drive.getLeftEncoderPositionMeters(),
-		        Drive.getRightEncoderPositionMeters());
+		m_odometry.update(
+				Rotation2d.fromDegrees(Drive.getGyro()),
+				Drive.getLeftEncoder().getPositionMeters(),
+				Drive.getRightEncoder().getPositionMeters()
+			);
 	}
 	
-	public static Pose2d getPose() {
-	    return m_odometry.getPoseMeters();
+	public static Pose2d getPose2dMeters() {
+		return m_odometry.getPoseMeters();
+	}
+	
+	public static Position getPositionFeet() {
+		return new Position(
+				Units.metersToFeet(getPose2dMeters().getTranslation().getX()),
+				Units.metersToFeet(getPose2dMeters().getTranslation().getY()),
+				getPose2dMeters().getRotation().getDegrees()
+			);
 	}
 	
 	public static DifferentialDriveWheelSpeeds getWheelSpeeds() {
-	    return new DifferentialDriveWheelSpeeds(
-	    		Drive.getLeftEncoderVelocityMetersSecond(),
-		        Drive.getRightEncoderVelocityMetersSecond()
-	    	);
+		return new DifferentialDriveWheelSpeeds(
+				Drive.getLeftEncoder().getVelocityMetersSecond(),
+				Drive.getRightEncoder().getVelocityMetersSecond()
+			);
 	}
 	
 	public static void reset() {
-	    Drive.resetEncoders();
-	    Drive.resetGyro();
-	    m_odometry.resetPosition(new Pose2d(), new Rotation2d());
-	   console.log(c.AUTO, "Reset Odometry at " + getPose());
+		Drive.resetEncoders();
+		Drive.resetGyro();
+		m_odometry.resetPosition(new Pose2d(), new Rotation2d());
+	   console.log(c.AUTO, "Reset Odometry at " + getPose2dMeters());
 	}
 }
