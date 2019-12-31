@@ -23,12 +23,13 @@ import frc.team5104.util.console.c;
 /**
  * Hosts the BreakerBoard (WebApp) through the RoboRIO.
  * See Tuner.java for the tuner functionality.
- * @version 2.5
+ * @version 2.6
  */
 @SuppressWarnings("restriction")
 public class Webapp {
 	private static final int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
-	private static final double version = 2.5;
+	private static final double version = 2.6;
+	private static final boolean isLocalHost = true;
 	private static HttpServer server;
 
 	@SuppressWarnings("resource")
@@ -72,7 +73,9 @@ public class Webapp {
 	}
 	
 	public static String getBaseUrl() {
-		return "/home/lvuser/webapp/";
+		if (isLocalHost)
+			return System.getProperty("user.dir") + "\\src\\webapp\\";
+		else return "/home/lvuser/webapp/";
 	}
 	
 	private static class RequestHandler implements HttpHandler {
