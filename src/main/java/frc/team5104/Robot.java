@@ -38,7 +38,7 @@ public class Robot extends RobotController.BreakerRobot {
 		Limelight.init();
 		CompressorController.stop();
 		AutoManager.setTargetPath(new ExamplePath());
-		Tuner.init(VisionManager.class);
+		Tuner.use(VisionManager.class);
 	}
 	
 	//Teleop (includes sandstorm)

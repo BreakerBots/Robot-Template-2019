@@ -52,6 +52,9 @@ public class RobotController extends RobotBase {
 			state.deltaTime = Timer.getFPGATimestamp() - st;
 		}
 	}
+	public void endCompetition() {
+		
+	}
 
 	//Main Loop
 	private void loop() {
