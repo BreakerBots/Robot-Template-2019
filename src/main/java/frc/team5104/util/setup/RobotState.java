@@ -1,5 +1,7 @@
 package frc.team5104.util.setup;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class RobotState {
 	
 	//State Machine
@@ -8,6 +10,7 @@ public class RobotState {
 	}; 
 	protected RobotMode currentMode = RobotMode.Disabled;
 	protected RobotMode lastMode = RobotMode.Disabled;
+	protected Timer timer = new Timer();
 	protected double deltaTime = 0;
 	protected boolean isSandstorm = false;
 	
@@ -25,4 +28,5 @@ public class RobotState {
 	public static RobotMode getMode() { return getInstance().currentMode; }
 	public static void setMode(RobotMode mode) { getInstance().currentMode = mode; }
 	public static double getDeltaTime() { return getInstance().deltaTime; }
+	public static double getTimeSinceEnabled() { return getInstance().timer.get(); }
 }

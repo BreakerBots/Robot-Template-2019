@@ -29,7 +29,9 @@ public class RobotController extends RobotBase {
 		console.sets.create("RobotInit");
 		console.log(c.MAIN, t.INFO, "Initializing " + Constants.ROBOT_NAME + " Code...");
 		
-		robot = new Robot();
+		try {
+			robot = new Robot();
+		} catch (Exception e) { CrashLogger.logCrash(new Crash("main", e)); }
 		
 		HAL.observeUserProgramStarting();
 		
@@ -130,6 +132,8 @@ public class RobotController extends RobotBase {
 				if (state.currentMode == RobotMode.Disabled) {
 					console.logFile.end();
 					robot.mainDisabled();
+					state.timer.reset();
+					state.timer.start();
 				}
 				else if (lastMode == RobotMode.Disabled) {
 					console.logFile.end();
