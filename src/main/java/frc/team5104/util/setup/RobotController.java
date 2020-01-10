@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
-import frc.team5104.Constants;
 import frc.team5104.Robot;
 import frc.team5104.util.CrashLogger;
 import frc.team5104.util.CrashLogger.Crash;
@@ -27,7 +26,7 @@ public class RobotController extends RobotBase {
 		HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
 		console.logFile.start();
 		console.sets.create("RobotInit");
-		console.log(c.MAIN, t.INFO, "Initializing " + Constants.ROBOT_NAME + " Code...");
+		console.log(c.MAIN, t.INFO, "Initializing Basic Code...");
 		
 		try {
 			robot = new Robot();

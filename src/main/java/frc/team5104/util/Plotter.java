@@ -3,8 +3,6 @@ package frc.team5104.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import frc.team5104.auto.Position;
-
 /**
  * Handles the plotting of points on the WebApp.
  * For WebApp version 2.6
@@ -25,16 +23,6 @@ public class Plotter {
 	}
 	
 	private volatile static List<PlotterPoint> buffer = new ArrayList<PlotterPoint>();
-	
-	public static void plotAll(List<Position> positions, Color color) {
-		for (int i = 0; i < positions.size(); i++) {
-			plot(
-				positions.get(i).getXFeet(),
-				positions.get(i).getYFeet(),
-				color
-			);
-		}
-	}
 	
 	public static void reset() {
 		buffer.add(new PlotterPoint(0, 0, new Color("RESET")));
