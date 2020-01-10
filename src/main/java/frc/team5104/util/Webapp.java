@@ -25,7 +25,6 @@ import frc.team5104.util.console.c;
  * See Tuner.java for the tuner functionality.
  * @version 2.6
  */
-@SuppressWarnings("restriction")
 public class Webapp {
 	private static final int port = 5804; //has to be between 5800-5810 (5800,5801 for limelight)
 	private static final double version = 2.6;

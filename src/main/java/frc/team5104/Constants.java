@@ -2,8 +2,6 @@
 package frc.team5104;
 
 public class Constants {
-	private Constants() {}
-	
 	//Main
 	public static final boolean OVERWRITE_NON_MATCH_LOGS = true;
 	public static final boolean OVERWRITE_MATCH_LOGS = false;

@@ -3,11 +3,11 @@ package frc.team5104.auto;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import frc.team5104.util.BreakerMath;
-import wpi.geometry.Pose2d;
-import wpi.geometry.Rotation2d;
-import wpi.trajectory.Trajectory.State;
-import wpi.util.Units;
+import frc.team5104.util.Units;
 
 /** 
  * A wrapper class for Pose2d that converts between meters and feet.
